@@ -18,5 +18,12 @@ public class AppUser {
     private String accountType;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    
+
+    public AppUser(String name, String email, String password, String accountType) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.accountType = accountType;
+    }
+
 }
