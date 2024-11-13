@@ -8,6 +8,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+import com.lms.controllers.NavigationController;
 import com.lms.utils.DatabaseInitializer;
 
 /**
@@ -19,7 +20,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("register"), 640, 480);
+        scene = new Scene(loadFXML("layouts/layout"), 640, 480);
         stage.setScene(scene);
         stage.show();
     }
@@ -29,7 +30,9 @@ public class App extends Application {
     }
 
     private static Parent loadFXML(String fxml) throws IOException {
+        // authorisation and authentication check
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
+        // NavigationController controller = fxmlLoader.getController();
         return fxmlLoader.load();
     }
 

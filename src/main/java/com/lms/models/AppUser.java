@@ -1,5 +1,6 @@
 package com.lms.models;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
@@ -16,8 +17,8 @@ public class AppUser {
     private String email;
     private String password;
     private String accountType;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private Timestamp createdAt;
+    private Timestamp updatedAt;
 
     public AppUser(String name, String email, String password, String accountType) {
         this.name = name;

@@ -13,7 +13,7 @@ public class Validator {
 
         for (String rule : args) {
             if(rule.equals("not_null")){
-                if(value == ""){
+                if(value.equals("")){
                     return new ValidationResult("Required field", false);
                 }
             }
@@ -32,10 +32,18 @@ public class Validator {
                      PreparedStatement preparedStatement = connection.prepareStatement(sql);) {
                     preparedStatement.setString(1, value);
                     ResultSet resultSet = preparedStatement.executeQuery();
+                    if(resultSet.next()){
+                        if(resultSet.getInt(1) != 0) {
+                            return new ValidationResult("Email is already taken", false);
+                        }
+                    }
                     
                 } catch (Exception e) {
 
                 }
+            }
+            else {
+                return new ValidationResult("", true);
             }
         }
         return new ValidationResult();
