@@ -49,7 +49,7 @@ public class NavigationController {
             FXMLLoader loader = new FXMLLoader(App.class.getResource(pageName));
             Parent page = loader.load();
             content.getChildren().clear();
-            content.getChildren().add(page); // Set the loaded page into the center
+            content.getChildren().add(page);
         } catch (Exception e) {
             e.printStackTrace();
         }

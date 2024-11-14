@@ -25,16 +25,18 @@ public class Validator {
                     return new ValidationResult("Field must be a valid email", false);
                 }
             }
+            // eg.
             else if(rule.startsWith("unique")){
-                String column = rule.substring(7);
-                String sql = String.format("SELECT COUNT(*) from users WHERE email=?", column);
+                String column = rule.substring(rule.indexOf(",") + 1);
+                String table = rule.substring(7,rule.indexOf(","));
+                String sql = String.format("SELECT COUNT(*) from %s WHERE %s=?", table, column);
                 try (Connection connection = DatabaseConfig.getConnection();
                      PreparedStatement preparedStatement = connection.prepareStatement(sql);) {
                     preparedStatement.setString(1, value);
                     ResultSet resultSet = preparedStatement.executeQuery();
                     if(resultSet.next()){
                         if(resultSet.getInt(1) != 0) {
-                            return new ValidationResult("Email is already taken", false);
+                            return new ValidationResult("Value is already taken", false);
                         }
                     }
                     

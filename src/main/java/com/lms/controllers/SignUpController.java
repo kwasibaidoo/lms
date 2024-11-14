@@ -10,12 +10,8 @@ import com.lms.utils.ValidationResult;
 import com.lms.utils.Validator;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 import javafx.scene.control.Alert.AlertType;
 
 public class SignUpController {
@@ -50,7 +46,7 @@ public class SignUpController {
     public void register() {
         // validate user input
         ValidationResult nameVal = Validator.validate(name.getText(),"not_null","min:1");
-        ValidationResult emailVal = Validator.validate(email.getText(),"not_null","email","unique|email");
+        ValidationResult emailVal = Validator.validate(email.getText(),"not_null","email","unique|users,email");
         ValidationResult passwordVal = Validator.passwordValidation(password.getText(),confirm_password.getText());
 
         // boolean nameVal = true;

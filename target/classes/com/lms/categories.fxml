@@ -19,10 +19,10 @@
                </font>
             </Label>
             <Button fx:id="category_button" alignment="CENTER_RIGHT" mnemonicParsing="false" onMouseClicked="#addCategory" text="Add Category" />
-            <TableView prefHeight="200.0" prefWidth="200.0">
+            <TableView fx:id="category_table" prefHeight="200.0" prefWidth="200.0">
               <columns>
-                <TableColumn prefWidth="75.0" text="Name" />
-                <TableColumn prefWidth="75.0" text="Date Created" />
+                <TableColumn fx:id="column_name" prefWidth="75.0" text="Name" />
+                <TableColumn fx:id="column_date" prefWidth="75.0" text="Date Created" />
               </columns>
                <columnResizePolicy>
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

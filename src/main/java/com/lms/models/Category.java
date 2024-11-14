@@ -9,21 +9,14 @@ import lombok.RequiredArgsConstructor;
 @Data
 @AllArgsConstructor
 @RequiredArgsConstructor
-public class AppUser {
+public class Category {
     
     private String id;
     private String name;
-    private String email;
-    private String password;
-    private String accountType;
     private Timestamp createdAt;
     private Timestamp updatedAt;
 
-    public AppUser(String name, String email, String password, String accountType) {
+    public Category(String name) {
         this.name = name;
-        this.email = email;
-        this.password = password;
-        this.accountType = accountType;
     }
-
 }

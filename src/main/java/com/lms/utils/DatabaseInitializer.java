@@ -22,7 +22,7 @@ public class DatabaseInitializer {
 
             String createCategoriesTable = "CREATE TABLE IF NOT EXISTS categories (" +
                                         "id CHAR(36) PRIMARY KEY DEFAULT (UUID())," +
-                                        "name VARCHAR(100)," +
+                                        "name VARCHAR(100) NOT NULL UNIQUE," +
                                         "createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP," +
                                         "updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP)";
 
@@ -39,7 +39,7 @@ public class DatabaseInitializer {
 
 
             statement.executeUpdate(createUserTable);
-            // statement.executeUpdate(createCategoriesTable);
+            statement.executeUpdate(createCategoriesTable);
             // statement.executeUpdate(createBooksTable);
         } catch (SQLException e) {
             e.printStackTrace();
