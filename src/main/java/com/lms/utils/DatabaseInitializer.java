@@ -26,6 +26,12 @@ public class DatabaseInitializer {
                                         "createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP," +
                                         "updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP)";
 
+            String createAuthorTable = "CREATE TABLE IF NOT EXISTS authors (" +
+                                        "id char(36) PRIMARY KEY DEFAULT (UUID())," +
+                                        "name VARCHAR(256) NOT NULL UNIQUE," +
+                                        "createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP," +
+                                        "updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP)";
+
             String createBooksTable = "CREATE TABLE IF NOT EXISTS books (" +
                                         "id CHAR(36) PRIMARY KEY DEFAULT (UUID())," +
                                         "name VARCHAR(100)," +
@@ -40,6 +46,7 @@ public class DatabaseInitializer {
 
             statement.executeUpdate(createUserTable);
             statement.executeUpdate(createCategoriesTable);
+            statement.executeUpdate(createAuthorTable);
             // statement.executeUpdate(createBooksTable);
         } catch (SQLException e) {
             e.printStackTrace();

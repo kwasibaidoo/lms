@@ -2,10 +2,8 @@ package com.lms.controllers;
 
 
 import java.io.IOException;
-import java.net.URL;
 import java.sql.Timestamp;
 import java.util.LinkedList;
-import java.util.ResourceBundle;
 
 import com.lms.dao.CategoryDAO;
 import com.lms.models.Category;
@@ -14,7 +12,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
