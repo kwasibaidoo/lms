@@ -43,4 +43,25 @@ public class CategoryDAO {
             return result;
         }
     }
+
+    public static LinkedList<Category> getCategoryNames() {
+        String sql = "SELECT name FROM categories";
+        LinkedList<Category> queryResult = new LinkedList<Category>();
+        try (Connection connection = DatabaseConfig.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+            
+
+            while(resultSet.next()) {
+                queryResult.add(new Category(resultSet.getString("name")));
+            }
+            connection.close();
+
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return queryResult;
+    }
 }

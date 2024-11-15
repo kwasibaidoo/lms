@@ -11,19 +11,31 @@ import javafx.scene.layout.VBox;
 public class NavigationController {
 
     @FXML
-    private VBox sidebar;
-
-    @FXML
     private VBox content;
 
     @FXML
-    private Label route_home;
+    private Label route_add_author;
+
+    @FXML
+    private Label route_add_book;
+
+    @FXML
+    private Label route_add_category;
+
+    @FXML
+    private Label route_author;
 
     @FXML
     private Label route_books;
 
     @FXML
     private Label route_category;
+
+    @FXML
+    private Label route_home;
+
+    @FXML
+    private VBox sidebar;
 
 
     public void navHome() {
@@ -38,9 +50,23 @@ public class NavigationController {
         loadPage("categories.fxml");
     }
 
+    public void navAddBooks() {
+        loadPage("addBook.fxml");
+    }
+
+    public void navAddAuthor() {
+        loadPage("addauthor.fxml");
+    }
+
+    public void navAuthors() {
+        loadPage("author.fxml");
+    }
+
     public void navAddCategory() {
         loadPage("addCategory.fxml");
     }
+
+
 
 
 

@@ -66,4 +66,25 @@ public class AuthorDAO {
 
         return queryResult;
     }
+
+    public static LinkedList<Author> getAuthorsName() {
+        String sql = "SELECT name FROM authors";
+        LinkedList<Author> queryResult = new LinkedList<Author>();
+        try (Connection connection = DatabaseConfig.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+            
+
+            while(resultSet.next()) {
+                queryResult.add(new Author(resultSet.getString("name")));
+            }
+            connection.close();
+
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return queryResult;
+    }
 }

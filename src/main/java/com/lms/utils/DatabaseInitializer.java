@@ -34,20 +34,22 @@ public class DatabaseInitializer {
 
             String createBooksTable = "CREATE TABLE IF NOT EXISTS books (" +
                                         "id CHAR(36) PRIMARY KEY DEFAULT (UUID())," +
-                                        "name VARCHAR(100)," +
-                                        "availableCopies INTEGER DEFAULT 0" +
-                                        "totalCopies INTEGER DEFAULT 0" +
-                                        "location VARCHAR(100)" +
-                                        "category_id CHAR(36)" +
+                                        "name VARCHAR(100) NOT NULL UNIQUE," +
+                                        "availableCopies INTEGER DEFAULT 0," +
+                                        "totalCopies INTEGER DEFAULT 0," +
+                                        "location VARCHAR(100)," +
+                                        "category_id CHAR(36)," +
+                                        "author_id CHAR(36)," +
                                         "createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP," +
-                                        "updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP)" +
-                                        "FOREIGN KEY (category_id) REFERENCES categories(id)";
+                                        "updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP," +
+                                        "FOREIGN KEY (author_id) REFERENCES authors(id)," +
+                                        "FOREIGN KEY (category_id) REFERENCES categories(id))";
 
 
             statement.executeUpdate(createUserTable);
             statement.executeUpdate(createCategoriesTable);
             statement.executeUpdate(createAuthorTable);
-            // statement.executeUpdate(createBooksTable);
+            statement.executeUpdate(createBooksTable);
         } catch (SQLException e) {
             e.printStackTrace();
         }
