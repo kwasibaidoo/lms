@@ -9,6 +9,7 @@ import com.lms.models.Author;
 import com.lms.models.Book;
 import com.lms.models.Category;
 import com.lms.utils.NotificationToast;
+import com.lms.utils.Router;
 import com.lms.utils.ValidationResult;
 import com.lms.utils.Validator;
 
@@ -21,9 +22,9 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
-public class AddBookController {
+public class AddBookController implements Router {
 
-    private NotificationToast notificationToast;
+    private NotificationToast notificationToast = new NotificationToast();
 
     @FXML
     private Button addBook;
@@ -64,13 +65,20 @@ public class AddBookController {
     @FXML
     private TextField totalCopies;
 
+    private NavigationController navigationController;
+
+    @Override
+    public void setNavigationController(NavigationController navigationController) {
+        this.navigationController = navigationController;
+    }
+
     private ObservableList<String> authors = FXCollections.observableArrayList();
     private ObservableList<String> categories = FXCollections.observableArrayList();
 
     @FXML
     void addBook() {
         ValidationResult nameVal = Validator.validate(name.getText(), "not_null", "unique|books,name");
-        ValidationResult authorVal = Validator.validate(author.getValue(), "not_null", "unique|books,name");
+        ValidationResult authorVal = Validator.validate(author.getValue(), "not_null");
         ValidationResult categoryVal = Validator.validate(category.getValue(), "not_null");
         ValidationResult availableCopiesVal = Validator.validate(availableCopies.getText(), "not_null");
         ValidationResult totalCopiesVal = Validator.validate(totalCopies.getText(), "not_null");
@@ -85,10 +93,15 @@ public class AddBookController {
             error_location.setText(locationVal.getMessage());
         }
         else {
+            // get authorID
+            String author_id = AuthorDAO.getAuthorID(author.getValue());
+            System.out.println(author_id + " HEIIIIIIIIIIIYYYYYYYYY");
+            // get categoryID
+            String category_id = CategoryDAO.getCategoryID(category.getValue());
             Book book = new Book(
                 name.getText(), 
-                author.getSelectionModel().getSelectedItem(),
-                category.getSelectionModel().getSelectedItem(),
+                author_id,
+                category_id,
                 Integer.parseInt(availableCopies.getText()),
                 Integer.parseInt(totalCopies.getText()),
                 locationfield.getText()
@@ -96,9 +109,10 @@ public class AddBookController {
             boolean success = BookDAO.createBook(book);
             if(success) {
                 // redirect to the correct page
+                navigationController.navBooks();
             }
             else {
-                notificationToast.showNotification(AlertType.ERROR, "Process Failed", "There was a problem while creating a new category");
+                notificationToast.showNotification(AlertType.ERROR, "Process Failed", "There was a problem while creating a new book");
             }
         }
     }
@@ -127,5 +141,7 @@ public class AddBookController {
             e.printStackTrace();
         }
     }
+
+    
 
 }

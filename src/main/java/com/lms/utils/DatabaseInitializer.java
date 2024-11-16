@@ -1,7 +1,6 @@
 package com.lms.utils;
 
 import java.sql.Statement;
-import java.util.LinkedList;
 import java.sql.Connection;
 import java.sql.SQLException;
 

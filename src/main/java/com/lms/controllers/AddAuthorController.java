@@ -1,8 +1,10 @@
 package com.lms.controllers;
 
+
 import com.lms.dao.AuthorDAO;
 import com.lms.models.Author;
 import com.lms.utils.NotificationToast;
+import com.lms.utils.Router;
 import com.lms.utils.ValidationResult;
 import com.lms.utils.Validator;
 
@@ -12,7 +14,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
-public class AddAuthorController {
+public class AddAuthorController implements Router {
 
     private NotificationToast notificationToast;
 
@@ -25,6 +27,13 @@ public class AddAuthorController {
     @FXML
     private TextField name;
 
+    private NavigationController navigationController;
+
+    @Override
+    public void setNavigationController(NavigationController navigationController) {
+        this.navigationController = navigationController;
+    }
+
     @FXML
     public void addAuthor() {
         ValidationResult nameVal = Validator.validate(name.getText(), "not_null","unique|authors,name");
@@ -36,6 +45,11 @@ public class AddAuthorController {
             boolean success = AuthorDAO.createAuthor(author);
             if(success) {
                 // redirect to authors page
+                try {
+                    navigationController.navAuthors();
+                } catch (Exception e) {
+                    
+                }
             }
             else {
                 notificationToast.showNotification(AlertType.ERROR, "Process Failed", "There was a problem while creating a new author");

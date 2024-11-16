@@ -46,6 +46,25 @@ public class AuthorDAO {
     }
 
 
+    public static String getAuthorID(String name) {
+        String sql = "SELECT id FROM authors WHERE name=?";
+        try (Connection connection = DatabaseConfig.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, name);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                return resultSet.getString("id");
+            }
+            else{
+                return "";
+            }
+        } catch (Exception e) {
+            return "";
+        }
+    }
+
+
     public static LinkedList<Author> getAuthors() {
         String sql = "SELECT * FROM authors";
         LinkedList<Author> queryResult = new LinkedList<Author>();

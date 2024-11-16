@@ -1,6 +1,7 @@
 package com.lms.controllers;
 
 import com.lms.App;
+import com.lms.utils.Router;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -74,11 +75,20 @@ public class NavigationController {
         try {
             FXMLLoader loader = new FXMLLoader(App.class.getResource(pageName));
             Parent page = loader.load();
+            initializeChildController(loader.getController());
             content.getChildren().clear();
             content.getChildren().add(page);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+    public void initializeChildController(Object childController) {
+        if (childController instanceof Router) {
+            ((Router) childController).setNavigationController(this);
+        }
+    }
+    
+    
 
 }

@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
@@ -28,13 +29,13 @@
             </VBox>
             <VBox layoutX="30.0" layoutY="60.0" prefHeight="200.0" prefWidth="100.0">
                <children>
-                  <TextField fx:id="author" promptText="Author" />
+                  <ComboBox fx:id="author" editable="true" prefHeight="25.0" prefWidth="353.0" promptText="Author" />
                   <Label fx:id="error_author" textFill="RED" />
                </children>
             </VBox>
             <VBox layoutX="30.0" layoutY="215.0" prefHeight="200.0" prefWidth="100.0">
                <children>
-                  <TextField fx:id="category" promptText="Category" />
+                  <ComboBox fx:id="category" editable="true" prefHeight="25.0" prefWidth="351.0" promptText="Category" />
                   <Label fx:id="error_category" textFill="RED" />
                </children>
             </VBox>
@@ -52,7 +53,7 @@
             </VBox>
             <VBox layoutX="30.0" layoutY="368.0" prefHeight="200.0" prefWidth="100.0">
                <children>
-                  <TextField fx:id="location" promptText="Location" />
+                  <TextField fx:id="locationfield" promptText="Location" />
                   <Label fx:id="error_location" textFill="RED" />
                </children>
             </VBox>
