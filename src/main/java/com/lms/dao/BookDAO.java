@@ -60,6 +60,26 @@ public class BookDAO {
     }
 
 
+    public static String getBookID(String name) {
+        String sql = "SELECT id FROM books WHERE name=?";
+        try (Connection connection = DatabaseConfig.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, name);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                return resultSet.getString("id");
+            }
+            else{
+                return "";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
+        }
+    }
+
+
     public static LinkedList<Book> getBooks() {
         String sql = "SELECT * FROM books";
         LinkedList<Book> queryResult = new LinkedList<Book>();

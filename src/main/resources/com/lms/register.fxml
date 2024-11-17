@@ -39,6 +39,7 @@
                <children>
                   <PasswordField fx:id="confirm_password" promptText="Confirm Password" />
                   <Label fx:id="error_confirm_password" textFill="RED" />
+                  <Label onMouseClicked="#navSignIn" text="Already have an account? Login" />
                </children>
             </VBox>
             <Button fx:id="register" mnemonicParsing="false" onMouseClicked="#register" text="Register" />

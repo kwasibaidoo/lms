@@ -3,6 +3,9 @@ package com.lms.utils;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -66,6 +69,37 @@ public class Validator {
                 return new ValidationResult("Password should be more than 8 characters", false);
             }
         }
+        return new ValidationResult();
+    }
+
+    public static ValidationResult validateDate(String value, String... args) {
+        // Define the expected date format (e.g., "yyyy-MM-dd")
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        try {
+            // Parse the input date
+            LocalDate inputDate = LocalDate.parse(value, formatter);
+            LocalDate currentDate = LocalDate.now();
+
+            for (String rule : args) {
+                if (rule.equals("not_null") && value.equals("")) {
+                    return new ValidationResult("Required field", false);
+                } else if (rule.equals("valid_date")) {
+                    // Date format is already validated by LocalDate.parse
+                } else if (rule.equals("before_today")) {
+                    if (!inputDate.isBefore(currentDate)) {
+                        return new ValidationResult("Date must be before today", false);
+                    }
+                } else if (rule.equals("after_today")) {
+                    if (!inputDate.isAfter(currentDate)) {
+                        return new ValidationResult("Date must be after today", false);
+                    }
+                }
+            }
+        } catch (DateTimeParseException e) {
+            return new ValidationResult("Invalid date format. Expected format: yyyy-MM-dd", false);
+        }
+
         return new ValidationResult();
     }
 }

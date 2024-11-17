@@ -5,6 +5,8 @@ import java.io.IOException;
 import com.lms.App;
 import com.lms.dao.AppUserDAO;
 import com.lms.models.AppUser;
+import com.lms.utils.AuthUtil;
+import com.lms.utils.Router;
 import com.lms.utils.ValidationResult;
 import com.lms.utils.Validator;
 
@@ -13,7 +15,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
-public class LoginController {
+public class LoginController implements Router {
 
 
     @FXML
@@ -27,6 +29,8 @@ public class LoginController {
 
     @FXML
     private Label error_password;
+
+    private NavigationController navigationController;
 
     @FXML
     public void login() {
@@ -46,9 +50,11 @@ public class LoginController {
             }
             else{
                 if (appUser.getPassword().equals(password.getText())) {
-                    // load home page
+                    // AppUserDAO.setIsLoggedIn(appUser);
+                    AuthUtil.getInstance().setUserID(appUser.getId());
+                    AuthUtil.getInstance().setUserRole(appUser.getAccountType());
                     try {
-                        App.setRoot("home");
+                        App.setRoot("layouts/layout");
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -58,5 +64,19 @@ public class LoginController {
                 }
             }
         }
+    }
+
+    @FXML
+    public void navSignUp(){
+        try {
+            App.setRoot("register");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void setNavigationController(NavigationController navigationController) {
+        this.navigationController = navigationController;
     }
 }

@@ -27,6 +27,7 @@
                <children>
                   <PasswordField fx:id="password" promptText="Password" />
                   <Label fx:id="error_password" textFill="RED" />
+                  <Label onMouseClicked="#navSignUp" text="Don't have an account? Register" />
                </children>
             </VBox>
             <Button fx:id="login" mnemonicParsing="false" onMouseClicked="#login" text="Login" />

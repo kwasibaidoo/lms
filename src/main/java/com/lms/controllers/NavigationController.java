@@ -1,15 +1,20 @@
 package com.lms.controllers;
 
 import com.lms.App;
+import com.lms.utils.AuthUtil;
+import com.lms.utils.NotificationToast;
 import com.lms.utils.Router;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.VBox;
 
 public class NavigationController {
+
+    private NotificationToast notificationToast = new NotificationToast();
 
     @FXML
     private VBox content;
@@ -52,11 +57,21 @@ public class NavigationController {
     }
 
     public void navAddBooks() {
-        loadPage("addBook.fxml");
+        if(AuthUtil.getInstance().getUserRole().equals("patron")) {
+            notificationToast.showNotification(AlertType.ERROR,"You're not authorised", "You do not have permission to access this page");
+        }
+        else{
+            loadPage("addBook.fxml");
+        }
     }
 
     public void navAddAuthor() {
-        loadPage("addauthor.fxml");
+        if(AuthUtil.getInstance().getUserRole().equals("patron")) {
+            notificationToast.showNotification(AlertType.ERROR,"You're not authorised", "You do not have permission to access this page");
+        }
+        else{
+            loadPage("addauthor.fxml");
+        }
     }
 
     public void navAuthors() {
@@ -64,7 +79,20 @@ public class NavigationController {
     }
 
     public void navAddCategory() {
-        loadPage("addCategory.fxml");
+        if(AuthUtil.getInstance().getUserRole().equals("patron")) {
+            notificationToast.showNotification(AlertType.ERROR,"You're not authorised", "You do not have permission to access this page");
+        }
+        else{
+            loadPage("addCategory.fxml");
+        }
+    }
+
+    public void navReservations() {
+        loadPage("reservations.fxml");
+    }
+
+    public void navAddReservation() {
+        loadPage("addReservation.fxml");
     }
 
 

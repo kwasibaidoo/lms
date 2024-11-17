@@ -27,6 +27,39 @@ public class AppUserDAO {
                 
     }
 
+    // public static boolean setIsLoggedIn(AppUser appUser) {
+    //     String sql = "UPDATE users SET isLoggedIn = true WHERE id=?";
+    //     try (Connection connection = DatabaseConfig.getConnection();
+    //          PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+    //         preparedStatement.setString(1, appUser.getId());
+
+    //         int rowsAffected = preparedStatement.executeUpdate();
+    //         return rowsAffected > 0;
+    //     } catch (Exception e) {
+    //         e.printStackTrace();
+    //         return false;
+    //     }
+    // }
+
+    public static String getUserRole(AppUser appUser) {
+        String sql = "SELECT accountType from users WHERE accountType = ?";
+        try (Connection connection = DatabaseConfig.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, appUser.getId());
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if(resultSet.next()) {
+                return resultSet.getString("accountType");
+            }
+            else{
+                return "";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
+        }
+    } 
+
     public static AppUser findUserByEmail(String email) {
         String sql = "SELECT * FROM users WHERE email=? LIMIT 1";
         try (Connection connection = DatabaseConfig.getConnection();

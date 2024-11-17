@@ -65,15 +65,7 @@ public class SignUpController {
             if(success) {
                 
                 try {
-                    // load home page
-                    // FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("home.fxml"));
-                    // Parent root = fxmlLoader.load();
-                    // Scene homeScene = new Scene(root);
-                    // Stage primaryStage = (Stage) error_name.getScene().getWindow();
-                    // primaryStage.setScene(homeScene);
-                    // primaryStage.setTitle("Welcome to the Home Page");
-                    // primaryStage.show();
-                    App.setRoot("home");
+                    App.setRoot("login");
                     
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -85,6 +77,15 @@ public class SignUpController {
         }
 
         
+    }
+
+    @FXML
+    public void navSignIn(){
+        try {
+            App.setRoot("login");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

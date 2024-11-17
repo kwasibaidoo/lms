@@ -7,6 +7,8 @@ import java.util.LinkedList;
 import com.lms.App;
 import com.lms.dao.BookDAO;
 import com.lms.models.Book;
+import com.lms.utils.AuthUtil;
+import com.lms.utils.NotificationToast;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,6 +16,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -21,6 +24,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 public class BookController {
+
+    private NotificationToast notificationToast = new NotificationToast();
 
     @FXML
     private TableView<Book> books_table;
@@ -68,13 +73,8 @@ public class BookController {
 
     @FXML
     public void deleteBook() {
-        try {
-            Stage stage = new Stage();
-            Scene scene = new Scene(App.loadFXML("layouts/layout"), 640, 480);
-            stage.setScene(scene);
-            stage.showAndWait();
-        } catch (IOException e) {
-            e.printStackTrace();
+        if(AuthUtil.getInstance().getUserRole().equals("patron")){
+            notificationToast.showNotification(AlertType.ERROR,"You're not authorised", "You do not have permission to access this page");
         }
         
     }

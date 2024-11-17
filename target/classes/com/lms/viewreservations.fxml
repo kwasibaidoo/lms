@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<HBox alignment="TOP_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="370.0" prefWidth="391.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.lms.controllers.ViewReservationsController">
+   <children>
+      <VBox prefHeight="371.0" prefWidth="391.0" spacing="20.0">
+         <children>
+            <Label text="Reservation Details">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <GridPane alignment="CENTER" prefHeight="243.0" prefWidth="351.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label alignment="CENTER" contentDisplay="CENTER" text="Patron Name" />
+                  <Label alignment="CENTER" text="Book Name" GridPane.rowIndex="1" />
+                  <Label alignment="CENTER" layoutX="186.0" layoutY="32.0" text="ReservationDate" GridPane.rowIndex="2" />
+                  <Label alignment="CENTER" layoutX="10.0" layoutY="32.0" text="Status" GridPane.rowIndex="3" />
+                  <Label alignment="CENTER" layoutX="10.0" layoutY="32.0" text="Created At" GridPane.rowIndex="4" />
+                  <Label fx:id="patron_name_value" alignment="CENTER" layoutX="10.0" layoutY="32.0" text="Label" GridPane.columnIndex="1" />
+                  <Label fx:id="book_value" alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="22.0" text="Name" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <Label fx:id="reservation_date_value" alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="22.0" text="Name" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <Label fx:id="status_value" alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="22.0" text="Name" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <Label fx:id="createdAt_value" alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="22.0" text="Name" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+               </children>
+            </GridPane>
+         </children>
+         <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </padding>
+      </VBox>
+   </children>
+</HBox>
