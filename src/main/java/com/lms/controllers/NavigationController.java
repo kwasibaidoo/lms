@@ -95,6 +95,14 @@ public class NavigationController {
         loadPage("addReservation.fxml");
     }
 
+    public void navAddBorrowing() {
+        loadPage("addborrowing.fxml");
+    }
+
+    public void navBorrowing() {
+        loadPage("borrowings.fxml");
+    }
+
 
 
 

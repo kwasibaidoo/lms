@@ -95,7 +95,6 @@ public class AddBookController implements Router {
         else {
             // get authorID
             String author_id = AuthorDAO.getAuthorID(author.getValue());
-            System.out.println(author_id + " HEIIIIIIIIIIIYYYYYYYYY");
             // get categoryID
             String category_id = CategoryDAO.getCategoryID(category.getValue());
             Book book = new Book(

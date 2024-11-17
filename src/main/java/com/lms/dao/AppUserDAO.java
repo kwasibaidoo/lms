@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.LinkedList;
 
 import com.lms.config.DatabaseConfig;
 import com.lms.models.AppUser;
@@ -74,6 +75,7 @@ public class AppUserDAO {
                                     resultSet.getString("email"), 
                                     resultSet.getString("password"), 
                                     resultSet.getString("accountType"), 
+                                    resultSet.getTimestamp("deletedAt"), 
                                     resultSet.getTimestamp("createdAt"), 
                                     resultSet.getTimestamp("updatedAt")
                                 );
@@ -85,4 +87,30 @@ public class AppUserDAO {
         }
         return new AppUser();
     } 
+
+
+    public static LinkedList<AppUser> getUsers() {
+        String sql = "SELECT * FROM users WHERE deletedAt = NULL";
+        LinkedList<AppUser> queryResult = new LinkedList<AppUser>();
+        try (Connection connection = DatabaseConfig.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while(resultSet.next()) {
+                queryResult.add(new AppUser(
+                    resultSet.getString("id"),
+                    resultSet.getString("name"),
+                    resultSet.getString("email"),
+                    resultSet.getString("accountType"),
+                    resultSet.getTimestamp("deletedAt"),
+                    resultSet.getTimestamp("createdAt"),
+                    resultSet.getTimestamp("updatedAt")
+                ));
+            }
+
+            return queryResult;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return queryResult;
+        }
+    }
 }

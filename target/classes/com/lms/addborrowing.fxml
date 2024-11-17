@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<HBox alignment="TOP_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="370.0" prefWidth="391.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.lms.controllers.AddBorrowingController">
+   <children>
+      <VBox prefHeight="371.0" prefWidth="391.0" spacing="5.0">
+         <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </padding>
+         <children>
+            <Label text="Add Borrowing Record">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <VBox layoutX="30.0" layoutY="60.0" prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <ComboBox fx:id="user" editable="true" prefHeight="25.0" prefWidth="353.0" promptText="User" />
+                  <Label fx:id="error_user" textFill="RED" />
+               </children>
+            </VBox>
+            <VBox layoutX="30.0" layoutY="215.0" prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <ComboBox fx:id="book" editable="true" prefHeight="25.0" prefWidth="351.0" promptText="Book" />
+                  <Label fx:id="error_book" textFill="RED" />
+               </children>
+            </VBox>
+            <VBox layoutX="30.0" layoutY="195.0" prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <DatePicker fx:id="date_borrowed" prefHeight="25.0" prefWidth="354.0" promptText="Date Borrowed" />
+                  <Label fx:id="error_date_borrowed" textFill="RED" />
+               </children>
+            </VBox>
+            <VBox layoutX="30.0" layoutY="271.0" prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <DatePicker fx:id="due_date" prefHeight="25.0" prefWidth="367.0" promptText="Due Date" />
+                  <Label fx:id="error_due_date" textFill="RED" />
+               </children>
+            </VBox>
+            <Button fx:id="addRecord" mnemonicParsing="false" onMouseClicked="#addRecord" text="Add Record" />
+         </children>
+      </VBox>
+   </children>
+</HBox>

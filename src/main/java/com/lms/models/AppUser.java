@@ -16,6 +16,7 @@ public class AppUser {
     private String email;
     private String password;
     private String accountType;
+    private Timestamp deletedAt;
     private Timestamp createdAt;
     private Timestamp updatedAt;
 
@@ -24,6 +25,16 @@ public class AppUser {
         this.email = email;
         this.password = password;
         this.accountType = accountType;
+    }
+
+    public AppUser(String id, String name, String email, String accountType, Timestamp deletedAt, Timestamp createdAt, Timestamp updatedAt) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.accountType = accountType;
+        this.deletedAt = deletedAt;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
 }
