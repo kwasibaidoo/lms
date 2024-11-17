@@ -6,7 +6,6 @@ import com.lms.App;
 import com.lms.dao.AppUserDAO;
 import com.lms.models.AppUser;
 import com.lms.utils.AuthUtil;
-import com.lms.utils.Router;
 import com.lms.utils.ValidationResult;
 import com.lms.utils.Validator;
 
@@ -15,7 +14,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
-public class LoginController implements Router {
+public class LoginController {
 
 
     @FXML
@@ -30,7 +29,6 @@ public class LoginController implements Router {
     @FXML
     private Label error_password;
 
-    private NavigationController navigationController;
 
     @FXML
     public void login() {
@@ -75,8 +73,4 @@ public class LoginController implements Router {
         }
     }
 
-    @Override
-    public void setNavigationController(NavigationController navigationController) {
-        this.navigationController = navigationController;
-    }
 }

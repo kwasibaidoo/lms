@@ -13,12 +13,11 @@
    <children>
       <VBox prefHeight="371.0" prefWidth="391.0" spacing="10.0">
          <children>
-            <Label text="Welcome, Username">
+            <Label text="Categories">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <Button fx:id="category_button" alignment="CENTER_RIGHT" mnemonicParsing="false" onMouseClicked="#addCategory" text="Add Category" />
             <TableView fx:id="category_table" prefHeight="200.0" prefWidth="200.0">
               <columns>
                 <TableColumn fx:id="column_name" prefWidth="75.0" text="Name" />
@@ -28,6 +27,11 @@
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
             </TableView>
+            <HBox prefHeight="43.0" prefWidth="351.0">
+               <children>
+                  <Button mnemonicParsing="false" onMouseClicked="#deleteCategory" text="Delete Category" />
+               </children>
+            </HBox>
          </children>
          <padding>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />

@@ -106,4 +106,18 @@ public class ReservationDAO {
         }
         return new Reservation();
     }
+
+    public static boolean deleteReservation(String id) {
+        String sql = "UPDATE reservations SET deletedAt = CURRENT_TIMESTAMP WHERE id=?";
+        try (Connection connection = DatabaseConfig.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setString(1, id);
+            int rowsUpdated = statement.executeUpdate();
+            return rowsUpdated > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

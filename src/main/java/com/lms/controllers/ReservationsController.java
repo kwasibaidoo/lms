@@ -8,9 +8,10 @@ import java.util.ResourceBundle;
 
 import com.lms.App;
 import com.lms.dao.ReservationDAO;
-import com.lms.models.Book;
 import com.lms.models.Reservation;
 import com.lms.utils.AuthUtil;
+import com.lms.utils.NotificationToast;
+import com.lms.utils.Router;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -18,6 +19,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -25,7 +27,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
-public class ReservationsController {
+public class ReservationsController implements Router {
+
+    private NotificationToast notificationToast = new NotificationToast();
+    private NavigationController navigationController = new NavigationController();
 
     @FXML
     private ResourceBundle resources;
@@ -55,7 +60,14 @@ public class ReservationsController {
 
     @FXML
     void deleteReservation(MouseEvent event) {
-
+        boolean success = ReservationDAO.deleteReservation(reservations_table.getSelectionModel().getSelectedItem().getId());
+        if(!success) {
+            notificationToast.showNotification(AlertType.ERROR,"Process Failed", "There was a problem while deleting the reservation");
+        }
+        else {
+            notificationToast.showNotification(AlertType.CONFIRMATION,"Reservation Deleted", "Reservation deleted successfully.");
+            navigationController.navCategories();
+        }
     }
 
     @FXML
@@ -98,6 +110,11 @@ public class ReservationsController {
             reservations_table.setItems(reservations);
         }
 
+    }
+
+    @Override
+    public void setNavigationController(NavigationController navigationController) {
+        this.navigationController = navigationController;
     }
 
 }

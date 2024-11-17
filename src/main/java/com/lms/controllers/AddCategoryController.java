@@ -4,6 +4,7 @@ package com.lms.controllers;
 import com.lms.dao.CategoryDAO;
 import com.lms.models.Category;
 import com.lms.utils.NotificationToast;
+import com.lms.utils.Router;
 import com.lms.utils.ValidationResult;
 import com.lms.utils.Validator;
 
@@ -13,9 +14,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.Alert.AlertType;
 
-public class AddCategoryController {
+public class AddCategoryController implements Router {
 
     private NotificationToast notificationToast = new NotificationToast();
+    private NavigationController navigationController = new NavigationController();
 
     @FXML
     private VBox content;
@@ -39,13 +41,16 @@ public class AddCategoryController {
             boolean success = CategoryDAO.createCategory(category);
 
             if(success) {
-                // reroute to categories page
-                // basically we're replacing addCategory with categories
-                // loadPage("categories.fxml");
+                navigationController.navCategories();
             }
             else {
                 notificationToast.showNotification(AlertType.ERROR, "Process Failed", "There was a problem while creating a new category");
             }
         }
+    }
+
+    @Override
+    public void setNavigationController(NavigationController navigationController) {
+        this.navigationController = navigationController;
     }
 }

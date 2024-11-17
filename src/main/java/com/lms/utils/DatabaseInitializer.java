@@ -16,21 +16,21 @@ public class DatabaseInitializer {
                                         "email VARCHAR(256) NOT NULL UNIQUE," +
                                         "password VARCHAR(256)," +
                                         "accountType VARCHAR(256)," +
-                                        "deletedAt TIMESTAMP DEFAULT NULL," + 
+                                        "deletedAt TIMESTAMP NULL," + 
                                         "createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP," +
                                         "updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP)";
 
             String createCategoriesTable = "CREATE TABLE IF NOT EXISTS categories (" +
                                         "id CHAR(36) PRIMARY KEY DEFAULT (UUID())," +
                                         "name VARCHAR(100) NOT NULL UNIQUE," +
-                                        "deletedAt TIMESTAMP DEFAULT NULL," + 
+                                        "deletedAt TIMESTAMP NULL," + 
                                         "createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP," +
                                         "updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP)";
 
             String createAuthorTable = "CREATE TABLE IF NOT EXISTS authors (" +
                                         "id char(36) PRIMARY KEY DEFAULT (UUID())," +
                                         "name VARCHAR(256) NOT NULL UNIQUE," +
-                                        "deletedAt TIMESTAMP DEFAULT NULL," + 
+                                        "deletedAt TIMESTAMP NULL," + 
                                         "createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP," +
                                         "updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP)";
 
@@ -42,7 +42,7 @@ public class DatabaseInitializer {
                                         "location VARCHAR(100)," +
                                         "category_id CHAR(36)," +
                                         "author_id CHAR(36)," +
-                                        "deletedAt TIMESTAMP DEFAULT NULL," + 
+                                        "deletedAt TIMESTAMP NULL," + 
                                         "createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP," +
                                         "updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP," +
                                         "FOREIGN KEY (author_id) REFERENCES authors(id)," +
@@ -54,7 +54,7 @@ public class DatabaseInitializer {
                                             "book_id CHAR(36)," +
                                             "reservation_date TIMESTAMP," +
                                             "status TINYINT(1) DEFAULT 0," +
-                                            "deletedAt TIMESTAMP DEFAULT NULL," + 
+                                            "deletedAt TIMESTAMP NULL," + 
                                             "createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP," +
                                             "updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP," +
                                             "FOREIGN KEY (user_id) REFERENCES users(id)," +
@@ -67,7 +67,7 @@ public class DatabaseInitializer {
                                             "status TINYINT(1) DEFAULT 0," +
                                             "date_borrowed TIMESTAMP DEFAULT CURRENT_TIMESTAMP," +
                                             "due_date TIMESTAMP NULL," +
-                                            "deletedAt TIMESTAMP DEFAULT NULL," + 
+                                            "deletedAt TIMESTAMP NULL," + 
                                             "createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP," +
                                             "updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP," +
                                             "FOREIGN KEY (user_id) REFERENCES users(id)," +

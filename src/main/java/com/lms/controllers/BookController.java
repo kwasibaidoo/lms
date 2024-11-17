@@ -9,6 +9,7 @@ import com.lms.dao.BookDAO;
 import com.lms.models.Book;
 import com.lms.utils.AuthUtil;
 import com.lms.utils.NotificationToast;
+import com.lms.utils.Router;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -23,9 +24,10 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
-public class BookController {
+public class BookController implements Router {
 
     private NotificationToast notificationToast = new NotificationToast();
+    private NavigationController navigationController = new NavigationController();
 
     @FXML
     private TableView<Book> books_table;
@@ -76,6 +78,16 @@ public class BookController {
         if(AuthUtil.getInstance().getUserRole().equals("patron")){
             notificationToast.showNotification(AlertType.ERROR,"You're not authorised", "You do not have permission to access this page");
         }
+        else{
+            boolean success = BookDAO.deleteBook(books_table.getSelectionModel().getSelectedItem().getId());
+            if(!success) {
+                notificationToast.showNotification(AlertType.ERROR,"Process Failed", "There was a problem while deleting the book");
+            }
+            else {
+                notificationToast.showNotification(AlertType.CONFIRMATION,"Book Deleted", "Book deleted successfully.");
+                navigationController.navBooks();
+            }
+        }
         
     }
 
@@ -100,6 +112,11 @@ public class BookController {
 
         // Bind the data to the TableView
         books_table.setItems(bookList);
+    }
+
+    @Override
+    public void setNavigationController(NavigationController navigationController) {
+        this.navigationController = navigationController;
     }
 
 }
