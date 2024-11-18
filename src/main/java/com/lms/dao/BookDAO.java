@@ -132,6 +132,26 @@ public class BookDAO {
         }
     }
 
+    public static boolean updateBook(Book book, String id) {
+        String sql = "UPDATE books SET name=?,author_id=?,category_id=?,location=?,availableCopies=?,totalCopies=? WHERE id=?";
+        try (Connection connection = DatabaseConfig.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, book.getName());
+            statement.setString(2, book.getAuthor_id());
+            statement.setString(3, book.getCategory_id());
+            statement.setString(4, book.getLocation());
+            statement.setInt(5, book.getAvailableCopies());
+            statement.setInt(6, book.getTotalCopies());
+
+            statement.setString(7, id);
+            int rowsUpdated = statement.executeUpdate();
+            return rowsUpdated > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 
     public static LinkedList<Book> findBook(String query) {
         String sql = "SELECT books.*,authors.name AS author_name,categories.name AS category_name FROM books " +

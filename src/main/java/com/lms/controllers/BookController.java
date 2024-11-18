@@ -51,6 +51,9 @@ public class BookController implements Router {
     private Button delete_book;
 
     @FXML
+    private Button update_book;
+
+    @FXML
     public void viewBook() {
         try {
             Book selectedBook = books_table.getSelectionModel().getSelectedItem();
@@ -61,6 +64,29 @@ public class BookController implements Router {
 
             // Get the controller of the new window
             ViewBookController controller = loader.getController();
+            controller.setBookId(bookId); // Pass the book ID to the controller
+
+            // Open the new window
+            Stage stage = new Stage();
+            stage.setTitle("View Book Details");
+            stage.setScene(new Scene(root, 640, 480));
+            stage.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void updateBook() {
+        try {
+            Book selectedBook = books_table.getSelectionModel().getSelectedItem();
+            String bookId = selectedBook.getId();
+            
+            FXMLLoader loader = new FXMLLoader(App.class.getResource("updatebook.fxml"));
+            Parent root = loader.load();
+
+            // Get the controller of the new window
+            UpdateBookController controller = loader.getController();
             controller.setBookId(bookId); // Pass the book ID to the controller
 
             // Open the new window

@@ -96,4 +96,20 @@ public class CategoryDAO {
             return false;
         }
     }
+
+    public static boolean updateCategory(Category category, String id) {
+        String sql = "UPDATE categories SET name=? WHERE id=?";
+        try (Connection connection = DatabaseConfig.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, category.getName());
+            statement.setString(2, id);
+            int rowsUpdated = statement.executeUpdate();
+            return rowsUpdated > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
 }

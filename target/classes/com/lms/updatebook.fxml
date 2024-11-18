@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<HBox alignment="TOP_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="370.0" prefWidth="391.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.lms.controllers.UpdateBookController">
+   <children>
+      <VBox prefHeight="371.0" prefWidth="391.0" spacing="5.0">
+         <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </padding>
+         <children>
+            <Label text="Update Book Form">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <TextField fx:id="name" promptText="Book Title" />
+                  <Label fx:id="error_name" textFill="RED" />
+               </children>
+            </VBox>
+            <VBox layoutX="30.0" layoutY="60.0" prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <ComboBox fx:id="author" editable="true" prefHeight="25.0" prefWidth="353.0" promptText="Author" />
+                  <Label fx:id="error_author" textFill="RED" />
+               </children>
+            </VBox>
+            <VBox layoutX="30.0" layoutY="215.0" prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <ComboBox fx:id="category" editable="true" prefHeight="25.0" prefWidth="351.0" promptText="Category" />
+                  <Label fx:id="error_category" textFill="RED" />
+               </children>
+            </VBox>
+            <VBox layoutX="30.0" layoutY="266.0" prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <TextField fx:id="totalCopies" promptText="Total Copies" />
+                  <Label fx:id="error_totalCopies" textFill="RED" />
+               </children>
+            </VBox>
+            <VBox layoutX="30.0" layoutY="292.0" prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <TextField fx:id="availableCopies" promptText="Available Copies" />
+                  <Label fx:id="error_availableCopies" textFill="RED" />
+               </children>
+            </VBox>
+            <VBox layoutX="30.0" layoutY="368.0" prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <TextField fx:id="locationfield" promptText="Location" />
+                  <Label fx:id="error_location" textFill="RED" />
+               </children>
+            </VBox>
+            <Button fx:id="updateBook" mnemonicParsing="false" onMouseClicked="#updateBook" text="Update Book" />
+         </children>
+      </VBox>
+   </children>
+</HBox>

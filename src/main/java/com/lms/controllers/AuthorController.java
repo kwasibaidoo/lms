@@ -1,8 +1,10 @@
 package com.lms.controllers;
 
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.LinkedList;
 
+import com.lms.App;
 import com.lms.dao.AuthorDAO;
 import com.lms.models.Author;
 import com.lms.utils.AuthUtil;
@@ -12,10 +14,14 @@ import com.lms.utils.Router;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
 public class AuthorController implements Router {
 
@@ -49,6 +55,34 @@ public class AuthorController implements Router {
             }
         }
         
+    }
+
+    @FXML
+    public void updateAuthor(){
+        if(AuthUtil.getInstance().getUserRole().equals("patron")){
+            notificationToast.showNotification(AlertType.ERROR,"You're not authorised", "You do not have permission to access this page");
+        }
+        else{
+            try {
+                Author selectedAuthor = author_table.getSelectionModel().getSelectedItem();
+                String authorId = selectedAuthor.getId();
+                
+                FXMLLoader loader = new FXMLLoader(App.class.getResource("updateauthor.fxml"));
+                Parent root = loader.load();
+
+                // Get the controller of the new window
+                UpdateAuthorController controller = loader.getController();
+                controller.setAuthorId(authorId); // Pass the book ID to the controller
+
+                // Open the new window
+                Stage stage = new Stage();
+                stage.setTitle("Update Author Details");
+                stage.setScene(new Scene(root, 640, 480));
+                stage.showAndWait();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 

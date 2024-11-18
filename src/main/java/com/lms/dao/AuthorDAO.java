@@ -120,4 +120,18 @@ public class AuthorDAO {
             return false;
         }
     }
+
+    public static boolean updateAuthor(Author author, String id) {
+        String sql = "UPDATE authors SET name=? WHERE id=?";
+        try (Connection connection = DatabaseConfig.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, author.getName());
+            statement.setString(2, id);
+            int rowsUpdated = statement.executeUpdate();
+            return rowsUpdated > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

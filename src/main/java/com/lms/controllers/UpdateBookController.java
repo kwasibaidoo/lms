@@ -22,12 +22,13 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
-public class AddBookController implements Router {
+public class UpdateBookController implements Router {
 
     private NotificationToast notificationToast = new NotificationToast();
+    private NavigationController navigationController = new NavigationController();
 
     @FXML
-    private Button addBook;
+    private Button updateBook;
 
     @FXML
     private ComboBox<String> author;
@@ -65,7 +66,7 @@ public class AddBookController implements Router {
     @FXML
     private TextField totalCopies;
 
-    private NavigationController navigationController = new NavigationController();
+    private String bookId;
 
     @Override
     public void setNavigationController(NavigationController navigationController) {
@@ -76,7 +77,7 @@ public class AddBookController implements Router {
     private ObservableList<String> categories = FXCollections.observableArrayList();
 
     @FXML
-    void addBook() {
+    void updateBook() {
         ValidationResult nameVal = Validator.validate(name.getText(), "not_null", "unique|books,name");
         ValidationResult authorVal = Validator.validate(author.getValue(), "not_null");
         ValidationResult categoryVal = Validator.validate(category.getValue(), "not_null");
@@ -105,10 +106,10 @@ public class AddBookController implements Router {
                 Integer.parseInt(totalCopies.getText()),
                 locationfield.getText()
             );
-            boolean success = BookDAO.createBook(book);
+            boolean success = BookDAO.updateBook(book,bookId);
             if(success) {
                 // redirect to the correct page
-                navigationController.navBooks();
+                notificationToast.showNotification(AlertType.INFORMATION, "Process successful", "Book updated successfully close window");
             }
             else {
                 notificationToast.showNotification(AlertType.ERROR, "Process Failed", "There was a problem while creating a new book");
@@ -136,8 +137,30 @@ public class AddBookController implements Router {
 
             
 
+            
+
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    
+
+    public void setBookId(String bookId) {
+        this.bookId = bookId;
+
+        // Fetch the book details using the ID
+        Book book = BookDAO.getBookById(bookId); 
+
+        if (book != null) {
+            name.setText(book.getName());
+            locationfield.setText(book.getLocation());
+            author.setValue(book.getAuthor_id());
+            category.setValue(book.getCategory_id()); 
+            totalCopies.setText(String.valueOf(book.getAvailableCopies()));
+            availableCopies.setText(String.valueOf(book.getAvailableCopies()));
+        } else {
+            System.out.println("Book not found.");
         }
     }
 
