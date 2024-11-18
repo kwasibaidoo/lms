@@ -17,15 +17,15 @@ public class Borrowing {
     private String book_id;
     private Integer status;
     private Timestamp dateBorrowed;
-    private Timestamp duedate;
+    private Timestamp due_date;
     private Timestamp deletedAt;
     private Timestamp createdAt;
     private Timestamp updatedAt;
 
-    public Borrowing(String user_id, String book_id, Timestamp dateBorrowed, Timestamp duedate){
+    public Borrowing(String user_id, String book_id, Timestamp dateBorrowed, Timestamp due_date){
         this.user_id = user_id;
         this.book_id = book_id;
         this.dateBorrowed = dateBorrowed;
-        this.duedate = duedate;
+        this.due_date = due_date;
     }
 }

@@ -61,6 +61,26 @@ public class AppUserDAO {
         }
     } 
 
+
+    public static String getUserID(String name) {
+        String sql = "SELECT id FROM users WHERE name=? LIMIT 1";
+        try (Connection connection = DatabaseConfig.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, name);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if(resultSet.next()) {
+                return resultSet.getString("id");
+            }
+            else{
+                return "";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
+        }
+    }
+
     public static AppUser findUserByEmail(String email) {
         String sql = "SELECT * FROM users WHERE email=? LIMIT 1";
         try (Connection connection = DatabaseConfig.getConnection();
@@ -90,7 +110,7 @@ public class AppUserDAO {
 
 
     public static LinkedList<AppUser> getUsers() {
-        String sql = "SELECT * FROM users WHERE deletedAt = NULL";
+        String sql = "SELECT * FROM users WHERE deletedAt IS NULL AND accountType = 'patron'";
         LinkedList<AppUser> queryResult = new LinkedList<AppUser>();
         try (Connection connection = DatabaseConfig.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {

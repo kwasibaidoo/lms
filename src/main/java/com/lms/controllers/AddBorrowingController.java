@@ -87,9 +87,11 @@ public class AddBorrowingController implements Router {
                 error_date_borrowed.setText(dateBorrowedVal.getMessage());
             }
             else {
+                String bookID = BookDAO.getBookID(book.getSelectionModel().getSelectedItem());
+                String userID = AppUserDAO.getUserID(user.getSelectionModel().getSelectedItem());
                 Borrowing borrowing = new Borrowing(
-                    user.getValue(),
-                    book.getValue(),
+                    userID,
+                    bookID,
                     Timestamp.valueOf(date_borrowed.getValue().atStartOfDay()),
                     Timestamp.valueOf(due_date.getValue().atStartOfDay())
                 );
@@ -112,8 +114,8 @@ public class AddBorrowingController implements Router {
             for (AppUser appUser : userList) {
                 users.add(appUser.getName());
             }
-
             user.setItems(users);
+
 
             // get books
             LinkedList<Book> bookList = BookDAO.getBooks();
