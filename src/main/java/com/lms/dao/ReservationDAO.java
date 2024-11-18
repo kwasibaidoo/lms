@@ -29,7 +29,10 @@ public class ReservationDAO {
     }
 
     public static LinkedList<Reservation> getAllReservations() {
-        String sql = "SELECT * FROM reservations";
+        String sql = "SELECT reservations.*,books.name AS book_name,users.name AS user_name FROM reservations " +
+                     "INNER JOIN users ON users.id=reservations.user_id " +
+                    "INNER JOIN books ON books.id=reservations.book_id " +
+                    "WHERE reservations.deletedAt IS NULL";
         LinkedList<Reservation> queryResult = new LinkedList<Reservation>();
         try (Connection connection = DatabaseConfig.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -39,8 +42,8 @@ public class ReservationDAO {
             while (resultSet.next()) {
                 queryResult.add(new Reservation(
                     resultSet.getString("id"),
-                    resultSet.getString("user_id"),
-                    resultSet.getString("book_id"),
+                    resultSet.getString("user_name"),
+                    resultSet.getString("book_name"),
                     resultSet.getInt("status"),
                     resultSet.getTimestamp("reservation_date"),
                     resultSet.getTimestamp("createdAt"),
@@ -56,7 +59,10 @@ public class ReservationDAO {
 
 
     public static LinkedList<Reservation> getUserReservations(String user_id) {
-        String sql = "SELECT * FROM reservations WHERE user_id=?";
+        String sql = "SELECT reservations.*,books.name AS book_name,users.name AS user_name FROM reservations " +
+                      "INNER JOIN users ON users.id=reservations.user_id " +
+                      "INNER JOIN books ON books.id=reservations.book_id " +
+                      "WHERE reservations.deletedAt IS NULL AND reservations.user_id=?";
         LinkedList<Reservation> queryResult = new LinkedList<Reservation>();
         try (Connection connection = DatabaseConfig.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -66,8 +72,8 @@ public class ReservationDAO {
             while (resultSet.next()) {
                 queryResult.add(new Reservation(
                     resultSet.getString("id"),
-                    resultSet.getString("user_id"),
-                    resultSet.getString("book_id"),
+                    resultSet.getString("user_name"),
+                    resultSet.getString("book_name"),
                     resultSet.getInt("status"),
                     resultSet.getTimestamp("reservation_date"),
                     resultSet.getTimestamp("createdAt"),
@@ -82,7 +88,10 @@ public class ReservationDAO {
     }
 
     public static Reservation getReservationById(String id) {
-        String sql = "SELECT * FROM reservations WHERE id=?";
+        String sql = "SELECT reservations.*,books.name AS book_name,users.name AS user_name FROM reservations " +
+                     "INNER JOIN users ON users.id=reservations.user_id " +
+                      "INNER JOIN books ON books.id=reservations.book_id " +
+                      "WHERE reservations.deletedAt IS NULL AND reservations.id=?";
         try (Connection connection = DatabaseConfig.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, id);
@@ -91,8 +100,8 @@ public class ReservationDAO {
             if(resultSet.next()) {
                 return new Reservation(
                     resultSet.getString("id"),
-                    resultSet.getString("user_id"),
-                    resultSet.getString("book_id"),
+                    resultSet.getString("user_name"),
+                    resultSet.getString("book_name"),
                     resultSet.getInt("status"),
                     resultSet.getTimestamp("reservation_date"),
                     resultSet.getTimestamp("createdAt"),

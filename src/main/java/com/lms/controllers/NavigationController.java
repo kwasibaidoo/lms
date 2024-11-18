@@ -1,5 +1,7 @@
 package com.lms.controllers;
 
+import java.io.IOException;
+
 import com.lms.App;
 import com.lms.utils.AuthUtil;
 import com.lms.utils.NotificationToast;
@@ -96,11 +98,28 @@ public class NavigationController {
     }
 
     public void navAddBorrowing() {
-        loadPage("addborrowing.fxml");
+        if(AuthUtil.getInstance().getUserRole().equals("patron")) {
+            notificationToast.showNotification(AlertType.ERROR,"You're not authorised", "You do not have permission to access this page");
+        }
+        else{
+            loadPage("addborrowing.fxml");
+        }
     }
 
     public void navBorrowing() {
         loadPage("borrowings.fxml");
+    }
+
+    @FXML
+    void logout() {
+        AuthUtil.getInstance().setUserID("");
+        AuthUtil.getInstance().setUserRole("");
+
+        try {
+            App.setRoot("login");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 

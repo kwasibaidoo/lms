@@ -43,7 +43,7 @@ public class AppUserDAO {
     // }
 
     public static String getUserRole(AppUser appUser) {
-        String sql = "SELECT accountType from users WHERE accountType = ?";
+        String sql = "SELECT accountType from users WHERE accountType = ? AND deletedAt IS NULL";
         try (Connection connection = DatabaseConfig.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, appUser.getId());
@@ -63,7 +63,7 @@ public class AppUserDAO {
 
 
     public static String getUserID(String name) {
-        String sql = "SELECT id FROM users WHERE name=? LIMIT 1";
+        String sql = "SELECT id FROM users WHERE name=? AND deletedAt IS NULL LIMIT 1";
         try (Connection connection = DatabaseConfig.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, name);
@@ -82,7 +82,7 @@ public class AppUserDAO {
     }
 
     public static AppUser findUserByEmail(String email) {
-        String sql = "SELECT * FROM users WHERE email=? LIMIT 1";
+        String sql = "SELECT * FROM users WHERE email=? AND deletedAt IS NULL LIMIT 1";
         try (Connection connection = DatabaseConfig.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql);) {
             preparedStatement.setString(1, email);

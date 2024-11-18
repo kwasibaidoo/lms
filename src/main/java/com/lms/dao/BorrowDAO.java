@@ -29,7 +29,10 @@ public class BorrowDAO {
 
 
     public static LinkedList<Borrowing> getAllRecords() {
-        String sql = "SELECT * FROM borrowings WHERE deletedAt IS NULL";
+        String sql = "SELECT borrowings.*,books.name AS book_name,users.name AS user_name FROM borrowings " +
+                     "INNER JOIN users ON users.id=borrowings.user_id " +
+                     "INNER JOIN books ON books.id=borrowings.book_id " +
+                     "WHERE borrowings.deletedAt IS NULL";
         LinkedList<Borrowing> queryResult = new LinkedList<Borrowing>();
         try (Connection connection = DatabaseConfig.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -37,8 +40,8 @@ public class BorrowDAO {
             while (resultSet.next()) {
                 queryResult.add(new Borrowing(
                     resultSet.getString("id"),
-                    resultSet.getString("user_id"),
-                    resultSet.getString("book_id"),
+                    resultSet.getString("user_name"),
+                    resultSet.getString("book_name"),
                     resultSet.getInt("status"),
                     resultSet.getTimestamp("date_borrowed"),
                     resultSet.getTimestamp("due_date"),
@@ -56,7 +59,10 @@ public class BorrowDAO {
     }
 
     public static LinkedList<Borrowing> getUserRecords(String id) {
-        String sql = "SELECT * FROM borrowings WHERE deletedAt IS NULL AND user_id = ?";
+        String sql = "SELECT borrowings.*,books.name AS book_name,users.name AS user_name FROM borrowings " +
+                     "INNER JOIN users ON users.id=borrowings.user_id " +
+                     "INNER JOIN books ON books.id=borrowings.book_id " +
+                     "WHERE borrowings.deletedAt IS NULL AND borrowings.user_id = ?";
         LinkedList<Borrowing> queryResult = new LinkedList<Borrowing>();
         try (Connection connection = DatabaseConfig.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -65,10 +71,10 @@ public class BorrowDAO {
             while (resultSet.next()) {
                 queryResult.add(new Borrowing(
                     resultSet.getString("id"),
-                    resultSet.getString("user_id"),
-                    resultSet.getString("book_id"),
+                    resultSet.getString("user_name"),
+                    resultSet.getString("book_name"),
                     resultSet.getInt("status"),
-                    resultSet.getTimestamp("dateBorrowed"),
+                    resultSet.getTimestamp("date_borrowed"),
                     resultSet.getTimestamp("due_date"),
                     resultSet.getTimestamp("deletedAt"),
                     resultSet.getTimestamp("createdAt"),
@@ -85,7 +91,10 @@ public class BorrowDAO {
 
 
     public static Borrowing getRecordByID(String id) {
-        String sql = "SELECT * FROM borrowings WHERE deletedAt IS NULL AND id = ?";
+        String sql = "SELECT borrowings.*,books.name AS book_name,users.name AS user_name FROM borrowings " +
+                     "INNER JOIN users ON users.id=borrowings.user_id " +
+                     "INNER JOIN books ON books.id=borrowings.book_id " +
+                     "WHERE borrowings.deletedAt IS NULL AND borrowings.id = ?";
         // LinkedList<Borrowing> queryResult = new LinkedList<Borrowing>();
         try (Connection connection = DatabaseConfig.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -94,8 +103,8 @@ public class BorrowDAO {
             if (resultSet.next()) {
                 return new Borrowing(
                     resultSet.getString("id"),
-                    resultSet.getString("user_id"),
-                    resultSet.getString("book_id"),
+                    resultSet.getString("user_name"),
+                    resultSet.getString("book_name"),
                     resultSet.getInt("status"),
                     resultSet.getTimestamp("date_borrowed"),
                     resultSet.getTimestamp("due_date"),

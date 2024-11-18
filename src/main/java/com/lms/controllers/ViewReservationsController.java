@@ -44,6 +44,7 @@ public class ViewReservationsController {
        
     public void setReservationID(String reservationID) {
         this.reservationID = reservationID;
+        System.out.println(reservationID);
 
         // Fetch the book details using the ID
         Reservation reservation = ReservationDAO.getReservationById(reservationID); 
@@ -51,8 +52,8 @@ public class ViewReservationsController {
         if (reservation != null) {
             book_value.setText(reservation.getBook_id());
             patron_name_value.setText(reservation.getUser_id());
-            createdAt_value.setText(reservation.getCreatedAt().toString());
             reservation_date_value.setText(reservation.getReservation_date().toString()); 
+            createdAt_value.setText(reservation.getCreatedAt().toString());
             status_value.setText(String.valueOf(reservation.getStatus()));
         } else {
             System.out.println("Reservation not found.");

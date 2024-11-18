@@ -28,7 +28,7 @@ public class AuthorDAO {
 
 
     public static Author getAuthorById(String id) {
-        String sql = "SELECT * FROM authors WHERE id=?";
+        String sql = "SELECT * FROM authors WHERE id=? AND deletedAt IS NULL";
         try (Connection connection = DatabaseConfig.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, id);
@@ -47,7 +47,7 @@ public class AuthorDAO {
 
 
     public static String getAuthorID(String name) {
-        String sql = "SELECT id FROM authors WHERE name=?";
+        String sql = "SELECT id FROM authors WHERE name=? AND deletedAt IS NULL";
         try (Connection connection = DatabaseConfig.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, name);
@@ -66,7 +66,7 @@ public class AuthorDAO {
 
 
     public static LinkedList<Author> getAuthors() {
-        String sql = "SELECT * FROM authors";
+        String sql = "SELECT * FROM authors WHERE deletedAt IS NULL";
         LinkedList<Author> queryResult = new LinkedList<Author>();
         try (Connection connection = DatabaseConfig.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {

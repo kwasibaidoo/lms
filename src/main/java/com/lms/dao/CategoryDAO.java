@@ -28,7 +28,7 @@ public class CategoryDAO {
     }
 
     public static String getCategoryID(String name) {
-        String sql = "SELECT id FROM categories WHERE name=?";
+        String sql = "SELECT id FROM categories WHERE name=? AND deletedAt IS NULL";
         try (Connection connection = DatabaseConfig.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, name);
@@ -46,7 +46,7 @@ public class CategoryDAO {
     }
 
     public static LinkedList<Category> getCategories() {
-        String sql = "SELECT * FROM categories";
+        String sql = "SELECT * FROM categories AND deletedAt IS NULL";
         LinkedList<Category> result = new LinkedList<Category>();
         try (Connection connection = DatabaseConfig.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {

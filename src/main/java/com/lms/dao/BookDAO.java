@@ -32,7 +32,10 @@ public class BookDAO {
 
 
     public static Book getBookById(String id) {
-        String sql = "SELECT * FROM books WHERE id=?";
+        String sql = "SELECT books.*,authors.name AS author_name,categories.name AS category_name FROM books " +
+                      "INNER JOIN authors ON authors.id=books.author_id " +
+                      "INNER JOIN categories ON categories.id=books.category_id " +
+                      "WHERE books.deletedAt IS NULL AND books.id=?";
         try (Connection connection = DatabaseConfig.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, id);
@@ -42,8 +45,8 @@ public class BookDAO {
                 return new Book(
                                 resultSet.getString("id"), 
                                 resultSet.getString("name"),
-                                resultSet.getString("author_id"),
-                                resultSet.getString("category_id"),
+                                resultSet.getString("author_name"),
+                                resultSet.getString("category_name"),
                                 resultSet.getString("location"),
                                 resultSet.getInt("availableCopies"),
                                 resultSet.getInt("totalCopies"),
@@ -81,7 +84,10 @@ public class BookDAO {
 
 
     public static LinkedList<Book> getBooks() {
-        String sql = "SELECT * FROM books";
+        String sql = "SELECT books.*,authors.name AS author_name,categories.name AS category_name FROM books " +
+                     "INNER JOIN authors ON authors.id=books.author_id " +
+                     "INNER JOIN categories ON categories.id=books.category_id " +
+                     "WHERE books.deletedAt IS NULL";
         LinkedList<Book> queryResult = new LinkedList<Book>();
         try (Connection connection = DatabaseConfig.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -92,8 +98,8 @@ public class BookDAO {
                 queryResult.add(new Book(
                     resultSet.getString("id"), 
                     resultSet.getString("name"),
-                    resultSet.getString("author_id"),
-                    resultSet.getString("category_id"),
+                    resultSet.getString("author_name"),
+                    resultSet.getString("category_name"),
                     resultSet.getString("location"),
                     resultSet.getInt("availableCopies"),
                     resultSet.getInt("totalCopies"),
@@ -124,5 +130,42 @@ public class BookDAO {
             e.printStackTrace();
             return false;
         }
+    }
+
+
+    public static LinkedList<Book> findBook(String query) {
+        String sql = "SELECT books.*,authors.name AS author_name,categories.name AS category_name FROM books " +
+                     "INNER JOIN authors ON authors.id=books.author_id " +
+                     "INNER JOIN categories ON categories.id=books.category_id " +
+                     "WHERE books.deletedAt IS NULL AND books.name LIKE ? ";
+
+        LinkedList<Book> queryResult = new LinkedList<Book>();
+        try (Connection connection = DatabaseConfig.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, "%" + query + "%");
+            ResultSet resultSet = preparedStatement.executeQuery();
+            
+
+            while(resultSet.next()) {
+                queryResult.add(new Book(
+                    resultSet.getString("id"), 
+                    resultSet.getString("name"),
+                    resultSet.getString("author_name"),
+                    resultSet.getString("category_name"),
+                    resultSet.getString("location"),
+                    resultSet.getInt("availableCopies"),
+                    resultSet.getInt("totalCopies"),
+                    resultSet.getTimestamp("createdAt"),
+                    resultSet.getTimestamp("updatedAt")
+                ));
+            }
+            connection.close();
+
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return queryResult;
     }
 }
