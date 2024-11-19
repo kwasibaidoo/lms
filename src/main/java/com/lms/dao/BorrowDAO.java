@@ -135,4 +135,19 @@ public class BorrowDAO {
             return false;
         }
     }
+
+    public static boolean updateBorrowRecord(Borrowing borrow,String id) {
+        String sql = "UPDATE borrowings SET status = ? WHERE id=?";
+        try (Connection connection = DatabaseConfig.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+             statement.setInt(1, borrow.getStatus());
+
+            statement.setString(2, id);
+            int rowsUpdated = statement.executeUpdate();
+            return rowsUpdated > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

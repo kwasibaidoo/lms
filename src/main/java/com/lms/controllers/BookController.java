@@ -144,6 +144,8 @@ public class BookController implements Router {
         
     }
 
+    
+
     private ObservableList<Book> bookList = FXCollections.observableArrayList();
     private ObservableList<Book> filteredBookList = FXCollections.observableArrayList();
 

@@ -28,4 +28,8 @@ public class Borrowing {
         this.dateBorrowed = dateBorrowed;
         this.due_date = due_date;
     }
+
+    public Borrowing(int status) {
+        this.status = status;
+    }
 }

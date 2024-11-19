@@ -50,7 +50,14 @@ public class ViewBorrowingController {
             book_value.setText(borrowing.getBook_id());
             due_date_value.setText(borrowing.getDue_date().toString());
             date_borrowed_value.setText(borrowing.getDateBorrowed().toString()); 
-            status_value.setText(String.valueOf(borrowing.getStatus()));
+            int status = borrowing.getStatus();
+            if (status == 1) {
+                status_value.setText("Returned");
+            } else if (status == 0) {
+                status_value.setText("Not Returned");
+            } else {
+                status_value.setText("Unknown Status");
+            }
         } else {
             System.out.println("Record not found.");
         }

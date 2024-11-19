@@ -100,6 +100,7 @@ public class AddReservationController implements Router {
             books.add(book.getName());
         }
         book_combo_box.setItems(books);
+        book_combo_box.setValue("");
 
         userID = AuthUtil.getInstance().getUserID();
     }

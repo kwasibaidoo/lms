@@ -30,4 +30,8 @@ public class Book {
         this.availableCopies = availableCopies;
         this.totalCopies = totalCopies;
     }
+
+    public Book(int availableCopies) {
+        this.availableCopies = availableCopies;
+    }
 }

@@ -42,6 +42,7 @@
                      <children>
                         <Button fx:id="view_record" mnemonicParsing="false" onMouseClicked="#viewRecord" text="View Record" />
                         <Button fx:id="delete_record" layoutX="20.0" layoutY="20.0" mnemonicParsing="false" onMouseClicked="#deleteRecord" text="Delete Record" />
+                        <Button fx:id="return_book" layoutX="112.0" layoutY="20.0" mnemonicParsing="false" onMouseClicked="#returnBook" text="Return Book" />
                      </children>
                      <padding>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

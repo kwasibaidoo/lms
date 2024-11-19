@@ -7,7 +7,9 @@ import java.util.LinkedList;
 import java.util.ResourceBundle;
 
 import com.lms.App;
+import com.lms.dao.BookDAO;
 import com.lms.dao.BorrowDAO;
+import com.lms.models.Book;
 import com.lms.models.Borrowing;
 import com.lms.utils.AuthUtil;
 import com.lms.utils.NotificationToast;
@@ -54,6 +56,9 @@ public class BorrowingController implements Router {
     private TableColumn<Borrowing, String> column_user;
 
     @FXML
+    private Button return_book;
+
+    @FXML
     private Button delete_record;
 
     @FXML
@@ -95,6 +100,43 @@ public class BorrowingController implements Router {
             e.printStackTrace();
         }
     }
+
+    @FXML
+    void returnBook() {
+        if(AuthUtil.getInstance().getUserRole().equals("patron")){
+            notificationToast.showNotification(AlertType.ERROR,"You're not authorised", "You do not have permission to access this page");
+        }
+        else{
+            // update book available copies
+            String bookName =borrowings_table.getSelectionModel().getSelectedItem().getBook_id();
+            String bookID = BookDAO.getBookID(bookName);
+            System.out.println(bookID);
+            Book book = BookDAO.getBookById(bookID);
+            Book updatedBook = new Book(book.getAvailableCopies() + 1);
+            boolean updateSuccess = BookDAO.updateBookAvailableCopies(updatedBook, bookID);
+            if(borrowings_table.getSelectionModel().getSelectedItem().getStatus() == 0){
+                if(updateSuccess){
+                    boolean success = BorrowDAO.updateBorrowRecord(new Borrowing(1), borrowings_table.getSelectionModel().getSelectedItem().getId());
+                    if(success){
+                        notificationToast.showNotification(AlertType.CONFIRMATION,"Book Returned", "Book returned successfully.");
+                        navigationController.navBorrowing();
+                    }
+                    else{
+                        notificationToast.showNotification(AlertType.ERROR,"Process Failed", "There was a problem while returning the book");
+                    }
+                }
+                else{
+                    notificationToast.showNotification(AlertType.ERROR,"Process Failed", "There was a problem while returning the book");
+                }
+            }
+            else{
+                notificationToast.showNotification(AlertType.ERROR,"Process Failed", "There book has already been returned");
+            }
+        }
+        
+        
+    }
+
 
     @FXML
     void initialize() {

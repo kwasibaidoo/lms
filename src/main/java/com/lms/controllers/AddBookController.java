@@ -126,6 +126,7 @@ public class AddBookController implements Router {
                 authors.add(author.getName());
             }
             author.setItems(authors);
+            author.setValue("");
 
             // categories
             LinkedList<Category> categoryList = CategoryDAO.getCategoryNames();
@@ -133,6 +134,7 @@ public class AddBookController implements Router {
                 categories.add(category.getName());
             }
             category.setItems(categories);
+            category.setValue("");
 
             
 

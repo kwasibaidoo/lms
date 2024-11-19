@@ -87,21 +87,32 @@ public class AddBorrowingController implements Router {
                 error_date_borrowed.setText(dateBorrowedVal.getMessage());
             }
             else {
-                String bookID = BookDAO.getBookID(book.getSelectionModel().getSelectedItem());
                 String userID = AppUserDAO.getUserID(user.getSelectionModel().getSelectedItem());
-                Borrowing borrowing = new Borrowing(
-                    userID,
-                    bookID,
-                    Timestamp.valueOf(date_borrowed.getValue().atStartOfDay()),
-                    Timestamp.valueOf(due_date.getValue().atStartOfDay())
-                );
-                boolean success = BorrowDAO.createBorrowingRecord(borrowing);
-                if(success) {
-                    navigationController.navBorrowing();
+                String bookID = BookDAO.getBookID(book.getSelectionModel().getSelectedItem());
+                Book book = BookDAO.getBookById(bookID);
+                // check for available copies
+                if(book.getAvailableCopies() == 0){
+                    error_book.setText("Not enough books available");
                 }
                 else{
-                    notificationToast.showNotification(AlertType.ERROR, "Process Failed", "There was a problem while creating a new record");
+                    Borrowing borrowing = new Borrowing(
+                        userID,
+                        bookID,
+                        Timestamp.valueOf(date_borrowed.getValue().atStartOfDay()),
+                        Timestamp.valueOf(due_date.getValue().atStartOfDay())
+                    );
+                    boolean success = BorrowDAO.createBorrowingRecord(borrowing);
+                    if(success) {
+                        navigationController.navBorrowing();
+                        // deduct available copies in books
+                        Book updatedBook = new Book(book.getAvailableCopies() - 1);
+                        BookDAO.updateBookAvailableCopies(updatedBook, book.getId());
+                    }
+                    else{
+                        notificationToast.showNotification(AlertType.ERROR, "Process Failed", "There was a problem while creating a new record");
+                    }
                 }
+                
             }
         }
         
@@ -115,6 +126,7 @@ public class AddBorrowingController implements Router {
                 users.add(appUser.getName());
             }
             user.setItems(users);
+            user.setValue("");
 
 
             // get books
@@ -124,6 +136,7 @@ public class AddBorrowingController implements Router {
             }
 
             book.setItems(books);
+            book.setValue("");
         } catch (Exception e) {
             e.printStackTrace();
         }
