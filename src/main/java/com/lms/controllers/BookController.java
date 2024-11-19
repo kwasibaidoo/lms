@@ -78,25 +78,31 @@ public class BookController implements Router {
 
     @FXML
     public void updateBook() {
-        try {
-            Book selectedBook = books_table.getSelectionModel().getSelectedItem();
-            String bookId = selectedBook.getId();
-            
-            FXMLLoader loader = new FXMLLoader(App.class.getResource("updatebook.fxml"));
-            Parent root = loader.load();
-
-            // Get the controller of the new window
-            UpdateBookController controller = loader.getController();
-            controller.setBookId(bookId); // Pass the book ID to the controller
-
-            // Open the new window
-            Stage stage = new Stage();
-            stage.setTitle("View Book Details");
-            stage.setScene(new Scene(root, 640, 480));
-            stage.showAndWait();
-        } catch (IOException e) {
-            e.printStackTrace();
+        if(AuthUtil.getInstance().getUserRole().equals("patron")){
+            notificationToast.showNotification(AlertType.ERROR,"You're not authorised", "You do not have permission to access this page");
         }
+        else{
+            try {
+                Book selectedBook = books_table.getSelectionModel().getSelectedItem();
+                String bookId = selectedBook.getId();
+                
+                FXMLLoader loader = new FXMLLoader(App.class.getResource("updatebook.fxml"));
+                Parent root = loader.load();
+    
+                // Get the controller of the new window
+                UpdateBookController controller = loader.getController();
+                controller.setBookId(bookId); // Pass the book ID to the controller
+    
+                // Open the new window
+                Stage stage = new Stage();
+                stage.setTitle("View Book Details");
+                stage.setScene(new Scene(root, 640, 480));
+                stage.showAndWait();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        
     }
 
     @FXML

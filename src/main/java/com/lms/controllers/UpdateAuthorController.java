@@ -16,7 +16,7 @@ import javafx.scene.control.TextField;
 
 public class UpdateAuthorController implements Router {
 
-    private NotificationToast notificationToast;
+    private NotificationToast notificationToast = new NotificationToast();
 
     @FXML
     private Button button;
@@ -27,7 +27,7 @@ public class UpdateAuthorController implements Router {
     @FXML
     private TextField name;
 
-    private NavigationController navigationController;
+    private NavigationController navigationController = new NavigationController();
     private String authorId;
 
     @Override

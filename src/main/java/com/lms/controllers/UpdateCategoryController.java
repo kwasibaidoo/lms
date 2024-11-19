@@ -1,9 +1,8 @@
 package com.lms.controllers;
 
 
-import com.lms.dao.AuthorDAO;
+
 import com.lms.dao.CategoryDAO;
-import com.lms.models.Author;
 import com.lms.models.Category;
 import com.lms.utils.NotificationToast;
 import com.lms.utils.Router;
@@ -33,7 +32,7 @@ public class UpdateCategoryController implements Router {
     private String categoryId;
 
     @FXML
-    public void addCategory() {
+    public void updateCategory() {
         ValidationResult nameResult = Validator.validate(name.getText(), "not_null", "unique|categories,name");
 
         if(!nameResult.isSuccess()) {
@@ -62,12 +61,12 @@ public class UpdateCategoryController implements Router {
         this.categoryId = categoryId;
 
         
-        Author author = AuthorDAO.getAuthorById(categoryId); 
+        Category category = CategoryDAO.getCategoryById(categoryId); 
 
-        if (author != null) {
-            name.setText(author.getName());
+        if (category != null) {
+            name.setText(category.getName());
         } else {
-            System.out.println("Author not found.");
+            System.out.println("Category not found.");
         }
     }
 }

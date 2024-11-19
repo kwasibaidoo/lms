@@ -46,7 +46,7 @@ public class CategoryDAO {
     }
 
     public static LinkedList<Category> getCategories() {
-        String sql = "SELECT * FROM categories AND deletedAt IS NULL";
+        String sql = "SELECT * FROM categories WHERE deletedAt IS NULL";
         LinkedList<Category> result = new LinkedList<Category>();
         try (Connection connection = DatabaseConfig.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -108,6 +108,24 @@ public class CategoryDAO {
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
+        }
+    }
+
+
+    public static Category getCategoryById(String id) {
+        String sql = "SELECT * FROM categories WHERE id=?";
+        try (Connection connection = DatabaseConfig.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                return new Category(resultSet.getString("id"), resultSet.getString("name"), resultSet.getTimestamp("createdAt"), resultSet.getTimestamp("updatedAt"));
+            }
+
+            return new Category();
+        } catch (Exception e) {
+            return new Category();
         }
     }
 
