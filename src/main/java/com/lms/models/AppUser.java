@@ -37,4 +37,13 @@ public class AppUser {
         this.updatedAt = updatedAt;
     }
 
+    public AppUser(String name, String email) {
+        this.name = name;
+        this.email = email;
+    }
+
+    public AppUser(String password) {
+        this.password = password;
+    }
+
 }

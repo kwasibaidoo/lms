@@ -21,6 +21,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
@@ -52,6 +53,26 @@ public class BookController implements Router {
 
     @FXML
     private Button update_book;
+
+    @FXML
+    private TextField search_book;
+
+    // @FXML
+    public void search(String query) {
+        String lowerCaseSearchText = query.toLowerCase();
+        filteredBookList.clear();
+        if(lowerCaseSearchText.isEmpty()){
+            filteredBookList.addAll(bookList);
+        }
+        else{
+            LinkedList<Book> searchResults = BookDAO.findBook(lowerCaseSearchText);
+            filteredBookList.addAll(searchResults);
+        }
+        
+
+        
+        books_table.setItems(filteredBookList);
+    }
 
     @FXML
     public void viewBook() {
@@ -124,6 +145,7 @@ public class BookController implements Router {
     }
 
     private ObservableList<Book> bookList = FXCollections.observableArrayList();
+    private ObservableList<Book> filteredBookList = FXCollections.observableArrayList();
 
 
 
@@ -144,6 +166,11 @@ public class BookController implements Router {
 
         // Bind the data to the TableView
         books_table.setItems(bookList);
+        filteredBookList.addAll(bookList);
+        // search stuff
+        search_book.textProperty().addListener((observable, oldValue, newValue) -> {
+            search(newValue);  // Trigger the search every time the text changes
+        });
     }
 
     @Override

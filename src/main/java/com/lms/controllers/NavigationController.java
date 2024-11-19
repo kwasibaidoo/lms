@@ -43,6 +43,9 @@ public class NavigationController {
     private Label route_home;
 
     @FXML
+    private Label route_profile;
+
+    @FXML
     private VBox sidebar;
 
 
@@ -109,6 +112,11 @@ public class NavigationController {
     public void navBorrowing() {
         loadPage("borrowings.fxml");
     }
+
+    public void navProfile() {
+        loadPage("profile.fxml");
+    }
+
 
     @FXML
     void logout() {

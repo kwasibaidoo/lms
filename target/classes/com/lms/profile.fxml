@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<HBox alignment="TOP_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="370.0" prefWidth="391.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.lms.controllers.ProfileController">
+   <children>
+      <VBox prefHeight="371.0" prefWidth="391.0" spacing="5.0">
+         <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </padding>
+         <children>
+            <Label text="Update Profile">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <VBox layoutX="30.0" layoutY="60.0" prefHeight="65.0" prefWidth="351.0">
+               <children>
+                  <TextField fx:id="name" promptText="Name" />
+                  <Label fx:id="error_name" textFill="RED" />
+                  <VBox prefHeight="32.0" prefWidth="351.0">
+                     <children>
+                        <TextField fx:id="email" promptText="Email" />
+                        <Label fx:id="error_email" textFill="RED" />
+                     </children>
+                  </VBox>
+               </children>
+            </VBox>
+            <Button fx:id="updateProfile" mnemonicParsing="false" onMouseClicked="#updateProfile" text="Update Profile" />
+         </children>
+      </VBox>
+      <VBox layoutX="10.0" layoutY="10.0" prefHeight="371.0" prefWidth="391.0" spacing="5.0">
+         <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </padding>
+         <children>
+            <Label text="Update Password">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <VBox layoutX="30.0" layoutY="60.0" prefHeight="65.0" prefWidth="351.0">
+               <children>
+                  <PasswordField fx:id="old_password" promptText="Old Password" />
+                  <Label fx:id="error_old_password" textFill="RED" />
+               </children>
+            </VBox>
+            <VBox layoutX="30.0" layoutY="55.0" prefHeight="65.0" prefWidth="351.0">
+               <children>
+                  <PasswordField fx:id="new_password" promptText="New Password" />
+                  <Label fx:id="error_new_password" textFill="RED" />
+               </children>
+            </VBox>
+            <VBox layoutX="30.0" layoutY="155.0" prefHeight="65.0" prefWidth="351.0">
+               <children>
+                  <PasswordField fx:id="confirm_new_password" promptText="Confirm New Password" />
+                  <Label fx:id="error_confirm_new_password" textFill="RED" />
+               </children>
+            </VBox>
+            <Button fx:id="updatePassword" mnemonicParsing="false" onMouseClicked="#updatePassword" text="Update Password" />
+         </children>
+      </VBox>
+   </children>
+</HBox>

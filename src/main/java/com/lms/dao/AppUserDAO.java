@@ -8,6 +8,7 @@ import java.util.LinkedList;
 
 import com.lms.config.DatabaseConfig;
 import com.lms.models.AppUser;
+import com.lms.models.Author;
 
 public class AppUserDAO {
     public static boolean createUser(AppUser appUser) {
@@ -109,6 +110,34 @@ public class AppUserDAO {
     } 
 
 
+    public static AppUser findUserById(String id) {
+        String sql = "SELECT * FROM users WHERE id=? AND deletedAt IS NULL LIMIT 1";
+        try (Connection connection = DatabaseConfig.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql);) {
+            preparedStatement.setString(1, id);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                return new AppUser(
+                                    resultSet.getString("id"), 
+                                    resultSet.getString("name"), 
+                                    resultSet.getString("email"), 
+                                    resultSet.getString("password"), 
+                                    resultSet.getString("accountType"), 
+                                    resultSet.getTimestamp("deletedAt"), 
+                                    resultSet.getTimestamp("createdAt"), 
+                                    resultSet.getTimestamp("updatedAt")
+                                );
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            
+        }
+        return new AppUser();
+    } 
+
+
     public static LinkedList<AppUser> getUsers() {
         String sql = "SELECT * FROM users WHERE deletedAt IS NULL AND accountType = 'patron'";
         LinkedList<AppUser> queryResult = new LinkedList<AppUser>();
@@ -131,6 +160,35 @@ public class AppUserDAO {
         } catch (Exception e) {
             e.printStackTrace();
             return queryResult;
+        }
+    }
+
+    public static boolean updateUser(AppUser appUser, String id) {
+        String sql = "UPDATE users SET name=?,email=? WHERE id=?";
+        try (Connection connection = DatabaseConfig.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, appUser.getName());
+            statement.setString(2, appUser.getEmail());
+            statement.setString(3, id);
+            int rowsUpdated = statement.executeUpdate();
+            return rowsUpdated > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static boolean updateUserPassword(AppUser appUser, String id) {
+        String sql = "UPDATE users SET password=? WHERE id=?";
+        try (Connection connection = DatabaseConfig.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, appUser.getPassword());
+            statement.setString(2, id);
+            int rowsUpdated = statement.executeUpdate();
+            return rowsUpdated > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
         }
     }
 }

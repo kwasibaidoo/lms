@@ -134,4 +134,33 @@ public class AuthorDAO {
             return false;
         }
     }
+
+    public static LinkedList<Author> findAuthor(String query) {
+        String sql = "SELECT * FROM authors " +
+                     "WHERE authors.deletedAt IS NULL AND name LIKE ?";
+
+        LinkedList<Author> queryResult = new LinkedList<Author>();
+        try (Connection connection = DatabaseConfig.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, "%" + query + "%");
+            ResultSet resultSet = preparedStatement.executeQuery();
+            
+
+            while(resultSet.next()) {
+                queryResult.add(new Author(
+                    resultSet.getString("id"), 
+                    resultSet.getString("name"),
+                    resultSet.getTimestamp("createdAt"),
+                    resultSet.getTimestamp("updatedAt")
+                ));
+            }
+            connection.close();
+
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return queryResult;
+    }
 }

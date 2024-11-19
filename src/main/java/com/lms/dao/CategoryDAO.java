@@ -129,5 +129,34 @@ public class CategoryDAO {
         }
     }
 
+    public static LinkedList<Category> findCategory(String query) {
+        String sql = "SELECT * FROM categories " +
+                     "WHERE categories.deletedAt IS NULL AND name LIKE ?";
+
+        LinkedList<Category> queryResult = new LinkedList<Category>();
+        try (Connection connection = DatabaseConfig.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, "%" + query + "%");
+            ResultSet resultSet = preparedStatement.executeQuery();
+            
+
+            while(resultSet.next()) {
+                queryResult.add(new Category(
+                    resultSet.getString("id"), 
+                    resultSet.getString("name"),
+                    resultSet.getTimestamp("createdAt"),
+                    resultSet.getTimestamp("updatedAt")
+                ));
+            }
+            connection.close();
+
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return queryResult;
+    }
+
 
 }

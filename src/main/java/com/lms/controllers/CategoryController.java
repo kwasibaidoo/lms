@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import com.lms.App;
 import com.lms.dao.AuthorDAO;
 import com.lms.dao.CategoryDAO;
+import com.lms.models.Author;
 import com.lms.models.Category;
 import com.lms.utils.AuthUtil;
 import com.lms.utils.NotificationToast;
@@ -23,6 +24,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -47,7 +49,11 @@ public class CategoryController implements Router {
     @FXML
     private TableColumn<Category,Timestamp> column_date;
 
+    @FXML
+    private TextField search_category;
+
     private ObservableList<Category> categoryList = FXCollections.observableArrayList();
+    private ObservableList<Category> filteredCategoryList = FXCollections.observableArrayList();
 
 
     // public void addCategory() {
@@ -82,6 +88,11 @@ public class CategoryController implements Router {
 
         // Bind the data to the TableView
         category_table.setItems(categoryList);
+        filteredCategoryList.addAll(categoryList);
+        // search stuff
+        search_category.textProperty().addListener((observable, oldValue, newValue) -> {
+            search(newValue);  // Trigger the search every time the text changes
+        });
     }
 
     @FXML
@@ -128,6 +139,22 @@ public class CategoryController implements Router {
                 e.printStackTrace();
             }
         }
+    }
+
+    public void search(String query) {
+        String lowerCaseSearchText = query.toLowerCase();
+        filteredCategoryList.clear();
+        if(lowerCaseSearchText.isEmpty()){
+            filteredCategoryList.addAll(categoryList);
+        }
+        else{
+            LinkedList<Category> searchResults = CategoryDAO.findCategory(lowerCaseSearchText);
+            filteredCategoryList.addAll(searchResults);
+        }
+        
+
+        
+        category_table.setItems(filteredCategoryList);
     }
 
 

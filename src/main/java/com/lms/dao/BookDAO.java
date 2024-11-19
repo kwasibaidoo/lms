@@ -157,12 +157,14 @@ public class BookDAO {
         String sql = "SELECT books.*,authors.name AS author_name,categories.name AS category_name FROM books " +
                      "INNER JOIN authors ON authors.id=books.author_id " +
                      "INNER JOIN categories ON categories.id=books.category_id " +
-                     "WHERE books.deletedAt IS NULL AND books.name LIKE ? ";
+                     "WHERE books.deletedAt IS NULL AND (books.name LIKE ? OR authors.name LIKE ? OR categories.name LIKE ?)";
 
         LinkedList<Book> queryResult = new LinkedList<Book>();
         try (Connection connection = DatabaseConfig.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, "%" + query + "%");
+            preparedStatement.setString(2, "%" + query + "%");
+            preparedStatement.setString(3, "%" + query + "%");
             ResultSet resultSet = preparedStatement.executeQuery();
             
 

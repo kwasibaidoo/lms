@@ -20,6 +20,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
@@ -37,7 +38,11 @@ public class AuthorController implements Router {
     @FXML
     private TableColumn<Author, String> column_name;
 
+    @FXML
+    private TextField search_author;
+
     private ObservableList<Author> authorList = FXCollections.observableArrayList();
+    private ObservableList<Author> filteredAuthorList = FXCollections.observableArrayList();
 
     @FXML
     public void deleteAuthor() {
@@ -100,6 +105,27 @@ public class AuthorController implements Router {
 
         // Bind the data to the TableView
         author_table.setItems(authorList);
+        filteredAuthorList.addAll(authorList);
+        // search stuff
+        search_author.textProperty().addListener((observable, oldValue, newValue) -> {
+            search(newValue);  // Trigger the search every time the text changes
+        });
+    }
+
+    public void search(String query) {
+        String lowerCaseSearchText = query.toLowerCase();
+        filteredAuthorList.clear();
+        if(lowerCaseSearchText.isEmpty()){
+            filteredAuthorList.addAll(authorList);
+        }
+        else{
+            LinkedList<Author> searchResults = AuthorDAO.findAuthor(lowerCaseSearchText);
+            filteredAuthorList.addAll(searchResults);
+        }
+        
+
+        
+        author_table.setItems(filteredAuthorList);
     }
 
 
