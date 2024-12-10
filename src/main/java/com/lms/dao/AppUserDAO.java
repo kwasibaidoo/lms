@@ -8,7 +8,6 @@ import java.util.LinkedList;
 
 import com.lms.config.DatabaseConfig;
 import com.lms.models.AppUser;
-import com.lms.models.Author;
 
 public class AppUserDAO {
     public static boolean createUser(AppUser appUser) {
