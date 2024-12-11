@@ -29,6 +29,7 @@ public class BookController implements Router {
 
     private NotificationToast notificationToast = new NotificationToast();
     private NavigationController navigationController = new NavigationController();
+    private BookDAO bookDAO = new BookDAO();
 
     @FXML
     private TableView<Book> books_table;
@@ -65,7 +66,7 @@ public class BookController implements Router {
             filteredBookList.addAll(bookList);
         }
         else{
-            LinkedList<Book> searchResults = BookDAO.findBook(lowerCaseSearchText);
+            LinkedList<Book> searchResults = bookDAO.findBook(lowerCaseSearchText);
             filteredBookList.addAll(searchResults);
         }
         
@@ -132,7 +133,7 @@ public class BookController implements Router {
             notificationToast.showNotification(AlertType.ERROR,"You're not authorised", "You do not have permission to access this page");
         }
         else{
-            boolean success = BookDAO.deleteBook(books_table.getSelectionModel().getSelectedItem().getId());
+            boolean success = bookDAO.deleteBook(books_table.getSelectionModel().getSelectedItem().getId());
             if(!success) {
                 notificationToast.showNotification(AlertType.ERROR,"Process Failed", "There was a problem while deleting the book");
             }
@@ -161,7 +162,7 @@ public class BookController implements Router {
         column_availableCopies.setCellValueFactory(new PropertyValueFactory<Book,Integer>("availableCopies")); 
 
         // Fetch data from the database
-        LinkedList<Book> categories = BookDAO.getBooks();
+        LinkedList<Book> categories = bookDAO.getBooks();
 
         // Add data to the ObservableList
         bookList.addAll(categories);

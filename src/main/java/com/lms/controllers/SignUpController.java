@@ -17,6 +17,8 @@ import javafx.scene.control.Alert.AlertType;
 public class SignUpController {
 
     private NotificationToast notificationToast = new NotificationToast();
+    private AppUserDAO appUserDAO = new AppUserDAO();
+    private Validator validator = new Validator();
 
     @FXML
     private TextField name;
@@ -45,9 +47,9 @@ public class SignUpController {
     @FXML
     public void register() {
         // validate user input
-        ValidationResult nameVal = Validator.validate(name.getText(),"not_null","min:1");
-        ValidationResult emailVal = Validator.validate(email.getText(),"not_null","email","unique|users,email");
-        ValidationResult passwordVal = Validator.passwordValidation(password.getText(),confirm_password.getText());
+        ValidationResult nameVal = validator.validate(name.getText(),"not_null","min:1");
+        ValidationResult emailVal = validator.validate(email.getText(),"not_null","email","unique|users,email");
+        ValidationResult passwordVal = validator.passwordValidation(password.getText(),confirm_password.getText());
 
         // boolean nameVal = true;
         // boolean emailVal = true;
@@ -61,7 +63,7 @@ public class SignUpController {
         else {
             // input user details
             AppUser appUser = new AppUser(name.getText(),email.getText(),password.getText(),"patron");
-            boolean success = AppUserDAO.createUser(appUser);
+            boolean success = appUserDAO.createUser(appUser);
             if(success) {
                 
                 try {

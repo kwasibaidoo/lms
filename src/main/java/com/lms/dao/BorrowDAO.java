@@ -10,9 +10,10 @@ import com.lms.config.DatabaseConfig;
 import com.lms.models.Borrowing;
 
 public class BorrowDAO {
-    public static boolean createBorrowingRecord(Borrowing borrowing) {
+    private DatabaseConfig databaseConfig = new DatabaseConfig();
+    public boolean createBorrowingRecord(Borrowing borrowing) {
         String sql = "INSERT INTO borrowings (user_id, book_id, due_date, date_borrowed) VALUES (?,?,?,?)";
-        try (Connection connection = DatabaseConfig.getConnection();
+        try (Connection connection = databaseConfig.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, borrowing.getUser_id());
             preparedStatement.setString(2, borrowing.getBook_id());
@@ -28,13 +29,13 @@ public class BorrowDAO {
     }
 
 
-    public static LinkedList<Borrowing> getAllRecords() {
+    public LinkedList<Borrowing> getAllRecords() {
         String sql = "SELECT borrowings.*,books.name AS book_name,users.name AS user_name FROM borrowings " +
                      "INNER JOIN users ON users.id=borrowings.user_id " +
                      "INNER JOIN books ON books.id=borrowings.book_id " +
                      "WHERE borrowings.deletedAt IS NULL";
         LinkedList<Borrowing> queryResult = new LinkedList<Borrowing>();
-        try (Connection connection = DatabaseConfig.getConnection();
+        try (Connection connection = databaseConfig.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
@@ -58,13 +59,13 @@ public class BorrowDAO {
         }
     }
 
-    public static LinkedList<Borrowing> getUserRecords(String id) {
+    public LinkedList<Borrowing> getUserRecords(String id) {
         String sql = "SELECT borrowings.*,books.name AS book_name,users.name AS user_name FROM borrowings " +
                      "INNER JOIN users ON users.id=borrowings.user_id " +
                      "INNER JOIN books ON books.id=borrowings.book_id " +
                      "WHERE borrowings.deletedAt IS NULL AND borrowings.user_id = ?";
         LinkedList<Borrowing> queryResult = new LinkedList<Borrowing>();
-        try (Connection connection = DatabaseConfig.getConnection();
+        try (Connection connection = databaseConfig.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -90,13 +91,13 @@ public class BorrowDAO {
     }
 
 
-    public static Borrowing getRecordByID(String id) {
+    public Borrowing getRecordByID(String id) {
         String sql = "SELECT borrowings.*,books.name AS book_name,users.name AS user_name FROM borrowings " +
                      "INNER JOIN users ON users.id=borrowings.user_id " +
                      "INNER JOIN books ON books.id=borrowings.book_id " +
                      "WHERE borrowings.deletedAt IS NULL AND borrowings.id = ?";
         // LinkedList<Borrowing> queryResult = new LinkedList<Borrowing>();
-        try (Connection connection = DatabaseConfig.getConnection();
+        try (Connection connection = databaseConfig.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -122,9 +123,9 @@ public class BorrowDAO {
         }
     }
 
-    public static boolean deleteBorrowing(String id) {
+    public boolean deleteBorrowing(String id) {
         String sql = "UPDATE borrowings SET deletedAt = CURRENT_TIMESTAMP WHERE id=?";
-        try (Connection connection = DatabaseConfig.getConnection();
+        try (Connection connection = databaseConfig.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
 
             statement.setString(1, id);
@@ -136,9 +137,9 @@ public class BorrowDAO {
         }
     }
 
-    public static boolean updateBorrowRecord(Borrowing borrow,String id) {
+    public boolean updateBorrowRecord(Borrowing borrow,String id) {
         String sql = "UPDATE borrowings SET status = ? WHERE id=?";
-        try (Connection connection = DatabaseConfig.getConnection();
+        try (Connection connection = databaseConfig.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
              statement.setInt(1, borrow.getStatus());
 

@@ -11,6 +11,8 @@ import javafx.scene.control.Label;
 
 public class ViewBookController {
 
+    private BookDAO bookDAO = new BookDAO();
+
     @FXML
     private ResourceBundle resources;
 
@@ -47,7 +49,7 @@ public class ViewBookController {
         this.bookId = bookId;
 
         // Fetch the book details using the ID
-        Book book = BookDAO.getBookById(bookId); 
+        Book book = bookDAO.getBookById(bookId); 
 
         if (book != null) {
             name_value.setText(book.getName());

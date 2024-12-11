@@ -12,6 +12,8 @@ import javafx.scene.control.Label;
 
 public class ViewReservationsController {
 
+    private ReservationDAO reservationDAO = new ReservationDAO();
+
     @FXML
     private ResourceBundle resources;
 
@@ -47,7 +49,7 @@ public class ViewReservationsController {
         System.out.println(reservationID);
 
         // Fetch the book details using the ID
-        Reservation reservation = ReservationDAO.getReservationById(reservationID); 
+        Reservation reservation = reservationDAO.getReservationById(reservationID); 
 
         if (reservation != null) {
             book_value.setText(reservation.getBook_id());

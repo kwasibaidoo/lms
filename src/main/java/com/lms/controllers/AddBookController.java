@@ -25,6 +25,10 @@ import javafx.scene.control.TextField;
 public class AddBookController implements Router {
 
     private NotificationToast notificationToast = new NotificationToast();
+    private AuthorDAO authorDAO = new AuthorDAO();
+    private Validator validator = new Validator();
+    private CategoryDAO categoryDAO = new CategoryDAO();
+    private BookDAO bookDAO = new BookDAO();
 
     @FXML
     private Button addBook;
@@ -77,12 +81,12 @@ public class AddBookController implements Router {
 
     @FXML
     void addBook() {
-        ValidationResult nameVal = Validator.validate(name.getText(), "not_null", "unique|books,name");
-        ValidationResult authorVal = Validator.validate(author.getValue(), "not_null");
-        ValidationResult categoryVal = Validator.validate(category.getValue(), "not_null");
-        ValidationResult availableCopiesVal = Validator.validate(availableCopies.getText(), "not_null");
-        ValidationResult totalCopiesVal = Validator.validate(totalCopies.getText(), "not_null");
-        ValidationResult locationVal = Validator.validate(locationfield.getText(), "not_null");
+        ValidationResult nameVal = validator.validate(name.getText(), "not_null", "unique|books,name");
+        ValidationResult authorVal = validator.validate(author.getValue(), "not_null");
+        ValidationResult categoryVal = validator.validate(category.getValue(), "not_null");
+        ValidationResult availableCopiesVal = validator.validate(availableCopies.getText(), "not_null");
+        ValidationResult totalCopiesVal = validator.validate(totalCopies.getText(), "not_null");
+        ValidationResult locationVal = validator.validate(locationfield.getText(), "not_null");
 
         if(!nameVal.isSuccess() || !authorVal.isSuccess() || !categoryVal.isSuccess() || !availableCopiesVal.isSuccess() || !totalCopiesVal.isSuccess() || !locationVal.isSuccess() ) {
             error_name.setText(nameVal.getMessage());
@@ -94,9 +98,9 @@ public class AddBookController implements Router {
         }
         else {
             // get authorID
-            String author_id = AuthorDAO.getAuthorID(author.getValue());
+            String author_id = authorDAO.getAuthorID(author.getValue());
             // get categoryID
-            String category_id = CategoryDAO.getCategoryID(category.getValue());
+            String category_id = categoryDAO.getCategoryID(category.getValue());
             Book book = new Book(
                 name.getText(), 
                 author_id,
@@ -105,7 +109,7 @@ public class AddBookController implements Router {
                 Integer.parseInt(totalCopies.getText()),
                 locationfield.getText()
             );
-            boolean success = BookDAO.createBook(book);
+            boolean success = bookDAO.createBook(book);
             if(success) {
                 // redirect to the correct page
                 navigationController.navBooks();
@@ -121,7 +125,7 @@ public class AddBookController implements Router {
         try {
             
 
-            LinkedList<Author> authorList = AuthorDAO.getAuthorsName();
+            LinkedList<Author> authorList = authorDAO.getAuthorsName();
             for (Author author : authorList) {
                 authors.add(author.getName());
             }
@@ -129,7 +133,7 @@ public class AddBookController implements Router {
             author.setValue("");
 
             // categories
-            LinkedList<Category> categoryList = CategoryDAO.getCategoryNames();
+            LinkedList<Category> categoryList = categoryDAO.getCategoryNames();
             for (Category category : categoryList) {
                 categories.add(category.getName());
             }

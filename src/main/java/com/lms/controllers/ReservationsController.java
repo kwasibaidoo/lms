@@ -31,6 +31,7 @@ public class ReservationsController implements Router {
 
     private NotificationToast notificationToast = new NotificationToast();
     private NavigationController navigationController = new NavigationController();
+    private ReservationDAO reservationDAO = new ReservationDAO();
 
     @FXML
     private ResourceBundle resources;
@@ -60,7 +61,7 @@ public class ReservationsController implements Router {
 
     @FXML
     void deleteReservation(MouseEvent event) {
-        boolean success = ReservationDAO.deleteReservation(reservations_table.getSelectionModel().getSelectedItem().getId());
+        boolean success = reservationDAO.deleteReservation(reservations_table.getSelectionModel().getSelectedItem().getId());
         if(!success) {
             notificationToast.showNotification(AlertType.ERROR,"Process Failed", "There was a problem while deleting the reservation");
         }
@@ -100,12 +101,12 @@ public class ReservationsController implements Router {
         column_status.setCellValueFactory(new PropertyValueFactory<Reservation,Integer>("status")); 
 
         if(AuthUtil.getInstance().getUserRole() == "patron") {
-            LinkedList<Reservation> reservationList = ReservationDAO.getUserReservations(AuthUtil.getInstance().getUserID());
+            LinkedList<Reservation> reservationList = reservationDAO.getUserReservations(AuthUtil.getInstance().getUserID());
             reservations.addAll(reservationList);
             reservations_table.setItems(reservations);
         }
         else {
-            LinkedList<Reservation> reservationList = ReservationDAO.getAllReservations();
+            LinkedList<Reservation> reservationList = reservationDAO.getAllReservations();
             reservations.addAll(reservationList);
             reservations_table.setItems(reservations);
         }

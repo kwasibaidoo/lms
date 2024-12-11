@@ -12,7 +12,8 @@ import java.util.regex.Pattern;
 import com.lms.config.DatabaseConfig;
 
 public class Validator {
-    public static ValidationResult validate(String value, String... args) {
+    private DatabaseConfig databaseConfig = new DatabaseConfig();
+    public ValidationResult validate(String value, String... args) {
 
         for (String rule : args) {
             if(rule.equals("not_null")){
@@ -33,7 +34,7 @@ public class Validator {
                 String column = rule.substring(rule.indexOf(",") + 1);
                 String table = rule.substring(7,rule.indexOf(","));
                 String sql = String.format("SELECT COUNT(*) from %s WHERE %s=?", table, column);
-                try (Connection connection = DatabaseConfig.getConnection();
+                try (Connection connection = databaseConfig.getConnection();
                      PreparedStatement preparedStatement = connection.prepareStatement(sql);) {
                     preparedStatement.setString(1, value);
                     ResultSet resultSet = preparedStatement.executeQuery();
@@ -60,7 +61,7 @@ public class Validator {
         // min
     }
 
-    public static ValidationResult passwordValidation(String value, String confirmation) {
+    public ValidationResult passwordValidation(String value, String confirmation) {
         if(!value.equals(confirmation)) {
             return new ValidationResult("Passwords do not match",false);
         }
@@ -72,7 +73,7 @@ public class Validator {
         return new ValidationResult();
     }
 
-    public static ValidationResult validateDate(String value, String... args) {
+    public ValidationResult validateDate(String value, String... args) {
         // Define the expected date format (e.g., "yyyy-MM-dd")
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 

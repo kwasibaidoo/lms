@@ -19,6 +19,8 @@ public class UpdateCategoryController implements Router {
 
     private NotificationToast notificationToast = new NotificationToast();
     private NavigationController navigationController = new NavigationController();
+    private Validator validator = new Validator();
+    private CategoryDAO categoryDAO = new CategoryDAO();
 
     @FXML
     private VBox content;
@@ -33,7 +35,7 @@ public class UpdateCategoryController implements Router {
 
     @FXML
     public void updateCategory() {
-        ValidationResult nameResult = Validator.validate(name.getText(), "not_null", "unique|categories,name");
+        ValidationResult nameResult = validator.validate(name.getText(), "not_null", "unique|categories,name");
 
         if(!nameResult.isSuccess()) {
             error_name.setText(nameResult.getMessage());
@@ -41,7 +43,7 @@ public class UpdateCategoryController implements Router {
         else {
             // insert category into the database
             Category category = new Category(name.getText());
-            boolean success = CategoryDAO.updateCategory(category, categoryId);
+            boolean success = categoryDAO.updateCategory(category, categoryId);
 
             if(success) {
                 notificationToast.showNotification(AlertType.INFORMATION, "Process successful", "Category updated successfully close window");
@@ -61,7 +63,7 @@ public class UpdateCategoryController implements Router {
         this.categoryId = categoryId;
 
         
-        Category category = CategoryDAO.getCategoryById(categoryId); 
+        Category category = categoryDAO.getCategoryById(categoryId); 
 
         if (category != null) {
             name.setText(category.getName());

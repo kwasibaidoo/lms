@@ -31,6 +31,10 @@ public class AddBorrowingController implements Router {
 
     private NavigationController navigationController = new NavigationController();
     private NotificationToast notificationToast = new NotificationToast();
+    private AppUserDAO appUserDAO = new AppUserDAO();
+    private Validator validator = new Validator();
+    private BookDAO bookDAO = new BookDAO();
+    private BorrowDAO borrowDAO = new BorrowDAO();
 
     @FXML
     private ResourceBundle resources;
@@ -75,10 +79,10 @@ public class AddBorrowingController implements Router {
         }
         else{
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            ValidationResult userVal = Validator.validate(user.getValue(), "not_null");
-            ValidationResult bookVal = Validator.validate(book.getValue(), "not_null");
-            ValidationResult dateBorrowedVal = Validator.validateDate(date_borrowed.getValue().format(formatter), "not_null");
-            ValidationResult dateDueVal = Validator.validateDate(due_date.getValue().format(formatter), "not_null");
+            ValidationResult userVal = validator.validate(user.getValue(), "not_null");
+            ValidationResult bookVal = validator.validate(book.getValue(), "not_null");
+            ValidationResult dateBorrowedVal = validator.validateDate(date_borrowed.getValue().format(formatter), "not_null");
+            ValidationResult dateDueVal = validator.validateDate(due_date.getValue().format(formatter), "not_null");
 
             if(!userVal.isSuccess() || !bookVal.isSuccess() || !dateBorrowedVal.isSuccess() || !dateDueVal.isSuccess()) {
                 error_book.setText(bookVal.getMessage());
@@ -87,9 +91,9 @@ public class AddBorrowingController implements Router {
                 error_date_borrowed.setText(dateBorrowedVal.getMessage());
             }
             else {
-                String userID = AppUserDAO.getUserID(user.getSelectionModel().getSelectedItem());
-                String bookID = BookDAO.getBookID(book.getSelectionModel().getSelectedItem());
-                Book book = BookDAO.getBookById(bookID);
+                String userID = appUserDAO.getUserID(user.getSelectionModel().getSelectedItem());
+                String bookID = bookDAO.getBookID(book.getSelectionModel().getSelectedItem());
+                Book book = bookDAO.getBookById(bookID);
                 // check for available copies
                 if(book.getAvailableCopies() == 0){
                     error_book.setText("Not enough books available");
@@ -101,12 +105,12 @@ public class AddBorrowingController implements Router {
                         Timestamp.valueOf(date_borrowed.getValue().atStartOfDay()),
                         Timestamp.valueOf(due_date.getValue().atStartOfDay())
                     );
-                    boolean success = BorrowDAO.createBorrowingRecord(borrowing);
+                    boolean success = borrowDAO.createBorrowingRecord(borrowing);
                     if(success) {
                         navigationController.navBorrowing();
                         // deduct available copies in books
                         Book updatedBook = new Book(book.getAvailableCopies() - 1);
-                        BookDAO.updateBookAvailableCopies(updatedBook, book.getId());
+                        bookDAO.updateBookAvailableCopies(updatedBook, book.getId());
                     }
                     else{
                         notificationToast.showNotification(AlertType.ERROR, "Process Failed", "There was a problem while creating a new record");
@@ -121,7 +125,7 @@ public class AddBorrowingController implements Router {
     @FXML
     void initialize() {
         try {
-            LinkedList<AppUser> userList = AppUserDAO.getUsers();
+            LinkedList<AppUser> userList = appUserDAO.getUsers();
             for (AppUser appUser : userList) {
                 users.add(appUser.getName());
             }
@@ -130,7 +134,7 @@ public class AddBorrowingController implements Router {
 
 
             // get books
-            LinkedList<Book> bookList = BookDAO.getBooks();
+            LinkedList<Book> bookList = bookDAO.getBooks();
             for (Book book : bookList) {
                 books.add(book.getName());
             }

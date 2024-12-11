@@ -26,6 +26,10 @@ public class UpdateBookController implements Router {
 
     private NotificationToast notificationToast = new NotificationToast();
     private NavigationController navigationController = new NavigationController();
+    private AuthorDAO authorDAO = new AuthorDAO();
+    private BookDAO bookDAO = new BookDAO();
+    private CategoryDAO categoryDAO = new CategoryDAO();
+    private Validator validator = new Validator();
 
     @FXML
     private Button updateBook;
@@ -78,12 +82,12 @@ public class UpdateBookController implements Router {
 
     @FXML
     void updateBook() {
-        ValidationResult nameVal = Validator.validate(name.getText(), "not_null", "unique|books,name");
-        ValidationResult authorVal = Validator.validate(author.getValue(), "not_null");
-        ValidationResult categoryVal = Validator.validate(category.getValue(), "not_null");
-        ValidationResult availableCopiesVal = Validator.validate(availableCopies.getText(), "not_null");
-        ValidationResult totalCopiesVal = Validator.validate(totalCopies.getText(), "not_null");
-        ValidationResult locationVal = Validator.validate(locationfield.getText(), "not_null");
+        ValidationResult nameVal = validator.validate(name.getText(), "not_null", "unique|books,name");
+        ValidationResult authorVal = validator.validate(author.getValue(), "not_null");
+        ValidationResult categoryVal = validator.validate(category.getValue(), "not_null");
+        ValidationResult availableCopiesVal = validator.validate(availableCopies.getText(), "not_null");
+        ValidationResult totalCopiesVal = validator.validate(totalCopies.getText(), "not_null");
+        ValidationResult locationVal = validator.validate(locationfield.getText(), "not_null");
 
         if(!nameVal.isSuccess() || !authorVal.isSuccess() || !categoryVal.isSuccess() || !availableCopiesVal.isSuccess() || !totalCopiesVal.isSuccess() || !locationVal.isSuccess() ) {
             error_name.setText(nameVal.getMessage());
@@ -95,9 +99,9 @@ public class UpdateBookController implements Router {
         }
         else {
             // get authorID
-            String author_id = AuthorDAO.getAuthorID(author.getValue());
+            String author_id = authorDAO.getAuthorID(author.getValue());
             // get categoryID
-            String category_id = CategoryDAO.getCategoryID(category.getValue());
+            String category_id = categoryDAO.getCategoryID(category.getValue());
             Book book = new Book(
                 name.getText(), 
                 author_id,
@@ -106,7 +110,7 @@ public class UpdateBookController implements Router {
                 Integer.parseInt(totalCopies.getText()),
                 locationfield.getText()
             );
-            boolean success = BookDAO.updateBook(book,bookId);
+            boolean success = bookDAO.updateBook(book,bookId);
             if(success) {
                 // redirect to the correct page
                 notificationToast.showNotification(AlertType.INFORMATION, "Process successful", "Book updated successfully close window");
@@ -122,14 +126,14 @@ public class UpdateBookController implements Router {
         try {
             
 
-            LinkedList<Author> authorList = AuthorDAO.getAuthorsName();
+            LinkedList<Author> authorList = authorDAO.getAuthorsName();
             for (Author author : authorList) {
                 authors.add(author.getName());
             }
             author.setItems(authors);
 
             // categories
-            LinkedList<Category> categoryList = CategoryDAO.getCategoryNames();
+            LinkedList<Category> categoryList = categoryDAO.getCategoryNames();
             for (Category category : categoryList) {
                 categories.add(category.getName());
             }
@@ -150,7 +154,7 @@ public class UpdateBookController implements Router {
         this.bookId = bookId;
 
         // Fetch the book details using the ID
-        Book book = BookDAO.getBookById(bookId); 
+        Book book = bookDAO.getBookById(bookId); 
 
         if (book != null) {
             name.setText(book.getName());

@@ -29,12 +29,15 @@ public class LoginController {
     @FXML
     private Label error_password;
 
+    private AppUserDAO appUserDAO = new AppUserDAO();
+    private Validator validator = new Validator();
+
 
     @FXML
     public void login() {
 
-        ValidationResult emailVal = Validator.validate(email.getText(),"not_null","email");
-        ValidationResult passwordVal = Validator.validate(password.getText(),"not_null");
+        ValidationResult emailVal = validator.validate(email.getText(),"not_null","email");
+        ValidationResult passwordVal = validator.validate(password.getText(),"not_null");
 
 
         if(!passwordVal.isSuccess()) {
@@ -42,7 +45,7 @@ public class LoginController {
             error_password.setText(passwordVal.getMessage());
         }
         else {
-            AppUser appUser = AppUserDAO.findUserByEmail(email.getText());
+            AppUser appUser = appUserDAO.findUserByEmail(email.getText());
             if(appUser.getEmail() == null || appUser.getEmail().isEmpty()){
                 error_email.setText("This email does not exist in our database");
             }

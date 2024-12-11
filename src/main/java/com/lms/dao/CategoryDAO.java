@@ -11,10 +11,11 @@ import com.lms.models.Category;
 
 public class CategoryDAO {
 
+    private DatabaseConfig databaseConfig = new DatabaseConfig();
 
-    public static boolean createCategory(Category category) {
+    public boolean createCategory(Category category) {
         String sql = "INSERT INTO categories (name) VALUES (?)";
-        try (Connection connection = DatabaseConfig.getConnection();
+        try (Connection connection = databaseConfig.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, category.getName());
             int rowsAffected = preparedStatement.executeUpdate();
@@ -27,9 +28,9 @@ public class CategoryDAO {
         }
     }
 
-    public static String getCategoryID(String name) {
+    public String getCategoryID(String name) {
         String sql = "SELECT id FROM categories WHERE name=? AND deletedAt IS NULL";
-        try (Connection connection = DatabaseConfig.getConnection();
+        try (Connection connection = databaseConfig.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, name);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -45,10 +46,10 @@ public class CategoryDAO {
         }
     }
 
-    public static LinkedList<Category> getCategories() {
+    public LinkedList<Category> getCategories() {
         String sql = "SELECT * FROM categories WHERE deletedAt IS NULL";
         LinkedList<Category> result = new LinkedList<Category>();
-        try (Connection connection = DatabaseConfig.getConnection();
+        try (Connection connection = databaseConfig.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -62,10 +63,10 @@ public class CategoryDAO {
         }
     }
 
-    public static LinkedList<Category> getCategoryNames() {
+    public LinkedList<Category> getCategoryNames() {
         String sql = "SELECT name FROM categories";
         LinkedList<Category> queryResult = new LinkedList<Category>();
-        try (Connection connection = DatabaseConfig.getConnection();
+        try (Connection connection = databaseConfig.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             ResultSet resultSet = preparedStatement.executeQuery();
             
@@ -83,9 +84,9 @@ public class CategoryDAO {
         return queryResult;
     }
 
-    public static boolean deleteCategory(String id) {
+    public boolean deleteCategory(String id) {
         String sql = "UPDATE categories SET deletedAt = CURRENT_TIMESTAMP WHERE id=?";
-        try (Connection connection = DatabaseConfig.getConnection();
+        try (Connection connection = databaseConfig.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
 
             statement.setString(1, id);
@@ -97,9 +98,9 @@ public class CategoryDAO {
         }
     }
 
-    public static boolean updateCategory(Category category, String id) {
+    public boolean updateCategory(Category category, String id) {
         String sql = "UPDATE categories SET name=? WHERE id=?";
-        try (Connection connection = DatabaseConfig.getConnection();
+        try (Connection connection = databaseConfig.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, category.getName());
             statement.setString(2, id);
@@ -112,9 +113,9 @@ public class CategoryDAO {
     }
 
 
-    public static Category getCategoryById(String id) {
+    public Category getCategoryById(String id) {
         String sql = "SELECT * FROM categories WHERE id=?";
-        try (Connection connection = DatabaseConfig.getConnection();
+        try (Connection connection = databaseConfig.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -129,12 +130,12 @@ public class CategoryDAO {
         }
     }
 
-    public static LinkedList<Category> findCategory(String query) {
+    public LinkedList<Category> findCategory(String query) {
         String sql = "SELECT * FROM categories " +
                      "WHERE categories.deletedAt IS NULL AND name LIKE ?";
 
         LinkedList<Category> queryResult = new LinkedList<Category>();
-        try (Connection connection = DatabaseConfig.getConnection();
+        try (Connection connection = databaseConfig.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, "%" + query + "%");
             ResultSet resultSet = preparedStatement.executeQuery();

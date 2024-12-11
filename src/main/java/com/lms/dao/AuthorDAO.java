@@ -11,9 +11,11 @@ import com.lms.models.Author;
 
 public class AuthorDAO {
 
-    public static boolean createAuthor(Author author) {
+    private DatabaseConfig databaseConfig = new DatabaseConfig();
+
+    public boolean createAuthor(Author author) {
         String sql = "INSERT INTO authors (name) VALUES (?)";
-        try (Connection connection = DatabaseConfig.getConnection();
+        try (Connection connection = databaseConfig.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, author.getName());
             int rowsAffected = preparedStatement.executeUpdate();
@@ -27,9 +29,9 @@ public class AuthorDAO {
     }
 
 
-    public static Author getAuthorById(String id) {
+    public Author getAuthorById(String id) {
         String sql = "SELECT * FROM authors WHERE id=? AND deletedAt IS NULL";
-        try (Connection connection = DatabaseConfig.getConnection();
+        try (Connection connection = databaseConfig.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -46,9 +48,9 @@ public class AuthorDAO {
     }
 
 
-    public static String getAuthorID(String name) {
+    public String getAuthorID(String name) {
         String sql = "SELECT id FROM authors WHERE name=? AND deletedAt IS NULL";
-        try (Connection connection = DatabaseConfig.getConnection();
+        try (Connection connection = databaseConfig.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, name);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -65,10 +67,10 @@ public class AuthorDAO {
     }
 
 
-    public static LinkedList<Author> getAuthors() {
+    public LinkedList<Author> getAuthors() {
         String sql = "SELECT * FROM authors WHERE deletedAt IS NULL";
         LinkedList<Author> queryResult = new LinkedList<Author>();
-        try (Connection connection = DatabaseConfig.getConnection();
+        try (Connection connection = databaseConfig.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             ResultSet resultSet = preparedStatement.executeQuery();
             
@@ -86,10 +88,10 @@ public class AuthorDAO {
         return queryResult;
     }
 
-    public static LinkedList<Author> getAuthorsName() {
+    public LinkedList<Author> getAuthorsName() {
         String sql = "SELECT name FROM authors";
         LinkedList<Author> queryResult = new LinkedList<Author>();
-        try (Connection connection = DatabaseConfig.getConnection();
+        try (Connection connection = databaseConfig.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             ResultSet resultSet = preparedStatement.executeQuery();
             
@@ -107,9 +109,9 @@ public class AuthorDAO {
         return queryResult;
     }
 
-    public static boolean deleteAuthor(String id) {
+    public boolean deleteAuthor(String id) {
         String sql = "UPDATE authors SET deletedAt = CURRENT_TIMESTAMP WHERE id=?";
-        try (Connection connection = DatabaseConfig.getConnection();
+        try (Connection connection = databaseConfig.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
 
             statement.setString(1, id);
@@ -121,9 +123,9 @@ public class AuthorDAO {
         }
     }
 
-    public static boolean updateAuthor(Author author, String id) {
+    public boolean updateAuthor(Author author, String id) {
         String sql = "UPDATE authors SET name=? WHERE id=?";
-        try (Connection connection = DatabaseConfig.getConnection();
+        try (Connection connection = databaseConfig.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, author.getName());
             statement.setString(2, id);
@@ -135,12 +137,12 @@ public class AuthorDAO {
         }
     }
 
-    public static LinkedList<Author> findAuthor(String query) {
+    public LinkedList<Author> findAuthor(String query) {
         String sql = "SELECT * FROM authors " +
                      "WHERE authors.deletedAt IS NULL AND name LIKE ?";
 
         LinkedList<Author> queryResult = new LinkedList<Author>();
-        try (Connection connection = DatabaseConfig.getConnection();
+        try (Connection connection = databaseConfig.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, "%" + query + "%");
             ResultSet resultSet = preparedStatement.executeQuery();

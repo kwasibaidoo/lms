@@ -8,7 +8,6 @@ import java.util.LinkedList;
 import com.lms.App;
 import com.lms.dao.AuthorDAO;
 import com.lms.dao.CategoryDAO;
-import com.lms.models.Author;
 import com.lms.models.Category;
 import com.lms.utils.AuthUtil;
 import com.lms.utils.NotificationToast;
@@ -33,6 +32,8 @@ public class CategoryController implements Router {
 
     private NotificationToast notificationToast = new NotificationToast();
     private NavigationController navigationController = new NavigationController();
+    private AuthorDAO authorDAO = new AuthorDAO();
+    private CategoryDAO categoryDAO = new CategoryDAO();
 
     @FXML
     private VBox content;
@@ -81,7 +82,7 @@ public class CategoryController implements Router {
         column_date.setCellValueFactory(new PropertyValueFactory<Category,Timestamp>("createdAt")); 
 
         // Fetch data from the database
-        LinkedList<Category> categories = CategoryDAO.getCategories();
+        LinkedList<Category> categories = categoryDAO.getCategories();
 
         // Add data to the ObservableList
         categoryList.addAll(categories);
@@ -101,7 +102,7 @@ public class CategoryController implements Router {
             notificationToast.showNotification(AlertType.ERROR,"You're not authorised", "You do not have permission to access this page");
         }
         else{
-            boolean success = AuthorDAO.deleteAuthor(category_table.getSelectionModel().getSelectedItem().getId());
+            boolean success = authorDAO.deleteAuthor(category_table.getSelectionModel().getSelectedItem().getId());
             if(!success) {
                 notificationToast.showNotification(AlertType.ERROR,"Process Failed", "There was a problem while deleting the category");
             }
@@ -148,7 +149,7 @@ public class CategoryController implements Router {
             filteredCategoryList.addAll(categoryList);
         }
         else{
-            LinkedList<Category> searchResults = CategoryDAO.findCategory(lowerCaseSearchText);
+            LinkedList<Category> searchResults = categoryDAO.findCategory(lowerCaseSearchText);
             filteredCategoryList.addAll(searchResults);
         }
         

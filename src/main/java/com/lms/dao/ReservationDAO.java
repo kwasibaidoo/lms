@@ -11,9 +11,11 @@ import com.lms.models.Reservation;
 
 public class ReservationDAO {
 
-    public static boolean createReservation(Reservation reservation) {
+    private DatabaseConfig databaseConfig = new DatabaseConfig();
+
+    public boolean createReservation(Reservation reservation) {
         String sql = "INSERT INTO reservations (user_id,book_id,status,reservation_date) VALUES (? , ? , ? , ?)";
-        try (Connection connection = DatabaseConfig.getConnection();
+        try (Connection connection = databaseConfig.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1,reservation.getUser_id());
             preparedStatement.setString(2,reservation.getBook_id());
@@ -28,13 +30,13 @@ public class ReservationDAO {
         }
     }
 
-    public static LinkedList<Reservation> getAllReservations() {
+    public LinkedList<Reservation> getAllReservations() {
         String sql = "SELECT reservations.*,books.name AS book_name,users.name AS user_name FROM reservations " +
                      "INNER JOIN users ON users.id=reservations.user_id " +
                     "INNER JOIN books ON books.id=reservations.book_id " +
                     "WHERE reservations.deletedAt IS NULL";
         LinkedList<Reservation> queryResult = new LinkedList<Reservation>();
-        try (Connection connection = DatabaseConfig.getConnection();
+        try (Connection connection = databaseConfig.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             
 
@@ -58,13 +60,13 @@ public class ReservationDAO {
     }
 
 
-    public static LinkedList<Reservation> getUserReservations(String user_id) {
+    public LinkedList<Reservation> getUserReservations(String user_id) {
         String sql = "SELECT reservations.*,books.name AS book_name,users.name AS user_name FROM reservations " +
                       "INNER JOIN users ON users.id=reservations.user_id " +
                       "INNER JOIN books ON books.id=reservations.book_id " +
                       "WHERE reservations.deletedAt IS NULL AND reservations.user_id=?";
         LinkedList<Reservation> queryResult = new LinkedList<Reservation>();
-        try (Connection connection = DatabaseConfig.getConnection();
+        try (Connection connection = databaseConfig.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, user_id);
 
@@ -87,12 +89,12 @@ public class ReservationDAO {
         }
     }
 
-    public static Reservation getReservationById(String id) {
+    public Reservation getReservationById(String id) {
         String sql = "SELECT reservations.*,books.name AS book_name,users.name AS user_name FROM reservations " +
                      "INNER JOIN users ON users.id=reservations.user_id " +
                       "INNER JOIN books ON books.id=reservations.book_id " +
                       "WHERE reservations.deletedAt IS NULL AND reservations.id=?";
-        try (Connection connection = DatabaseConfig.getConnection();
+        try (Connection connection = databaseConfig.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -116,9 +118,9 @@ public class ReservationDAO {
         return new Reservation();
     }
 
-    public static boolean deleteReservation(String id) {
+    public boolean deleteReservation(String id) {
         String sql = "UPDATE reservations SET deletedAt = CURRENT_TIMESTAMP WHERE id=?";
-        try (Connection connection = DatabaseConfig.getConnection();
+        try (Connection connection = databaseConfig.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
 
             statement.setString(1, id);

@@ -18,6 +18,8 @@ public class AddCategoryController implements Router {
 
     private NotificationToast notificationToast = new NotificationToast();
     private NavigationController navigationController = new NavigationController();
+    private Validator validator = new Validator();
+    private CategoryDAO categoryDAO = new CategoryDAO();
 
     @FXML
     private VBox content;
@@ -30,7 +32,7 @@ public class AddCategoryController implements Router {
 
     @FXML
     public void addCategory() {
-        ValidationResult nameResult = Validator.validate(name.getText(), "not_null", "unique|categories,name");
+        ValidationResult nameResult = validator.validate(name.getText(), "not_null", "unique|categories,name");
 
         if(!nameResult.isSuccess()) {
             error_name.setText(nameResult.getMessage());
@@ -38,7 +40,7 @@ public class AddCategoryController implements Router {
         else {
             // insert category into the database
             Category category = new Category(name.getText());
-            boolean success = CategoryDAO.createCategory(category);
+            boolean success = categoryDAO.createCategory(category);
 
             if(success) {
                 navigationController.navCategories();

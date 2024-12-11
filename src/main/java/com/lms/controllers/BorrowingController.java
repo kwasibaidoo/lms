@@ -33,6 +33,8 @@ public class BorrowingController implements Router {
 
     private NotificationToast notificationToast = new NotificationToast();
     private NavigationController navigationController = new NavigationController();
+    private BorrowDAO borrowDAO = new BorrowDAO();
+    private BookDAO bookDAO = new BookDAO();
 
     @FXML
     private ResourceBundle resources;
@@ -68,7 +70,7 @@ public class BorrowingController implements Router {
 
     @FXML
     void deleteRecord(MouseEvent event) {
-        boolean success = BorrowDAO.deleteBorrowing(borrowings_table.getSelectionModel().getSelectedItem().getId());
+        boolean success = borrowDAO.deleteBorrowing(borrowings_table.getSelectionModel().getSelectedItem().getId());
         if(!success) {
             notificationToast.showNotification(AlertType.ERROR,"Process Failed", "There was a problem while deleting the record");
         }
@@ -109,14 +111,14 @@ public class BorrowingController implements Router {
         else{
             // update book available copies
             String bookName =borrowings_table.getSelectionModel().getSelectedItem().getBook_id();
-            String bookID = BookDAO.getBookID(bookName);
+            String bookID = bookDAO.getBookID(bookName);
             System.out.println(bookID);
-            Book book = BookDAO.getBookById(bookID);
+            Book book = bookDAO.getBookById(bookID);
             Book updatedBook = new Book(book.getAvailableCopies() + 1);
-            boolean updateSuccess = BookDAO.updateBookAvailableCopies(updatedBook, bookID);
+            boolean updateSuccess = bookDAO.updateBookAvailableCopies(updatedBook, bookID);
             if(borrowings_table.getSelectionModel().getSelectedItem().getStatus() == 0){
                 if(updateSuccess){
-                    boolean success = BorrowDAO.updateBorrowRecord(new Borrowing(1), borrowings_table.getSelectionModel().getSelectedItem().getId());
+                    boolean success = borrowDAO.updateBorrowRecord(new Borrowing(1), borrowings_table.getSelectionModel().getSelectedItem().getId());
                     if(success){
                         notificationToast.showNotification(AlertType.CONFIRMATION,"Book Returned", "Book returned successfully.");
                         navigationController.navBorrowing();
@@ -146,14 +148,14 @@ public class BorrowingController implements Router {
         column_due_date.setCellValueFactory(new PropertyValueFactory<Borrowing, Timestamp>("due_date"));
 
         if(AuthUtil.getInstance().getUserRole().equals("patron")){
-            LinkedList<Borrowing> borrowingList = BorrowDAO.getUserRecords(AuthUtil.getInstance().getUserID());
+            LinkedList<Borrowing> borrowingList = borrowDAO.getUserRecords(AuthUtil.getInstance().getUserID());
             for (Borrowing borrowing : borrowingList) {
                 bookList.add(borrowing);
             }
             borrowings_table.setItems(bookList);
         }
         else{
-            LinkedList<Borrowing> borrowingList = BorrowDAO.getAllRecords();
+            LinkedList<Borrowing> borrowingList = borrowDAO.getAllRecords();
             for (Borrowing borrowing : borrowingList) {
                 bookList.add(borrowing);
             }

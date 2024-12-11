@@ -23,6 +23,8 @@ public class ProfileController implements Router {
 
     private NotificationToast notificationToast = new NotificationToast();
     private NavigationController navigationController = new NavigationController();
+    private AppUserDAO appUserDAO = new AppUserDAO();
+    private Validator validator = new Validator();
     private String oldPassword;
 
     @FXML
@@ -70,8 +72,8 @@ public class ProfileController implements Router {
 
     @FXML
     void updatePassword(MouseEvent event) {
-       ValidationResult oldPasswordVal = Validator.validate(old_password.getText(), "not_null");
-       ValidationResult passwordVal = Validator.passwordValidation(new_password.getText(),confirm_new_password.getText());
+       ValidationResult oldPasswordVal = validator.validate(old_password.getText(), "not_null");
+       ValidationResult passwordVal = validator.passwordValidation(new_password.getText(),confirm_new_password.getText());
 
        if(!oldPasswordVal.isSuccess() || !passwordVal.isSuccess()) {
             error_old_password.setText(oldPasswordVal.getMessage());
@@ -83,7 +85,7 @@ public class ProfileController implements Router {
             }
             else{
                 AppUser appUser = new AppUser(new_password.getText());
-                boolean success = AppUserDAO.updateUserPassword(appUser, AuthUtil.getInstance().getUserID());
+                boolean success = appUserDAO.updateUserPassword(appUser, AuthUtil.getInstance().getUserID());
 
                 if(success){
                     notificationToast.showNotification(AlertType.INFORMATION,"Password Updated", "Password updated successfully");
@@ -98,8 +100,8 @@ public class ProfileController implements Router {
 
     @FXML
     void updateProfile(MouseEvent event) {
-        ValidationResult nameVal = Validator.validate(name.getText(), "not_null");
-        ValidationResult emailVal = Validator.validate(email.getText(), "not_null","email");
+        ValidationResult nameVal = validator.validate(name.getText(), "not_null");
+        ValidationResult emailVal = validator.validate(email.getText(), "not_null","email");
 
         if(!nameVal.isSuccess() || !emailVal.isSuccess()) {
             error_name.setText(nameVal.getMessage());
@@ -107,7 +109,7 @@ public class ProfileController implements Router {
         }
         else{
             AppUser appUser = new AppUser(name.getText(),email.getText());
-            boolean success = AppUserDAO.updateUser(appUser, AuthUtil.getInstance().getUserID());
+            boolean success = appUserDAO.updateUser(appUser, AuthUtil.getInstance().getUserID());
 
             if(success){
                 notificationToast.showNotification(AlertType.INFORMATION,"Profile Updated", "Profile updated successfully");
@@ -122,7 +124,7 @@ public class ProfileController implements Router {
 
     @FXML
     void initialize() {
-        AppUser appUser = AppUserDAO.findUserById(AuthUtil.getInstance().getUserID());
+        AppUser appUser = appUserDAO.findUserById(AuthUtil.getInstance().getUserID());
         email.setText(appUser.getEmail().trim());
         name.setText(appUser.getName());
         this.oldPassword = appUser.getPassword();

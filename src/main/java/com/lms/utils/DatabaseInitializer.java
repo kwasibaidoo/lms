@@ -7,8 +7,9 @@ import java.sql.SQLException;
 import com.lms.config.DatabaseConfig;
 
 public class DatabaseInitializer {
-    public static void initializeDatabase() {
-        try (Connection connection = DatabaseConfig.getConnection();
+    private DatabaseConfig databaseConfig = new DatabaseConfig();
+    public void initializeDatabase() {
+        try (Connection connection = databaseConfig.getConnection();
              Statement statement = connection.createStatement();) {
             String createUserTable = "CREATE TABLE IF NOT EXISTS users (" +
                                         "id CHAR(36) PRIMARY KEY DEFAULT (UUID())," +

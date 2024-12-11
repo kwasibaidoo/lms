@@ -17,6 +17,8 @@ import javafx.scene.control.TextField;
 public class UpdateAuthorController implements Router {
 
     private NotificationToast notificationToast = new NotificationToast();
+    private AuthorDAO authorDAO = new AuthorDAO();
+    private Validator validator = new Validator();
 
     @FXML
     private Button button;
@@ -37,13 +39,13 @@ public class UpdateAuthorController implements Router {
 
     @FXML
     public void updateAuthor() {
-        ValidationResult nameVal = Validator.validate(name.getText(), "not_null","unique|authors,name");
+        ValidationResult nameVal = validator.validate(name.getText(), "not_null","unique|authors,name");
         if(!nameVal.isSuccess()) {
             error_name.setText(nameVal.getMessage());
         }
         else {
             Author author = new Author(name.getText());
-            boolean success = AuthorDAO.updateAuthor(author, authorId);
+            boolean success = authorDAO.updateAuthor(author, authorId);
             if(success) {
                 notificationToast.showNotification(AlertType.INFORMATION, "Process successful", "Author updated successfully close window");
             }
@@ -57,7 +59,7 @@ public class UpdateAuthorController implements Router {
         this.authorId = authorId;
 
         // Fetch the book details using the ID
-        Author author = AuthorDAO.getAuthorById(authorId); 
+        Author author = authorDAO.getAuthorById(authorId); 
 
         if (author != null) {
             name.setText(author.getName());

@@ -16,7 +16,9 @@ import javafx.scene.control.TextField;
 
 public class AddAuthorController implements Router {
 
-    private NotificationToast notificationToast;
+    private NotificationToast notificationToast = new NotificationToast();
+    private AuthorDAO authorDAO = new AuthorDAO();
+    private Validator validator = new Validator();
 
     @FXML
     private Button button;
@@ -36,13 +38,13 @@ public class AddAuthorController implements Router {
 
     @FXML
     public void addAuthor() {
-        ValidationResult nameVal = Validator.validate(name.getText(), "not_null","unique|authors,name");
+        ValidationResult nameVal = validator.validate(name.getText(), "not_null","unique|authors,name");
         if(!nameVal.isSuccess()) {
             error_name.setText(nameVal.getMessage());
         }
         else {
             Author author = new Author(name.getText());
-            boolean success = AuthorDAO.createAuthor(author);
+            boolean success = authorDAO.createAuthor(author);
             if(success) {
                 // redirect to authors page
                 try {

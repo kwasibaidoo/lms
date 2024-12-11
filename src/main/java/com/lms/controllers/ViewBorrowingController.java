@@ -12,6 +12,8 @@ import javafx.scene.control.Label;
 
 public class ViewBorrowingController {
 
+    private BorrowDAO borrowDAO = new BorrowDAO();
+
     @FXML
     private ResourceBundle resources;
 
@@ -43,7 +45,7 @@ public class ViewBorrowingController {
         this.borrowingID = borrowingID;
 
         // Fetch the book details using the ID
-        Borrowing borrowing = BorrowDAO.getRecordByID(borrowingID); 
+        Borrowing borrowing = borrowDAO.getRecordByID(borrowingID); 
 
         if (borrowing != null) {
             patron_name_value.setText(borrowing.getUser_id());

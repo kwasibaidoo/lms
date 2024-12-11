@@ -10,9 +10,12 @@ import com.lms.config.DatabaseConfig;
 import com.lms.models.AppUser;
 
 public class AppUserDAO {
-    public static boolean createUser(AppUser appUser) {
+    private DatabaseConfig databaseConfig = new DatabaseConfig();
+
+    
+    public boolean createUser(AppUser appUser) {
         String sql = "INSERT INTO users (name,email,password,accountType) VALUES (?,?,?,?)";
-        try (Connection connection = DatabaseConfig.getConnection();
+        try (Connection connection = databaseConfig.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql);) {
             preparedStatement.setString(1, appUser.getName());
             preparedStatement.setString(2, appUser.getEmail());
@@ -28,7 +31,7 @@ public class AppUserDAO {
                 
     }
 
-    // public static boolean setIsLoggedIn(AppUser appUser) {
+    // public boolean setIsLoggedIn(AppUser appUser) {
     //     String sql = "UPDATE users SET isLoggedIn = true WHERE id=?";
     //     try (Connection connection = DatabaseConfig.getConnection();
     //          PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -42,9 +45,9 @@ public class AppUserDAO {
     //     }
     // }
 
-    public static String getUserRole(AppUser appUser) {
+    public String getUserRole(AppUser appUser) {
         String sql = "SELECT accountType from users WHERE accountType = ? AND deletedAt IS NULL";
-        try (Connection connection = DatabaseConfig.getConnection();
+        try (Connection connection = databaseConfig.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, appUser.getId());
 
@@ -62,9 +65,9 @@ public class AppUserDAO {
     } 
 
 
-    public static String getUserID(String name) {
+    public String getUserID(String name) {
         String sql = "SELECT id FROM users WHERE name=? AND deletedAt IS NULL LIMIT 1";
-        try (Connection connection = DatabaseConfig.getConnection();
+        try (Connection connection = databaseConfig.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, name);
 
@@ -81,9 +84,9 @@ public class AppUserDAO {
         }
     }
 
-    public static AppUser findUserByEmail(String email) {
+    public AppUser findUserByEmail(String email) {
         String sql = "SELECT * FROM users WHERE email=? AND deletedAt IS NULL LIMIT 1";
-        try (Connection connection = DatabaseConfig.getConnection();
+        try (Connection connection = databaseConfig.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql);) {
             preparedStatement.setString(1, email);
 
@@ -109,9 +112,9 @@ public class AppUserDAO {
     } 
 
 
-    public static AppUser findUserById(String id) {
+    public AppUser findUserById(String id) {
         String sql = "SELECT * FROM users WHERE id=? AND deletedAt IS NULL LIMIT 1";
-        try (Connection connection = DatabaseConfig.getConnection();
+        try (Connection connection = databaseConfig.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql);) {
             preparedStatement.setString(1, id);
 
@@ -137,10 +140,10 @@ public class AppUserDAO {
     } 
 
 
-    public static LinkedList<AppUser> getUsers() {
+    public LinkedList<AppUser> getUsers() {
         String sql = "SELECT * FROM users WHERE deletedAt IS NULL AND accountType = 'patron'";
         LinkedList<AppUser> queryResult = new LinkedList<AppUser>();
-        try (Connection connection = DatabaseConfig.getConnection();
+        try (Connection connection = databaseConfig.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             ResultSet resultSet = preparedStatement.executeQuery();
             while(resultSet.next()) {
@@ -162,9 +165,9 @@ public class AppUserDAO {
         }
     }
 
-    public static boolean updateUser(AppUser appUser, String id) {
+    public boolean updateUser(AppUser appUser, String id) {
         String sql = "UPDATE users SET name=?,email=? WHERE id=?";
-        try (Connection connection = DatabaseConfig.getConnection();
+        try (Connection connection = databaseConfig.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, appUser.getName());
             statement.setString(2, appUser.getEmail());
@@ -177,9 +180,9 @@ public class AppUserDAO {
         }
     }
 
-    public static boolean updateUserPassword(AppUser appUser, String id) {
+    public boolean updateUserPassword(AppUser appUser, String id) {
         String sql = "UPDATE users SET password=? WHERE id=?";
-        try (Connection connection = DatabaseConfig.getConnection();
+        try (Connection connection = databaseConfig.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, appUser.getPassword());
             statement.setString(2, id);

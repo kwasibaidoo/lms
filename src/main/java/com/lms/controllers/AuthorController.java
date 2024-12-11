@@ -28,6 +28,7 @@ public class AuthorController implements Router {
 
     private NotificationToast notificationToast = new NotificationToast();
     private NavigationController navigationController = new NavigationController();
+    private AuthorDAO authorDAO = new AuthorDAO();
 
     @FXML
     private TableView<Author> author_table;
@@ -50,7 +51,7 @@ public class AuthorController implements Router {
             notificationToast.showNotification(AlertType.ERROR,"You're not authorised", "You do not have permission to access this page");
         }
         else{
-            boolean success = AuthorDAO.deleteAuthor(author_table.getSelectionModel().getSelectedItem().getId());
+            boolean success = authorDAO.deleteAuthor(author_table.getSelectionModel().getSelectedItem().getId());
             if(!success) {
                 notificationToast.showNotification(AlertType.ERROR,"Process Failed", "There was a problem while deleting the author");
             }
@@ -98,7 +99,7 @@ public class AuthorController implements Router {
         column_date.setCellValueFactory(new PropertyValueFactory<Author,Timestamp>("createdAt")); 
 
         // Fetch data from the database
-        LinkedList<Author> categories = AuthorDAO.getAuthors();
+        LinkedList<Author> categories = authorDAO.getAuthors();
 
         // Add data to the ObservableList
         authorList.addAll(categories);
@@ -119,7 +120,7 @@ public class AuthorController implements Router {
             filteredAuthorList.addAll(authorList);
         }
         else{
-            LinkedList<Author> searchResults = AuthorDAO.findAuthor(lowerCaseSearchText);
+            LinkedList<Author> searchResults = authorDAO.findAuthor(lowerCaseSearchText);
             filteredAuthorList.addAll(searchResults);
         }
         
