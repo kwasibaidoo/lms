@@ -31,6 +31,7 @@ public class Validator {
             }
             // eg.
             else if(rule.startsWith("unique")){
+                System.out.println("HJEREEEEEE KOJSDFDSG SFGIOHSFKGHKSFGH \n \n \n");
                 String column = rule.substring(rule.indexOf(",") + 1);
                 String table = rule.substring(7,rule.indexOf(","));
                 String sql = String.format("SELECT COUNT(*) from %s WHERE %s=?", table, column);

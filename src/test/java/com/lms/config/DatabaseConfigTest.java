@@ -24,10 +24,11 @@ public class DatabaseConfigTest {
         try (MockedStatic<DriverManager> mockedDriverManager = mockStatic(DriverManager.class);) {
             mockedDriverManager.when(()-> DriverManager.getConnection(anyString(), anyString(), anyString())).thenReturn(mockConnection);
 
-            // Connection connection = DatabaseConfig.getConnection();
-            // assertNotNull(connection);
-            // assertEquals(mockConnection, connection);
-            // mockedDriverManager.verify(() -> DriverManager.getConnection(anyString(), anyString(), anyString()), times(1));
+            DatabaseConfig databaseConfig = new DatabaseConfig();
+            Connection connection = databaseConfig.getConnection();
+            assertNotNull(connection);
+            assertEquals(mockConnection, connection);
+            mockedDriverManager.verify(() -> DriverManager.getConnection(anyString(), anyString(), anyString()), times(1));
         } 
     }
 }
