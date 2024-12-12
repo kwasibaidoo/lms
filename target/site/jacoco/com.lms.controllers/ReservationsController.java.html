@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ReservationsController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">lms</a> &gt; <a href="index.source.html" class="el_package">com.lms.controllers</a> &gt; <span class="el_source">ReservationsController.java</span></div><h1>ReservationsController.java</h1><pre class="source lang-java linenums">package com.lms.controllers;
+
+import java.io.IOException;
+import java.net.URL;
+import java.sql.Timestamp;
+import java.util.LinkedList;
+import java.util.ResourceBundle;
+
+import com.lms.App;
+import com.lms.dao.ReservationDAO;
+import com.lms.models.Reservation;
+import com.lms.utils.AuthUtil;
+import com.lms.utils.NotificationToast;
+import com.lms.utils.Router;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
+
+<span class="nc" id="L30">public class ReservationsController implements Router {</span>
+
+<span class="nc" id="L32">    private NotificationToast notificationToast = new NotificationToast();</span>
+<span class="nc" id="L33">    private NavigationController navigationController = new NavigationController();</span>
+<span class="nc" id="L34">    private ReservationDAO reservationDAO = new ReservationDAO();</span>
+
+    @FXML
+    private ResourceBundle resources;
+
+    @FXML
+    private URL location;
+
+    @FXML
+    private TableColumn&lt;Reservation, String&gt; column_book;
+
+    @FXML
+    private TableColumn&lt;Reservation, Timestamp&gt; column_date;
+
+    @FXML
+    private TableColumn&lt;Reservation, Integer&gt; column_status;
+
+    @FXML
+    private Button delete_reservation;
+
+    @FXML
+    private TableView&lt;Reservation&gt; reservations_table;
+
+    @FXML
+    private Button view_reservation;
+
+<span class="nc" id="L60">     private ObservableList&lt;Reservation&gt; reservations = FXCollections.observableArrayList();</span>
+
+    @FXML
+    void deleteReservation(MouseEvent event) {
+<span class="nc" id="L64">        boolean success = reservationDAO.deleteReservation(reservations_table.getSelectionModel().getSelectedItem().getId());</span>
+<span class="nc bnc" id="L65" title="All 2 branches missed.">        if(!success) {</span>
+<span class="nc" id="L66">            notificationToast.showNotification(AlertType.ERROR,&quot;Process Failed&quot;, &quot;There was a problem while deleting the reservation&quot;);</span>
+        }
+        else {
+<span class="nc" id="L69">            notificationToast.showNotification(AlertType.CONFIRMATION,&quot;Reservation Deleted&quot;, &quot;Reservation deleted successfully.&quot;);</span>
+<span class="nc" id="L70">            navigationController.navCategories();</span>
+        }
+<span class="nc" id="L72">    }</span>
+
+    @FXML
+    void viewReservation(MouseEvent event) {
+        try {
+<span class="nc" id="L77">            Reservation selectedReservation = reservations_table.getSelectionModel().getSelectedItem();</span>
+<span class="nc" id="L78">            String reservationID = selectedReservation.getId();</span>
+            
+<span class="nc" id="L80">            FXMLLoader loader = new FXMLLoader(App.class.getResource(&quot;viewreservations.fxml&quot;));</span>
+<span class="nc" id="L81">            Parent root = loader.load();</span>
+
+            // Get the controller of the new window
+<span class="nc" id="L84">            ViewReservationsController controller = loader.getController();</span>
+<span class="nc" id="L85">            controller.setReservationID(reservationID); // Pass the book ID to the controller</span>
+
+            // Open the new window
+<span class="nc" id="L88">            Stage stage = new Stage();</span>
+<span class="nc" id="L89">            stage.setTitle(&quot;View Reservation Details&quot;);</span>
+<span class="nc" id="L90">            stage.setScene(new Scene(root, 640, 480));</span>
+<span class="nc" id="L91">            stage.showAndWait();</span>
+<span class="nc" id="L92">        } catch (IOException e) {</span>
+<span class="nc" id="L93">            e.printStackTrace();</span>
+<span class="nc" id="L94">        }</span>
+<span class="nc" id="L95">    }</span>
+
+    @FXML
+    void initialize() {
+<span class="nc" id="L99">        column_book.setCellValueFactory(new PropertyValueFactory&lt;Reservation,String&gt;(&quot;book_id&quot;)); </span>
+<span class="nc" id="L100">        column_date.setCellValueFactory(new PropertyValueFactory&lt;Reservation,Timestamp&gt;(&quot;reservation_date&quot;)); </span>
+<span class="nc" id="L101">        column_status.setCellValueFactory(new PropertyValueFactory&lt;Reservation,Integer&gt;(&quot;status&quot;)); </span>
+
+<span class="nc bnc" id="L103" title="All 2 branches missed.">        if(AuthUtil.getInstance().getUserRole() == &quot;patron&quot;) {</span>
+<span class="nc" id="L104">            LinkedList&lt;Reservation&gt; reservationList = reservationDAO.getUserReservations(AuthUtil.getInstance().getUserID());</span>
+<span class="nc" id="L105">            reservations.addAll(reservationList);</span>
+<span class="nc" id="L106">            reservations_table.setItems(reservations);</span>
+<span class="nc" id="L107">        }</span>
+        else {
+<span class="nc" id="L109">            LinkedList&lt;Reservation&gt; reservationList = reservationDAO.getAllReservations();</span>
+<span class="nc" id="L110">            reservations.addAll(reservationList);</span>
+<span class="nc" id="L111">            reservations_table.setItems(reservations);</span>
+        }
+
+<span class="nc" id="L114">    }</span>
+
+    @Override
+    public void setNavigationController(NavigationController navigationController) {
+<span class="nc" id="L118">        this.navigationController = navigationController;</span>
+<span class="nc" id="L119">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

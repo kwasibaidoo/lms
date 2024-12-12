@@ -58,7 +58,7 @@ public class AppUserDAO {
             else{
                 return "";
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
             return "";
         }
@@ -159,7 +159,7 @@ public class AppUserDAO {
             }
 
             return queryResult;
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
             return queryResult;
         }

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UpdateCategoryController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">lms</a> &gt; <a href="index.source.html" class="el_package">com.lms.controllers</a> &gt; <span class="el_source">UpdateCategoryController.java</span></div><h1>UpdateCategoryController.java</h1><pre class="source lang-java linenums">package com.lms.controllers;
+
+
+
+import com.lms.dao.CategoryDAO;
+import com.lms.models.Category;
+import com.lms.utils.NotificationToast;
+import com.lms.utils.Router;
+import com.lms.utils.ValidationResult;
+import com.lms.utils.Validator;
+
+import javafx.fxml.FXML;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
+import javafx.scene.control.Alert.AlertType;
+
+<span class="nc" id="L18">public class UpdateCategoryController implements Router {</span>
+
+<span class="nc" id="L20">    private NotificationToast notificationToast = new NotificationToast();</span>
+<span class="nc" id="L21">    private NavigationController navigationController = new NavigationController();</span>
+<span class="nc" id="L22">    private Validator validator = new Validator();</span>
+<span class="nc" id="L23">    private CategoryDAO categoryDAO = new CategoryDAO();</span>
+
+    @FXML
+    private VBox content;
+
+    @FXML
+    private TextField name;
+
+    @FXML
+    private Label error_name;
+
+    private String categoryId;
+
+    @FXML
+    public void updateCategory() {
+<span class="nc" id="L38">        ValidationResult nameResult = validator.validate(name.getText(), &quot;not_null&quot;, &quot;unique|categories,name&quot;);</span>
+
+<span class="nc bnc" id="L40" title="All 2 branches missed.">        if(!nameResult.isSuccess()) {</span>
+<span class="nc" id="L41">            error_name.setText(nameResult.getMessage());</span>
+        }
+        else {
+            // insert category into the database
+<span class="nc" id="L45">            Category category = new Category(name.getText());</span>
+<span class="nc" id="L46">            boolean success = categoryDAO.updateCategory(category, categoryId);</span>
+
+<span class="nc bnc" id="L48" title="All 2 branches missed.">            if(success) {</span>
+<span class="nc" id="L49">                notificationToast.showNotification(AlertType.INFORMATION, &quot;Process successful&quot;, &quot;Category updated successfully close window&quot;);</span>
+            }
+            else {
+<span class="nc" id="L52">                notificationToast.showNotification(AlertType.ERROR, &quot;Process Failed&quot;, &quot;There was a problem while creating a new category&quot;);</span>
+            }
+        }
+<span class="nc" id="L55">    }</span>
+
+    @Override
+    public void setNavigationController(NavigationController navigationController) {
+<span class="nc" id="L59">        this.navigationController = navigationController;</span>
+<span class="nc" id="L60">    }</span>
+
+    public void setCategoryId(String categoryId) {
+<span class="nc" id="L63">        this.categoryId = categoryId;</span>
+
+        
+<span class="nc" id="L66">        Category category = categoryDAO.getCategoryById(categoryId); </span>
+
+<span class="nc bnc" id="L68" title="All 2 branches missed.">        if (category != null) {</span>
+<span class="nc" id="L69">            name.setText(category.getName());</span>
+        } else {
+<span class="nc" id="L71">            System.out.println(&quot;Category not found.&quot;);</span>
+        }
+<span class="nc" id="L73">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DatabaseInitializer.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">lms</a> &gt; <a href="index.source.html" class="el_package">com.lms.utils</a> &gt; <span class="el_source">DatabaseInitializer.java</span></div><h1>DatabaseInitializer.java</h1><pre class="source lang-java linenums">package com.lms.utils;
+
+import java.sql.Statement;
+import java.sql.Connection;
+import java.sql.SQLException;
+
+import com.lms.config.DatabaseConfig;
+
+<span class="nc" id="L9">public class DatabaseInitializer {</span>
+<span class="nc" id="L10">    private DatabaseConfig databaseConfig = new DatabaseConfig();</span>
+    public void initializeDatabase() {
+<span class="nc" id="L12">        try (Connection connection = databaseConfig.getConnection();</span>
+<span class="nc" id="L13">             Statement statement = connection.createStatement();) {</span>
+<span class="nc" id="L14">            String createUserTable = &quot;CREATE TABLE IF NOT EXISTS users (&quot; +</span>
+                                        &quot;id CHAR(36) PRIMARY KEY DEFAULT (UUID()),&quot; +
+                                        &quot;name VARCHAR(100),&quot; +
+                                        &quot;email VARCHAR(256) NOT NULL UNIQUE,&quot; +
+                                        &quot;password VARCHAR(256),&quot; +
+                                        &quot;accountType VARCHAR(256),&quot; +
+                                        &quot;deletedAt TIMESTAMP NULL,&quot; + 
+                                        &quot;createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,&quot; +
+                                        &quot;updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP)&quot;;
+
+<span class="nc" id="L24">            String createCategoriesTable = &quot;CREATE TABLE IF NOT EXISTS categories (&quot; +</span>
+                                        &quot;id CHAR(36) PRIMARY KEY DEFAULT (UUID()),&quot; +
+                                        &quot;name VARCHAR(100) NOT NULL UNIQUE,&quot; +
+                                        &quot;deletedAt TIMESTAMP NULL,&quot; + 
+                                        &quot;createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,&quot; +
+                                        &quot;updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP)&quot;;
+
+<span class="nc" id="L31">            String createAuthorTable = &quot;CREATE TABLE IF NOT EXISTS authors (&quot; +</span>
+                                        &quot;id char(36) PRIMARY KEY DEFAULT (UUID()),&quot; +
+                                        &quot;name VARCHAR(256) NOT NULL UNIQUE,&quot; +
+                                        &quot;deletedAt TIMESTAMP NULL,&quot; + 
+                                        &quot;createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,&quot; +
+                                        &quot;updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP)&quot;;
+
+<span class="nc" id="L38">            String createBooksTable = &quot;CREATE TABLE IF NOT EXISTS books (&quot; +</span>
+                                        &quot;id CHAR(36) PRIMARY KEY DEFAULT (UUID()),&quot; +
+                                        &quot;name VARCHAR(100) NOT NULL UNIQUE,&quot; +
+                                        &quot;availableCopies INTEGER DEFAULT 0,&quot; +
+                                        &quot;totalCopies INTEGER DEFAULT 0,&quot; +
+                                        &quot;location VARCHAR(100),&quot; +
+                                        &quot;category_id CHAR(36),&quot; +
+                                        &quot;author_id CHAR(36),&quot; +
+                                        &quot;deletedAt TIMESTAMP NULL,&quot; + 
+                                        &quot;createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,&quot; +
+                                        &quot;updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,&quot; +
+                                        &quot;FOREIGN KEY (author_id) REFERENCES authors(id),&quot; +
+                                        &quot;FOREIGN KEY (category_id) REFERENCES categories(id))&quot;;
+
+<span class="nc" id="L52">            String createReservationTable = &quot;CREATE TABLE IF NOT EXISTS reservations (&quot; +</span>
+                                            &quot;id CHAR(36) PRIMARY KEY DEFAULT (UUID()),&quot; +
+                                            &quot;user_id CHAR(36),&quot; +
+                                            &quot;book_id CHAR(36),&quot; +
+                                            &quot;reservation_date TIMESTAMP,&quot; +
+                                            &quot;status TINYINT(1) DEFAULT 0,&quot; +
+                                            &quot;deletedAt TIMESTAMP NULL,&quot; + 
+                                            &quot;createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,&quot; +
+                                            &quot;updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,&quot; +
+                                            &quot;FOREIGN KEY (user_id) REFERENCES users(id),&quot; +
+                                            &quot;FOREIGN KEY (book_id) REFERENCES books(id))&quot;;
+
+<span class="nc" id="L64">            String createBorrowingTable = &quot;CREATE TABLE IF NOT EXISTS borrowings (&quot; +</span>
+                                            &quot;id CHAR(36) PRIMARY KEY DEFAULT (UUID()),&quot; +
+                                            &quot;user_id CHAR(36),&quot; +
+                                            &quot;book_id CHAR(36),&quot; +
+                                            &quot;status TINYINT(1) DEFAULT 0,&quot; +
+                                            &quot;date_borrowed TIMESTAMP DEFAULT CURRENT_TIMESTAMP,&quot; +
+                                            &quot;due_date TIMESTAMP NULL,&quot; +
+                                            &quot;deletedAt TIMESTAMP NULL,&quot; + 
+                                            &quot;createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,&quot; +
+                                            &quot;updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,&quot; +
+                                            &quot;FOREIGN KEY (user_id) REFERENCES users(id),&quot; +
+                                            &quot;FOREIGN KEY (book_id) REFERENCES books(id))&quot; ;
+
+
+
+            // String createSessionTable = &quot;CREATE TABLE IF NOT EXISTS session (&quot; +
+            //                              &quot;id CHAR(36) PRIMARY KEY DEFAULT (UUID()),&quot; +
+            //                              &quot;user_id CHAR(36) NOT NULL UNIQUE,&quot; +
+            //                              &quot;createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,&quot; +
+            //                              &quot;updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,&quot; +
+            //                              &quot;FOREIGN KEY (user_id) REFERENCES users(id)&quot; ;
+
+
+<span class="nc" id="L87">            statement.executeUpdate(createUserTable);</span>
+<span class="nc" id="L88">            statement.executeUpdate(createCategoriesTable);</span>
+<span class="nc" id="L89">            statement.executeUpdate(createAuthorTable);</span>
+<span class="nc" id="L90">            statement.executeUpdate(createBooksTable);</span>
+<span class="nc" id="L91">            statement.executeUpdate(createReservationTable);</span>
+<span class="nc" id="L92">            statement.executeUpdate(createBorrowingTable);</span>
+            // statement.executeUpdate(createSessionTable);
+<span class="nc" id="L94">        } catch (SQLException e) {</span>
+<span class="nc" id="L95">            e.printStackTrace();</span>
+<span class="nc" id="L96">        }</span>
+<span class="nc" id="L97">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

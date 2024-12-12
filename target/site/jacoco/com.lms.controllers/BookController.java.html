@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BookController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">lms</a> &gt; <a href="index.source.html" class="el_package">com.lms.controllers</a> &gt; <span class="el_source">BookController.java</span></div><h1>BookController.java</h1><pre class="source lang-java linenums">package com.lms.controllers;
+
+
+import java.io.IOException;
+import java.util.LinkedList;
+
+import com.lms.App;
+import com.lms.dao.BookDAO;
+import com.lms.models.Book;
+import com.lms.utils.AuthUtil;
+import com.lms.utils.NotificationToast;
+import com.lms.utils.Router;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
+
+<span class="nc" id="L28">public class BookController implements Router {</span>
+
+<span class="nc" id="L30">    private NotificationToast notificationToast = new NotificationToast();</span>
+<span class="nc" id="L31">    private NavigationController navigationController = new NavigationController();</span>
+<span class="nc" id="L32">    private BookDAO bookDAO = new BookDAO();</span>
+
+    @FXML
+    private TableView&lt;Book&gt; books_table;
+
+    @FXML
+    private TableColumn&lt;Book, String&gt; column_author;
+
+    @FXML
+    private TableColumn&lt;Book, Integer&gt; column_availableCopies;
+
+    @FXML
+    private TableColumn&lt;Book, String&gt; column_category;
+
+    @FXML
+    private TableColumn&lt;Book, String&gt; column_name;
+
+    @FXML
+    private Button view_book;
+
+    @FXML
+    private Button delete_book;
+
+    @FXML
+    private Button update_book;
+
+    @FXML
+    private TextField search_book;
+
+    // @FXML
+    public void search(String query) {
+<span class="nc" id="L63">        String lowerCaseSearchText = query.toLowerCase();</span>
+<span class="nc" id="L64">        filteredBookList.clear();</span>
+<span class="nc bnc" id="L65" title="All 2 branches missed.">        if(lowerCaseSearchText.isEmpty()){</span>
+<span class="nc" id="L66">            filteredBookList.addAll(bookList);</span>
+        }
+        else{
+<span class="nc" id="L69">            LinkedList&lt;Book&gt; searchResults = bookDAO.findBook(lowerCaseSearchText);</span>
+<span class="nc" id="L70">            filteredBookList.addAll(searchResults);</span>
+        }
+        
+
+        
+<span class="nc" id="L75">        books_table.setItems(filteredBookList);</span>
+<span class="nc" id="L76">    }</span>
+
+    @FXML
+    public void viewBook() {
+        try {
+<span class="nc" id="L81">            Book selectedBook = books_table.getSelectionModel().getSelectedItem();</span>
+<span class="nc" id="L82">            String bookId = selectedBook.getId();</span>
+            
+<span class="nc" id="L84">            FXMLLoader loader = new FXMLLoader(App.class.getResource(&quot;viewbooks.fxml&quot;));</span>
+<span class="nc" id="L85">            Parent root = loader.load();</span>
+
+            // Get the controller of the new window
+<span class="nc" id="L88">            ViewBookController controller = loader.getController();</span>
+<span class="nc" id="L89">            controller.setBookId(bookId); // Pass the book ID to the controller</span>
+
+            // Open the new window
+<span class="nc" id="L92">            Stage stage = new Stage();</span>
+<span class="nc" id="L93">            stage.setTitle(&quot;View Book Details&quot;);</span>
+<span class="nc" id="L94">            stage.setScene(new Scene(root, 640, 480));</span>
+<span class="nc" id="L95">            stage.showAndWait();</span>
+<span class="nc" id="L96">        } catch (IOException e) {</span>
+<span class="nc" id="L97">            e.printStackTrace();</span>
+<span class="nc" id="L98">        }</span>
+<span class="nc" id="L99">    }</span>
+
+    @FXML
+    public void updateBook() {
+<span class="nc bnc" id="L103" title="All 2 branches missed.">        if(AuthUtil.getInstance().getUserRole().equals(&quot;patron&quot;)){</span>
+<span class="nc" id="L104">            notificationToast.showNotification(AlertType.ERROR,&quot;You're not authorised&quot;, &quot;You do not have permission to access this page&quot;);</span>
+        }
+        else{
+            try {
+<span class="nc" id="L108">                Book selectedBook = books_table.getSelectionModel().getSelectedItem();</span>
+<span class="nc" id="L109">                String bookId = selectedBook.getId();</span>
+                
+<span class="nc" id="L111">                FXMLLoader loader = new FXMLLoader(App.class.getResource(&quot;updatebook.fxml&quot;));</span>
+<span class="nc" id="L112">                Parent root = loader.load();</span>
+    
+                // Get the controller of the new window
+<span class="nc" id="L115">                UpdateBookController controller = loader.getController();</span>
+<span class="nc" id="L116">                controller.setBookId(bookId); // Pass the book ID to the controller</span>
+    
+                // Open the new window
+<span class="nc" id="L119">                Stage stage = new Stage();</span>
+<span class="nc" id="L120">                stage.setTitle(&quot;View Book Details&quot;);</span>
+<span class="nc" id="L121">                stage.setScene(new Scene(root, 640, 480));</span>
+<span class="nc" id="L122">                stage.showAndWait();</span>
+<span class="nc" id="L123">            } catch (IOException e) {</span>
+<span class="nc" id="L124">                e.printStackTrace();</span>
+<span class="nc" id="L125">            }</span>
+        }
+        
+<span class="nc" id="L128">    }</span>
+
+    @FXML
+    public void deleteBook() {
+<span class="nc bnc" id="L132" title="All 2 branches missed.">        if(AuthUtil.getInstance().getUserRole().equals(&quot;patron&quot;)){</span>
+<span class="nc" id="L133">            notificationToast.showNotification(AlertType.ERROR,&quot;You're not authorised&quot;, &quot;You do not have permission to access this page&quot;);</span>
+        }
+        else{
+<span class="nc" id="L136">            boolean success = bookDAO.deleteBook(books_table.getSelectionModel().getSelectedItem().getId());</span>
+<span class="nc bnc" id="L137" title="All 2 branches missed.">            if(!success) {</span>
+<span class="nc" id="L138">                notificationToast.showNotification(AlertType.ERROR,&quot;Process Failed&quot;, &quot;There was a problem while deleting the book&quot;);</span>
+            }
+            else {
+<span class="nc" id="L141">                notificationToast.showNotification(AlertType.CONFIRMATION,&quot;Book Deleted&quot;, &quot;Book deleted successfully.&quot;);</span>
+<span class="nc" id="L142">                navigationController.navBooks();</span>
+            }
+        }
+        
+<span class="nc" id="L146">    }</span>
+
+    
+
+<span class="nc" id="L150">    private ObservableList&lt;Book&gt; bookList = FXCollections.observableArrayList();</span>
+<span class="nc" id="L151">    private ObservableList&lt;Book&gt; filteredBookList = FXCollections.observableArrayList();</span>
+
+
+
+
+    @FXML
+    public void initialize() {
+        // Set up the columns
+<span class="nc" id="L159">        column_name.setCellValueFactory(new PropertyValueFactory&lt;Book,String&gt;(&quot;name&quot;)); </span>
+<span class="nc" id="L160">        column_author.setCellValueFactory(new PropertyValueFactory&lt;Book,String&gt;(&quot;author_id&quot;)); </span>
+<span class="nc" id="L161">        column_category.setCellValueFactory(new PropertyValueFactory&lt;Book,String&gt;(&quot;category_id&quot;)); </span>
+<span class="nc" id="L162">        column_availableCopies.setCellValueFactory(new PropertyValueFactory&lt;Book,Integer&gt;(&quot;availableCopies&quot;)); </span>
+
+        // Fetch data from the database
+<span class="nc" id="L165">        LinkedList&lt;Book&gt; categories = bookDAO.getBooks();</span>
+
+        // Add data to the ObservableList
+<span class="nc" id="L168">        bookList.addAll(categories);</span>
+
+        // Bind the data to the TableView
+<span class="nc" id="L171">        books_table.setItems(bookList);</span>
+<span class="nc" id="L172">        filteredBookList.addAll(bookList);</span>
+        // search stuff
+<span class="nc" id="L174">        search_book.textProperty().addListener((observable, oldValue, newValue) -&gt; {</span>
+<span class="nc" id="L175">            search(newValue);  // Trigger the search every time the text changes</span>
+<span class="nc" id="L176">        });</span>
+<span class="nc" id="L177">    }</span>
+
+    @Override
+    public void setNavigationController(NavigationController navigationController) {
+<span class="nc" id="L181">        this.navigationController = navigationController;</span>
+<span class="nc" id="L182">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

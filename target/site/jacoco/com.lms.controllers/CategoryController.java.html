@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CategoryController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">lms</a> &gt; <a href="index.source.html" class="el_package">com.lms.controllers</a> &gt; <span class="el_source">CategoryController.java</span></div><h1>CategoryController.java</h1><pre class="source lang-java linenums">package com.lms.controllers;
+
+
+import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.LinkedList;
+
+import com.lms.App;
+import com.lms.dao.AuthorDAO;
+import com.lms.dao.CategoryDAO;
+import com.lms.models.Category;
+import com.lms.utils.AuthUtil;
+import com.lms.utils.NotificationToast;
+import com.lms.utils.Router;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+
+<span class="nc" id="L31">public class CategoryController implements Router {</span>
+
+<span class="nc" id="L33">    private NotificationToast notificationToast = new NotificationToast();</span>
+<span class="nc" id="L34">    private NavigationController navigationController = new NavigationController();</span>
+<span class="nc" id="L35">    private AuthorDAO authorDAO = new AuthorDAO();</span>
+<span class="nc" id="L36">    private CategoryDAO categoryDAO = new CategoryDAO();</span>
+
+    @FXML
+    private VBox content;
+
+    @FXML
+    private TableView&lt;Category&gt; category_table;
+    
+    @FXML
+    private Button category_button;
+
+    @FXML
+    private TableColumn&lt;Category,String&gt; column_name;
+
+    @FXML
+    private TableColumn&lt;Category,Timestamp&gt; column_date;
+
+    @FXML
+    private TextField search_category;
+
+<span class="nc" id="L56">    private ObservableList&lt;Category&gt; categoryList = FXCollections.observableArrayList();</span>
+<span class="nc" id="L57">    private ObservableList&lt;Category&gt; filteredCategoryList = FXCollections.observableArrayList();</span>
+
+
+    // public void addCategory() {
+    //     try {
+    //         // Load the Add Category page dynamically
+    //         FXMLLoader loader = new FXMLLoader(getClass().getResource(&quot;/com/lms/addCategory.fxml&quot;));
+    //         Parent addCategoryPage = loader.load();
+            
+    //         // You can either load the page into the current content VBox
+    //         content.getChildren().clear();  // Clear any existing content
+    //         content.getChildren().add(addCategoryPage);  // Add the new page content
+    //     } catch (IOException e) {
+    //         e.printStackTrace();
+    //     }
+    // }
+
+
+   
+
+
+    @FXML
+    public void initialize() {
+        // Set up the columns
+<span class="nc" id="L81">        column_name.setCellValueFactory(new PropertyValueFactory&lt;Category,String&gt;(&quot;name&quot;)); </span>
+<span class="nc" id="L82">        column_date.setCellValueFactory(new PropertyValueFactory&lt;Category,Timestamp&gt;(&quot;createdAt&quot;)); </span>
+
+        // Fetch data from the database
+<span class="nc" id="L85">        LinkedList&lt;Category&gt; categories = categoryDAO.getCategories();</span>
+
+        // Add data to the ObservableList
+<span class="nc" id="L88">        categoryList.addAll(categories);</span>
+
+        // Bind the data to the TableView
+<span class="nc" id="L91">        category_table.setItems(categoryList);</span>
+<span class="nc" id="L92">        filteredCategoryList.addAll(categoryList);</span>
+        // search stuff
+<span class="nc" id="L94">        search_category.textProperty().addListener((observable, oldValue, newValue) -&gt; {</span>
+<span class="nc" id="L95">            search(newValue);  // Trigger the search every time the text changes</span>
+<span class="nc" id="L96">        });</span>
+<span class="nc" id="L97">    }</span>
+
+    @FXML
+    public void deleteCategory() {
+<span class="nc bnc" id="L101" title="All 2 branches missed.">        if(AuthUtil.getInstance().getUserRole().equals(&quot;patron&quot;)){</span>
+<span class="nc" id="L102">            notificationToast.showNotification(AlertType.ERROR,&quot;You're not authorised&quot;, &quot;You do not have permission to access this page&quot;);</span>
+        }
+        else{
+<span class="nc" id="L105">            boolean success = authorDAO.deleteAuthor(category_table.getSelectionModel().getSelectedItem().getId());</span>
+<span class="nc bnc" id="L106" title="All 2 branches missed.">            if(!success) {</span>
+<span class="nc" id="L107">                notificationToast.showNotification(AlertType.ERROR,&quot;Process Failed&quot;, &quot;There was a problem while deleting the category&quot;);</span>
+            }
+            else {
+<span class="nc" id="L110">                notificationToast.showNotification(AlertType.CONFIRMATION,&quot;Category Deleted&quot;, &quot;Category deleted successfully.&quot;);</span>
+<span class="nc" id="L111">                navigationController.navCategories();</span>
+            }
+        }
+        
+<span class="nc" id="L115">    }</span>
+
+    @FXML
+    public void updateCategory(){
+<span class="nc bnc" id="L119" title="All 2 branches missed.">        if(AuthUtil.getInstance().getUserRole().equals(&quot;patron&quot;)){</span>
+<span class="nc" id="L120">            notificationToast.showNotification(AlertType.ERROR,&quot;You're not authorised&quot;, &quot;You do not have permission to access this page&quot;);</span>
+        }
+        else{
+            try {
+<span class="nc" id="L124">                Category selectedCategory = category_table.getSelectionModel().getSelectedItem();</span>
+<span class="nc" id="L125">                String categoryId = selectedCategory.getId();</span>
+                
+<span class="nc" id="L127">                FXMLLoader loader = new FXMLLoader(App.class.getResource(&quot;updatecategory.fxml&quot;));</span>
+<span class="nc" id="L128">                Parent root = loader.load();</span>
+
+                // Get the controller of the new window
+<span class="nc" id="L131">                UpdateCategoryController controller = loader.getController();</span>
+<span class="nc" id="L132">                controller.setCategoryId(categoryId); // Pass the book ID to the controller</span>
+
+                // Open the new window
+<span class="nc" id="L135">                Stage stage = new Stage();</span>
+<span class="nc" id="L136">                stage.setTitle(&quot;Update Author Details&quot;);</span>
+<span class="nc" id="L137">                stage.setScene(new Scene(root, 640, 480));</span>
+<span class="nc" id="L138">                stage.showAndWait();</span>
+<span class="nc" id="L139">            } catch (IOException e) {</span>
+<span class="nc" id="L140">                e.printStackTrace();</span>
+<span class="nc" id="L141">            }</span>
+        }
+<span class="nc" id="L143">    }</span>
+
+    public void search(String query) {
+<span class="nc" id="L146">        String lowerCaseSearchText = query.toLowerCase();</span>
+<span class="nc" id="L147">        filteredCategoryList.clear();</span>
+<span class="nc bnc" id="L148" title="All 2 branches missed.">        if(lowerCaseSearchText.isEmpty()){</span>
+<span class="nc" id="L149">            filteredCategoryList.addAll(categoryList);</span>
+        }
+        else{
+<span class="nc" id="L152">            LinkedList&lt;Category&gt; searchResults = categoryDAO.findCategory(lowerCaseSearchText);</span>
+<span class="nc" id="L153">            filteredCategoryList.addAll(searchResults);</span>
+        }
+        
+
+        
+<span class="nc" id="L158">        category_table.setItems(filteredCategoryList);</span>
+<span class="nc" id="L159">    }</span>
+
+
+
+
+
+    @Override
+    public void setNavigationController(NavigationController navigationController) {
+<span class="nc" id="L167">        this.navigationController = navigationController;</span>
+<span class="nc" id="L168">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

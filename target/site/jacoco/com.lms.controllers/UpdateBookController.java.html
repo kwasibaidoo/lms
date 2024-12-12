@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UpdateBookController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">lms</a> &gt; <a href="index.source.html" class="el_package">com.lms.controllers</a> &gt; <span class="el_source">UpdateBookController.java</span></div><h1>UpdateBookController.java</h1><pre class="source lang-java linenums">package com.lms.controllers;
+
+import java.util.LinkedList;
+
+import com.lms.dao.AuthorDAO;
+import com.lms.dao.BookDAO;
+import com.lms.dao.CategoryDAO;
+import com.lms.models.Author;
+import com.lms.models.Book;
+import com.lms.models.Category;
+import com.lms.utils.NotificationToast;
+import com.lms.utils.Router;
+import com.lms.utils.ValidationResult;
+import com.lms.utils.Validator;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+
+<span class="nc" id="L25">public class UpdateBookController implements Router {</span>
+
+<span class="nc" id="L27">    private NotificationToast notificationToast = new NotificationToast();</span>
+<span class="nc" id="L28">    private NavigationController navigationController = new NavigationController();</span>
+<span class="nc" id="L29">    private AuthorDAO authorDAO = new AuthorDAO();</span>
+<span class="nc" id="L30">    private BookDAO bookDAO = new BookDAO();</span>
+<span class="nc" id="L31">    private CategoryDAO categoryDAO = new CategoryDAO();</span>
+<span class="nc" id="L32">    private Validator validator = new Validator();</span>
+
+    @FXML
+    private Button updateBook;
+
+    @FXML
+    private ComboBox&lt;String&gt; author;
+
+    @FXML
+    private TextField availableCopies;
+
+    @FXML
+    private ComboBox&lt;String&gt; category;
+
+    @FXML
+    private Label error_author;
+
+    @FXML
+    private Label error_availableCopies;
+
+    @FXML
+    private Label error_category;
+
+    @FXML
+    private Label error_location;
+
+    @FXML
+    private Label error_name;
+
+    @FXML
+    private Label error_totalCopies;
+
+    @FXML
+    private TextField locationfield;
+
+    @FXML
+    private TextField name;
+
+    @FXML
+    private TextField totalCopies;
+
+    private String bookId;
+
+    @Override
+    public void setNavigationController(NavigationController navigationController) {
+<span class="nc" id="L77">        this.navigationController = navigationController;</span>
+<span class="nc" id="L78">    }</span>
+
+<span class="nc" id="L80">    private ObservableList&lt;String&gt; authors = FXCollections.observableArrayList();</span>
+<span class="nc" id="L81">    private ObservableList&lt;String&gt; categories = FXCollections.observableArrayList();</span>
+
+    @FXML
+    void updateBook() {
+<span class="nc" id="L85">        ValidationResult nameVal = validator.validate(name.getText(), &quot;not_null&quot;, &quot;unique|books,name&quot;);</span>
+<span class="nc" id="L86">        ValidationResult authorVal = validator.validate(author.getValue(), &quot;not_null&quot;);</span>
+<span class="nc" id="L87">        ValidationResult categoryVal = validator.validate(category.getValue(), &quot;not_null&quot;);</span>
+<span class="nc" id="L88">        ValidationResult availableCopiesVal = validator.validate(availableCopies.getText(), &quot;not_null&quot;);</span>
+<span class="nc" id="L89">        ValidationResult totalCopiesVal = validator.validate(totalCopies.getText(), &quot;not_null&quot;);</span>
+<span class="nc" id="L90">        ValidationResult locationVal = validator.validate(locationfield.getText(), &quot;not_null&quot;);</span>
+
+<span class="nc bnc" id="L92" title="All 12 branches missed.">        if(!nameVal.isSuccess() || !authorVal.isSuccess() || !categoryVal.isSuccess() || !availableCopiesVal.isSuccess() || !totalCopiesVal.isSuccess() || !locationVal.isSuccess() ) {</span>
+<span class="nc" id="L93">            error_name.setText(nameVal.getMessage());</span>
+<span class="nc" id="L94">            error_author.setText(authorVal.getMessage());</span>
+<span class="nc" id="L95">            error_category.setText(categoryVal.getMessage());</span>
+<span class="nc" id="L96">            error_availableCopies.setText(availableCopiesVal.getMessage());</span>
+<span class="nc" id="L97">            error_totalCopies.setText(totalCopiesVal.getMessage());</span>
+<span class="nc" id="L98">            error_location.setText(locationVal.getMessage());</span>
+        }
+        else {
+            // get authorID
+<span class="nc" id="L102">            String author_id = authorDAO.getAuthorID(author.getValue());</span>
+            // get categoryID
+<span class="nc" id="L104">            String category_id = categoryDAO.getCategoryID(category.getValue());</span>
+<span class="nc" id="L105">            Book book = new Book(</span>
+<span class="nc" id="L106">                name.getText(), </span>
+                author_id,
+                category_id,
+<span class="nc" id="L109">                Integer.parseInt(availableCopies.getText()),</span>
+<span class="nc" id="L110">                Integer.parseInt(totalCopies.getText()),</span>
+<span class="nc" id="L111">                locationfield.getText()</span>
+            );
+<span class="nc" id="L113">            boolean success = bookDAO.updateBook(book,bookId);</span>
+<span class="nc bnc" id="L114" title="All 2 branches missed.">            if(success) {</span>
+                // redirect to the correct page
+<span class="nc" id="L116">                notificationToast.showNotification(AlertType.INFORMATION, &quot;Process successful&quot;, &quot;Book updated successfully close window&quot;);</span>
+            }
+            else {
+<span class="nc" id="L119">                notificationToast.showNotification(AlertType.ERROR, &quot;Process Failed&quot;, &quot;There was a problem while creating a new book&quot;);</span>
+            }
+        }
+<span class="nc" id="L122">    }</span>
+
+    @FXML
+    public void initialize() {
+        try {
+            
+
+<span class="nc" id="L129">            LinkedList&lt;Author&gt; authorList = authorDAO.getAuthorsName();</span>
+<span class="nc bnc" id="L130" title="All 2 branches missed.">            for (Author author : authorList) {</span>
+<span class="nc" id="L131">                authors.add(author.getName());</span>
+<span class="nc" id="L132">            }</span>
+<span class="nc" id="L133">            author.setItems(authors);</span>
+
+            // categories
+<span class="nc" id="L136">            LinkedList&lt;Category&gt; categoryList = categoryDAO.getCategoryNames();</span>
+<span class="nc bnc" id="L137" title="All 2 branches missed.">            for (Category category : categoryList) {</span>
+<span class="nc" id="L138">                categories.add(category.getName());</span>
+<span class="nc" id="L139">            }</span>
+<span class="nc" id="L140">            category.setItems(categories);</span>
+
+            
+
+            
+
+<span class="nc" id="L146">        } catch (Exception e) {</span>
+<span class="nc" id="L147">            e.printStackTrace();</span>
+<span class="nc" id="L148">        }</span>
+<span class="nc" id="L149">    }</span>
+
+    
+
+    public void setBookId(String bookId) {
+<span class="nc" id="L154">        this.bookId = bookId;</span>
+
+        // Fetch the book details using the ID
+<span class="nc" id="L157">        Book book = bookDAO.getBookById(bookId); </span>
+
+<span class="nc bnc" id="L159" title="All 2 branches missed.">        if (book != null) {</span>
+<span class="nc" id="L160">            name.setText(book.getName());</span>
+<span class="nc" id="L161">            locationfield.setText(book.getLocation());</span>
+<span class="nc" id="L162">            author.setValue(book.getAuthor_id());</span>
+<span class="nc" id="L163">            category.setValue(book.getCategory_id()); </span>
+<span class="nc" id="L164">            totalCopies.setText(String.valueOf(book.getAvailableCopies()));</span>
+<span class="nc" id="L165">            availableCopies.setText(String.valueOf(book.getAvailableCopies()));</span>
+        } else {
+<span class="nc" id="L167">            System.out.println(&quot;Book not found.&quot;);</span>
+        }
+<span class="nc" id="L169">    }</span>
+
+    
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

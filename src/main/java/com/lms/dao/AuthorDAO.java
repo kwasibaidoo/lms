@@ -61,7 +61,7 @@ public class AuthorDAO {
             else{
                 return "";
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             return "";
         }
     }

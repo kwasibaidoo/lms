@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AuthorController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">lms</a> &gt; <a href="index.source.html" class="el_package">com.lms.controllers</a> &gt; <span class="el_source">AuthorController.java</span></div><h1>AuthorController.java</h1><pre class="source lang-java linenums">package com.lms.controllers;
+
+import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.LinkedList;
+
+import com.lms.App;
+import com.lms.dao.AuthorDAO;
+import com.lms.models.Author;
+import com.lms.utils.AuthUtil;
+import com.lms.utils.NotificationToast;
+import com.lms.utils.Router;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
+
+<span class="nc" id="L27">public class AuthorController implements Router {</span>
+
+<span class="nc" id="L29">    private NotificationToast notificationToast = new NotificationToast();</span>
+<span class="nc" id="L30">    private NavigationController navigationController = new NavigationController();</span>
+<span class="nc" id="L31">    private AuthorDAO authorDAO = new AuthorDAO();</span>
+
+    @FXML
+    private TableView&lt;Author&gt; author_table;
+
+    @FXML
+    private TableColumn&lt;Author, Timestamp&gt; column_date;
+
+    @FXML
+    private TableColumn&lt;Author, String&gt; column_name;
+
+    @FXML
+    private TextField search_author;
+
+<span class="nc" id="L45">    private ObservableList&lt;Author&gt; authorList = FXCollections.observableArrayList();</span>
+<span class="nc" id="L46">    private ObservableList&lt;Author&gt; filteredAuthorList = FXCollections.observableArrayList();</span>
+
+    @FXML
+    public void deleteAuthor() {
+<span class="nc bnc" id="L50" title="All 2 branches missed.">        if(AuthUtil.getInstance().getUserRole().equals(&quot;patron&quot;)){</span>
+<span class="nc" id="L51">            notificationToast.showNotification(AlertType.ERROR,&quot;You're not authorised&quot;, &quot;You do not have permission to access this page&quot;);</span>
+        }
+        else{
+<span class="nc" id="L54">            boolean success = authorDAO.deleteAuthor(author_table.getSelectionModel().getSelectedItem().getId());</span>
+<span class="nc bnc" id="L55" title="All 2 branches missed.">            if(!success) {</span>
+<span class="nc" id="L56">                notificationToast.showNotification(AlertType.ERROR,&quot;Process Failed&quot;, &quot;There was a problem while deleting the author&quot;);</span>
+            }
+            else {
+<span class="nc" id="L59">                notificationToast.showNotification(AlertType.CONFIRMATION,&quot;Author Deleted&quot;, &quot;Author deleted successfully.&quot;);</span>
+<span class="nc" id="L60">                navigationController.navAuthors();</span>
+            }
+        }
+        
+<span class="nc" id="L64">    }</span>
+
+    @FXML
+    public void updateAuthor(){
+<span class="nc bnc" id="L68" title="All 2 branches missed.">        if(AuthUtil.getInstance().getUserRole().equals(&quot;patron&quot;)){</span>
+<span class="nc" id="L69">            notificationToast.showNotification(AlertType.ERROR,&quot;You're not authorised&quot;, &quot;You do not have permission to access this page&quot;);</span>
+        }
+        else{
+            try {
+<span class="nc" id="L73">                Author selectedAuthor = author_table.getSelectionModel().getSelectedItem();</span>
+<span class="nc" id="L74">                String authorId = selectedAuthor.getId();</span>
+                
+<span class="nc" id="L76">                FXMLLoader loader = new FXMLLoader(App.class.getResource(&quot;updateauthor.fxml&quot;));</span>
+<span class="nc" id="L77">                Parent root = loader.load();</span>
+
+                // Get the controller of the new window
+<span class="nc" id="L80">                UpdateAuthorController controller = loader.getController();</span>
+<span class="nc" id="L81">                controller.setAuthorId(authorId); // Pass the book ID to the controller</span>
+
+                // Open the new window
+<span class="nc" id="L84">                Stage stage = new Stage();</span>
+<span class="nc" id="L85">                stage.setTitle(&quot;Update Author Details&quot;);</span>
+<span class="nc" id="L86">                stage.setScene(new Scene(root, 640, 480));</span>
+<span class="nc" id="L87">                stage.showAndWait();</span>
+<span class="nc" id="L88">            } catch (IOException e) {</span>
+<span class="nc" id="L89">                e.printStackTrace();</span>
+<span class="nc" id="L90">            }</span>
+        }
+<span class="nc" id="L92">    }</span>
+
+
+    @FXML
+    public void initialize() {
+        // Set up the columns
+<span class="nc" id="L98">        column_name.setCellValueFactory(new PropertyValueFactory&lt;Author,String&gt;(&quot;name&quot;)); </span>
+<span class="nc" id="L99">        column_date.setCellValueFactory(new PropertyValueFactory&lt;Author,Timestamp&gt;(&quot;createdAt&quot;)); </span>
+
+        // Fetch data from the database
+<span class="nc" id="L102">        LinkedList&lt;Author&gt; categories = authorDAO.getAuthors();</span>
+
+        // Add data to the ObservableList
+<span class="nc" id="L105">        authorList.addAll(categories);</span>
+
+        // Bind the data to the TableView
+<span class="nc" id="L108">        author_table.setItems(authorList);</span>
+<span class="nc" id="L109">        filteredAuthorList.addAll(authorList);</span>
+        // search stuff
+<span class="nc" id="L111">        search_author.textProperty().addListener((observable, oldValue, newValue) -&gt; {</span>
+<span class="nc" id="L112">            search(newValue);  // Trigger the search every time the text changes</span>
+<span class="nc" id="L113">        });</span>
+<span class="nc" id="L114">    }</span>
+
+    public void search(String query) {
+<span class="nc" id="L117">        String lowerCaseSearchText = query.toLowerCase();</span>
+<span class="nc" id="L118">        filteredAuthorList.clear();</span>
+<span class="nc bnc" id="L119" title="All 2 branches missed.">        if(lowerCaseSearchText.isEmpty()){</span>
+<span class="nc" id="L120">            filteredAuthorList.addAll(authorList);</span>
+        }
+        else{
+<span class="nc" id="L123">            LinkedList&lt;Author&gt; searchResults = authorDAO.findAuthor(lowerCaseSearchText);</span>
+<span class="nc" id="L124">            filteredAuthorList.addAll(searchResults);</span>
+        }
+        
+
+        
+<span class="nc" id="L129">        author_table.setItems(filteredAuthorList);</span>
+<span class="nc" id="L130">    }</span>
+
+
+    @Override
+    public void setNavigationController(NavigationController navigationController) {
+<span class="nc" id="L135">        this.navigationController = navigationController;</span>
+<span class="nc" id="L136">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

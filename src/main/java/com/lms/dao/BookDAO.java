@@ -78,7 +78,7 @@ public class BookDAO {
             else{
                 return "";
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
             return "";
         }

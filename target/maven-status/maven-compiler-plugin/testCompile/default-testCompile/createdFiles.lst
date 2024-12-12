@@ -1,0 +1,7 @@
+com\lms\utils\ValidatorTest.class
+com\lms\dao\AppUserDAOTest.class
+com\lms\utils\NotificationToastTest.class
+com\lms\dao\AuthorDAOTest.class
+com\lms\dao\BookDAOTest.class
+com\lms\config\DatabaseConfigTest.class
+com\lms\utils\NotificationToastTest$1.class
