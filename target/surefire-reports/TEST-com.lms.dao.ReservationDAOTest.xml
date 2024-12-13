@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.lms.dao.AppUserDAOTest" time="0.736" tests="8" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.lms.dao.ReservationDAOTest" time="0.049" tests="5" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="21"/>
     <property name="sun.cpu.isalist" value="amd64"/>
@@ -59,35 +59,23 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="65.0"/>
   </properties>
-  <testcase name="testGetUsers" classname="com.lms.dao.AppUserDAOTest" time="0.642">
+  <testcase name="testGetUserReservations" classname="com.lms.dao.ReservationDAOTest" time="0.015">
     <system-err><![CDATA[java.sql.SQLException
 ]]></system-err>
   </testcase>
-  <testcase name="testUpdateUser" classname="com.lms.dao.AppUserDAOTest" time="0.012">
+  <testcase name="testDeleteReservation" classname="com.lms.dao.ReservationDAOTest" time="0.006">
     <system-err><![CDATA[java.sql.SQLException
 ]]></system-err>
   </testcase>
-  <testcase name="testCreateUser" classname="com.lms.dao.AppUserDAOTest" time="0.009">
+  <testcase name="testGetAllReservations" classname="com.lms.dao.ReservationDAOTest" time="0.012">
     <system-err><![CDATA[java.sql.SQLException
 ]]></system-err>
   </testcase>
-  <testcase name="testFindUserById" classname="com.lms.dao.AppUserDAOTest" time="0.013">
+  <testcase name="testCreateReservation" classname="com.lms.dao.ReservationDAOTest" time="0.005">
     <system-err><![CDATA[java.sql.SQLException
 ]]></system-err>
   </testcase>
-  <testcase name="testGetUserRole" classname="com.lms.dao.AppUserDAOTest" time="0.009">
-    <system-err><![CDATA[java.sql.SQLException
-]]></system-err>
-  </testcase>
-  <testcase name="testFindUserByEmail" classname="com.lms.dao.AppUserDAOTest" time="0.016">
-    <system-err><![CDATA[java.sql.SQLException
-]]></system-err>
-  </testcase>
-  <testcase name="testGetUserID" classname="com.lms.dao.AppUserDAOTest" time="0.009">
-    <system-err><![CDATA[java.sql.SQLException
-]]></system-err>
-  </testcase>
-  <testcase name="testUpdateUserPassword" classname="com.lms.dao.AppUserDAOTest" time="0.012">
+  <testcase name="testGetReservationById" classname="com.lms.dao.ReservationDAOTest" time="0.008">
     <system-err><![CDATA[java.sql.SQLException
 ]]></system-err>
   </testcase>

@@ -24,7 +24,7 @@ public class ReservationDAO {
 
             int rowsAffected = preparedStatement.executeUpdate();
             return rowsAffected > 0;
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
             return false;
         }
@@ -53,7 +53,7 @@ public class ReservationDAO {
                 ));
             }
             return queryResult;
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
             return queryResult;
         }
@@ -83,7 +83,7 @@ public class ReservationDAO {
                 ));
             }
             return queryResult;
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
             return queryResult;
         }

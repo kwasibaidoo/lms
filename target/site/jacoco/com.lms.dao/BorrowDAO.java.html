@@ -9,146 +9,146 @@ import java.util.LinkedList;
 import com.lms.config.DatabaseConfig;
 import com.lms.models.Borrowing;
 
-<span class="nc" id="L12">public class BorrowDAO {</span>
-<span class="nc" id="L13">    private DatabaseConfig databaseConfig = new DatabaseConfig();</span>
+<span class="fc" id="L12">public class BorrowDAO {</span>
+<span class="fc" id="L13">    private DatabaseConfig databaseConfig = new DatabaseConfig();</span>
     public boolean createBorrowingRecord(Borrowing borrowing) {
-<span class="nc" id="L15">        String sql = &quot;INSERT INTO borrowings (user_id, book_id, due_date, date_borrowed) VALUES (?,?,?,?)&quot;;</span>
-<span class="nc" id="L16">        try (Connection connection = databaseConfig.getConnection();</span>
-<span class="nc" id="L17">             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {</span>
-<span class="nc" id="L18">            preparedStatement.setString(1, borrowing.getUser_id());</span>
-<span class="nc" id="L19">            preparedStatement.setString(2, borrowing.getBook_id());</span>
-<span class="nc" id="L20">            preparedStatement.setTimestamp(3, borrowing.getDue_date());</span>
-<span class="nc" id="L21">            preparedStatement.setTimestamp(4, borrowing.getDateBorrowed());</span>
+<span class="fc" id="L15">        String sql = &quot;INSERT INTO borrowings (user_id, book_id, due_date, date_borrowed) VALUES (?,?,?,?)&quot;;</span>
+<span class="fc" id="L16">        try (Connection connection = databaseConfig.getConnection();</span>
+<span class="fc" id="L17">             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {</span>
+<span class="fc" id="L18">            preparedStatement.setString(1, borrowing.getUser_id());</span>
+<span class="fc" id="L19">            preparedStatement.setString(2, borrowing.getBook_id());</span>
+<span class="fc" id="L20">            preparedStatement.setTimestamp(3, borrowing.getDue_date());</span>
+<span class="fc" id="L21">            preparedStatement.setTimestamp(4, borrowing.getDateBorrowed());</span>
 
-<span class="nc" id="L23">            int rowsAffected = preparedStatement.executeUpdate();</span>
-<span class="nc bnc" id="L24" title="All 2 branches missed.">            return rowsAffected &gt; 0;</span>
-<span class="nc" id="L25">        } catch (SQLException e) {</span>
-<span class="nc" id="L26">            e.printStackTrace();</span>
-<span class="nc" id="L27">            return false;</span>
+<span class="fc" id="L23">            int rowsAffected = preparedStatement.executeUpdate();</span>
+<span class="pc bpc" id="L24" title="1 of 2 branches missed.">            return rowsAffected &gt; 0;</span>
+<span class="fc" id="L25">        } catch (SQLException e) {</span>
+<span class="fc" id="L26">            e.printStackTrace();</span>
+<span class="fc" id="L27">            return false;</span>
         }
     }
 
 
     public LinkedList&lt;Borrowing&gt; getAllRecords() {
-<span class="nc" id="L33">        String sql = &quot;SELECT borrowings.*,books.name AS book_name,users.name AS user_name FROM borrowings &quot; +</span>
+<span class="fc" id="L33">        String sql = &quot;SELECT borrowings.*,books.name AS book_name,users.name AS user_name FROM borrowings &quot; +</span>
                      &quot;INNER JOIN users ON users.id=borrowings.user_id &quot; +
                      &quot;INNER JOIN books ON books.id=borrowings.book_id &quot; +
                      &quot;WHERE borrowings.deletedAt IS NULL&quot;;
-<span class="nc" id="L37">        LinkedList&lt;Borrowing&gt; queryResult = new LinkedList&lt;Borrowing&gt;();</span>
-<span class="nc" id="L38">        try (Connection connection = databaseConfig.getConnection();</span>
-<span class="nc" id="L39">             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {</span>
-<span class="nc" id="L40">            ResultSet resultSet = preparedStatement.executeQuery();</span>
-<span class="nc bnc" id="L41" title="All 2 branches missed.">            while (resultSet.next()) {</span>
-<span class="nc" id="L42">                queryResult.add(new Borrowing(</span>
-<span class="nc" id="L43">                    resultSet.getString(&quot;id&quot;),</span>
-<span class="nc" id="L44">                    resultSet.getString(&quot;user_name&quot;),</span>
-<span class="nc" id="L45">                    resultSet.getString(&quot;book_name&quot;),</span>
-<span class="nc" id="L46">                    resultSet.getInt(&quot;status&quot;),</span>
-<span class="nc" id="L47">                    resultSet.getTimestamp(&quot;date_borrowed&quot;),</span>
-<span class="nc" id="L48">                    resultSet.getTimestamp(&quot;due_date&quot;),</span>
-<span class="nc" id="L49">                    resultSet.getTimestamp(&quot;deletedAt&quot;),</span>
-<span class="nc" id="L50">                    resultSet.getTimestamp(&quot;createdAt&quot;),</span>
-<span class="nc" id="L51">                    resultSet.getTimestamp(&quot;updatedAt&quot;)</span>
+<span class="fc" id="L37">        LinkedList&lt;Borrowing&gt; queryResult = new LinkedList&lt;Borrowing&gt;();</span>
+<span class="fc" id="L38">        try (Connection connection = databaseConfig.getConnection();</span>
+<span class="fc" id="L39">             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {</span>
+<span class="fc" id="L40">            ResultSet resultSet = preparedStatement.executeQuery();</span>
+<span class="fc bfc" id="L41" title="All 2 branches covered.">            while (resultSet.next()) {</span>
+<span class="fc" id="L42">                queryResult.add(new Borrowing(</span>
+<span class="fc" id="L43">                    resultSet.getString(&quot;id&quot;),</span>
+<span class="fc" id="L44">                    resultSet.getString(&quot;user_name&quot;),</span>
+<span class="fc" id="L45">                    resultSet.getString(&quot;book_name&quot;),</span>
+<span class="fc" id="L46">                    resultSet.getInt(&quot;status&quot;),</span>
+<span class="fc" id="L47">                    resultSet.getTimestamp(&quot;date_borrowed&quot;),</span>
+<span class="fc" id="L48">                    resultSet.getTimestamp(&quot;due_date&quot;),</span>
+<span class="fc" id="L49">                    resultSet.getTimestamp(&quot;deletedAt&quot;),</span>
+<span class="fc" id="L50">                    resultSet.getTimestamp(&quot;createdAt&quot;),</span>
+<span class="fc" id="L51">                    resultSet.getTimestamp(&quot;updatedAt&quot;)</span>
                 ));
             }
 
-<span class="nc" id="L55">            return queryResult;</span>
-<span class="nc" id="L56">        } catch (SQLException e) {</span>
-<span class="nc" id="L57">            e.printStackTrace();</span>
-<span class="nc" id="L58">            return queryResult;</span>
+<span class="fc" id="L55">            return queryResult;</span>
+<span class="fc" id="L56">        } catch (SQLException e) {</span>
+<span class="fc" id="L57">            e.printStackTrace();</span>
+<span class="fc" id="L58">            return queryResult;</span>
         }
     }
 
     public LinkedList&lt;Borrowing&gt; getUserRecords(String id) {
-<span class="nc" id="L63">        String sql = &quot;SELECT borrowings.*,books.name AS book_name,users.name AS user_name FROM borrowings &quot; +</span>
+<span class="fc" id="L63">        String sql = &quot;SELECT borrowings.*,books.name AS book_name,users.name AS user_name FROM borrowings &quot; +</span>
                      &quot;INNER JOIN users ON users.id=borrowings.user_id &quot; +
                      &quot;INNER JOIN books ON books.id=borrowings.book_id &quot; +
                      &quot;WHERE borrowings.deletedAt IS NULL AND borrowings.user_id = ?&quot;;
-<span class="nc" id="L67">        LinkedList&lt;Borrowing&gt; queryResult = new LinkedList&lt;Borrowing&gt;();</span>
-<span class="nc" id="L68">        try (Connection connection = databaseConfig.getConnection();</span>
-<span class="nc" id="L69">             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {</span>
-<span class="nc" id="L70">            preparedStatement.setString(1, id);</span>
-<span class="nc" id="L71">            ResultSet resultSet = preparedStatement.executeQuery();</span>
-<span class="nc bnc" id="L72" title="All 2 branches missed.">            while (resultSet.next()) {</span>
-<span class="nc" id="L73">                queryResult.add(new Borrowing(</span>
-<span class="nc" id="L74">                    resultSet.getString(&quot;id&quot;),</span>
-<span class="nc" id="L75">                    resultSet.getString(&quot;user_name&quot;),</span>
-<span class="nc" id="L76">                    resultSet.getString(&quot;book_name&quot;),</span>
-<span class="nc" id="L77">                    resultSet.getInt(&quot;status&quot;),</span>
-<span class="nc" id="L78">                    resultSet.getTimestamp(&quot;date_borrowed&quot;),</span>
-<span class="nc" id="L79">                    resultSet.getTimestamp(&quot;due_date&quot;),</span>
-<span class="nc" id="L80">                    resultSet.getTimestamp(&quot;deletedAt&quot;),</span>
-<span class="nc" id="L81">                    resultSet.getTimestamp(&quot;createdAt&quot;),</span>
-<span class="nc" id="L82">                    resultSet.getTimestamp(&quot;updatedAt&quot;)</span>
+<span class="fc" id="L67">        LinkedList&lt;Borrowing&gt; queryResult = new LinkedList&lt;Borrowing&gt;();</span>
+<span class="fc" id="L68">        try (Connection connection = databaseConfig.getConnection();</span>
+<span class="fc" id="L69">             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {</span>
+<span class="fc" id="L70">            preparedStatement.setString(1, id);</span>
+<span class="fc" id="L71">            ResultSet resultSet = preparedStatement.executeQuery();</span>
+<span class="fc bfc" id="L72" title="All 2 branches covered.">            while (resultSet.next()) {</span>
+<span class="fc" id="L73">                queryResult.add(new Borrowing(</span>
+<span class="fc" id="L74">                    resultSet.getString(&quot;id&quot;),</span>
+<span class="fc" id="L75">                    resultSet.getString(&quot;user_name&quot;),</span>
+<span class="fc" id="L76">                    resultSet.getString(&quot;book_name&quot;),</span>
+<span class="fc" id="L77">                    resultSet.getInt(&quot;status&quot;),</span>
+<span class="fc" id="L78">                    resultSet.getTimestamp(&quot;date_borrowed&quot;),</span>
+<span class="fc" id="L79">                    resultSet.getTimestamp(&quot;due_date&quot;),</span>
+<span class="fc" id="L80">                    resultSet.getTimestamp(&quot;deletedAt&quot;),</span>
+<span class="fc" id="L81">                    resultSet.getTimestamp(&quot;createdAt&quot;),</span>
+<span class="fc" id="L82">                    resultSet.getTimestamp(&quot;updatedAt&quot;)</span>
                 ));
             }
 
-<span class="nc" id="L86">            return queryResult;</span>
-<span class="nc" id="L87">        } catch (SQLException e) {</span>
-<span class="nc" id="L88">            e.printStackTrace();</span>
-<span class="nc" id="L89">            return queryResult;</span>
+<span class="fc" id="L86">            return queryResult;</span>
+<span class="fc" id="L87">        } catch (SQLException e) {</span>
+<span class="fc" id="L88">            e.printStackTrace();</span>
+<span class="fc" id="L89">            return queryResult;</span>
         }
     }
 
 
     public Borrowing getRecordByID(String id) {
-<span class="nc" id="L95">        String sql = &quot;SELECT borrowings.*,books.name AS book_name,users.name AS user_name FROM borrowings &quot; +</span>
+<span class="fc" id="L95">        String sql = &quot;SELECT borrowings.*,books.name AS book_name,users.name AS user_name FROM borrowings &quot; +</span>
                      &quot;INNER JOIN users ON users.id=borrowings.user_id &quot; +
                      &quot;INNER JOIN books ON books.id=borrowings.book_id &quot; +
                      &quot;WHERE borrowings.deletedAt IS NULL AND borrowings.id = ?&quot;;
         // LinkedList&lt;Borrowing&gt; queryResult = new LinkedList&lt;Borrowing&gt;();
-<span class="nc" id="L100">        try (Connection connection = databaseConfig.getConnection();</span>
-<span class="nc" id="L101">             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {</span>
-<span class="nc" id="L102">            preparedStatement.setString(1, id);</span>
-<span class="nc" id="L103">            ResultSet resultSet = preparedStatement.executeQuery();</span>
-<span class="nc bnc" id="L104" title="All 2 branches missed.">            if (resultSet.next()) {</span>
-<span class="nc" id="L105">                return new Borrowing(</span>
-<span class="nc" id="L106">                    resultSet.getString(&quot;id&quot;),</span>
-<span class="nc" id="L107">                    resultSet.getString(&quot;user_name&quot;),</span>
-<span class="nc" id="L108">                    resultSet.getString(&quot;book_name&quot;),</span>
-<span class="nc" id="L109">                    resultSet.getInt(&quot;status&quot;),</span>
-<span class="nc" id="L110">                    resultSet.getTimestamp(&quot;date_borrowed&quot;),</span>
-<span class="nc" id="L111">                    resultSet.getTimestamp(&quot;due_date&quot;),</span>
-<span class="nc" id="L112">                    resultSet.getTimestamp(&quot;deletedAt&quot;),</span>
-<span class="nc" id="L113">                    resultSet.getTimestamp(&quot;createdAt&quot;),</span>
-<span class="nc" id="L114">                    resultSet.getTimestamp(&quot;updatedAt&quot;)</span>
+<span class="fc" id="L100">        try (Connection connection = databaseConfig.getConnection();</span>
+<span class="fc" id="L101">             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {</span>
+<span class="fc" id="L102">            preparedStatement.setString(1, id);</span>
+<span class="fc" id="L103">            ResultSet resultSet = preparedStatement.executeQuery();</span>
+<span class="fc bfc" id="L104" title="All 2 branches covered.">            if (resultSet.next()) {</span>
+<span class="fc" id="L105">                return new Borrowing(</span>
+<span class="fc" id="L106">                    resultSet.getString(&quot;id&quot;),</span>
+<span class="fc" id="L107">                    resultSet.getString(&quot;user_name&quot;),</span>
+<span class="fc" id="L108">                    resultSet.getString(&quot;book_name&quot;),</span>
+<span class="fc" id="L109">                    resultSet.getInt(&quot;status&quot;),</span>
+<span class="fc" id="L110">                    resultSet.getTimestamp(&quot;date_borrowed&quot;),</span>
+<span class="fc" id="L111">                    resultSet.getTimestamp(&quot;due_date&quot;),</span>
+<span class="fc" id="L112">                    resultSet.getTimestamp(&quot;deletedAt&quot;),</span>
+<span class="fc" id="L113">                    resultSet.getTimestamp(&quot;createdAt&quot;),</span>
+<span class="fc" id="L114">                    resultSet.getTimestamp(&quot;updatedAt&quot;)</span>
                 );
             }
 
-<span class="nc" id="L118">            return new Borrowing();</span>
+<span class="fc" id="L118">            return new Borrowing();</span>
             // return queryResult;
-<span class="nc bnc" id="L120" title="All 4 branches missed.">        } catch (SQLException e) {</span>
-<span class="nc" id="L121">            e.printStackTrace();</span>
-<span class="nc" id="L122">            return new Borrowing();</span>
+<span class="pc bpc" id="L120" title="2 of 4 branches missed.">        } catch (SQLException e) {</span>
+<span class="fc" id="L121">            e.printStackTrace();</span>
+<span class="fc" id="L122">            return new Borrowing();</span>
         }
     }
 
     public boolean deleteBorrowing(String id) {
-<span class="nc" id="L127">        String sql = &quot;UPDATE borrowings SET deletedAt = CURRENT_TIMESTAMP WHERE id=?&quot;;</span>
-<span class="nc" id="L128">        try (Connection connection = databaseConfig.getConnection();</span>
-<span class="nc" id="L129">             PreparedStatement statement = connection.prepareStatement(sql)) {</span>
+<span class="fc" id="L127">        String sql = &quot;UPDATE borrowings SET deletedAt = CURRENT_TIMESTAMP WHERE id=?&quot;;</span>
+<span class="fc" id="L128">        try (Connection connection = databaseConfig.getConnection();</span>
+<span class="fc" id="L129">             PreparedStatement statement = connection.prepareStatement(sql)) {</span>
 
-<span class="nc" id="L131">            statement.setString(1, id);</span>
-<span class="nc" id="L132">            int rowsUpdated = statement.executeUpdate();</span>
-<span class="nc bnc" id="L133" title="All 2 branches missed.">            return rowsUpdated &gt; 0;</span>
-<span class="nc" id="L134">        } catch (SQLException e) {</span>
-<span class="nc" id="L135">            e.printStackTrace();</span>
-<span class="nc" id="L136">            return false;</span>
+<span class="fc" id="L131">            statement.setString(1, id);</span>
+<span class="fc" id="L132">            int rowsUpdated = statement.executeUpdate();</span>
+<span class="pc bpc" id="L133" title="1 of 2 branches missed.">            return rowsUpdated &gt; 0;</span>
+<span class="fc" id="L134">        } catch (SQLException e) {</span>
+<span class="fc" id="L135">            e.printStackTrace();</span>
+<span class="fc" id="L136">            return false;</span>
         }
     }
 
     public boolean updateBorrowRecord(Borrowing borrow,String id) {
-<span class="nc" id="L141">        String sql = &quot;UPDATE borrowings SET status = ? WHERE id=?&quot;;</span>
-<span class="nc" id="L142">        try (Connection connection = databaseConfig.getConnection();</span>
-<span class="nc" id="L143">             PreparedStatement statement = connection.prepareStatement(sql)) {</span>
-<span class="nc" id="L144">             statement.setInt(1, borrow.getStatus());</span>
+<span class="fc" id="L141">        String sql = &quot;UPDATE borrowings SET status = ? WHERE id=?&quot;;</span>
+<span class="fc" id="L142">        try (Connection connection = databaseConfig.getConnection();</span>
+<span class="fc" id="L143">             PreparedStatement statement = connection.prepareStatement(sql)) {</span>
+<span class="fc" id="L144">             statement.setInt(1, borrow.getStatus());</span>
 
-<span class="nc" id="L146">            statement.setString(2, id);</span>
-<span class="nc" id="L147">            int rowsUpdated = statement.executeUpdate();</span>
-<span class="nc bnc" id="L148" title="All 2 branches missed.">            return rowsUpdated &gt; 0;</span>
-<span class="nc" id="L149">        } catch (SQLException e) {</span>
-<span class="nc" id="L150">            e.printStackTrace();</span>
-<span class="nc" id="L151">            return false;</span>
+<span class="fc" id="L146">            statement.setString(2, id);</span>
+<span class="fc" id="L147">            int rowsUpdated = statement.executeUpdate();</span>
+<span class="pc bpc" id="L148" title="1 of 2 branches missed.">            return rowsUpdated &gt; 0;</span>
+<span class="fc" id="L149">        } catch (SQLException e) {</span>
+<span class="fc" id="L150">            e.printStackTrace();</span>
+<span class="fc" id="L151">            return false;</span>
         }
     }
 }

@@ -58,7 +58,7 @@ public class CategoryDAO {
             }
 
             return result;
-        } catch (Exception e) {
+        } catch (SQLException e) {
             return result;
         }
     }
@@ -125,7 +125,7 @@ public class CategoryDAO {
             }
 
             return new Category();
-        } catch (Exception e) {
+        } catch (SQLException e) {
             return new Category();
         }
     }

@@ -3,6 +3,7 @@ package com.lms.utils;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -31,7 +32,6 @@ public class Validator {
             }
             // eg.
             else if(rule.startsWith("unique")){
-                System.out.println("HJEREEEEEE KOJSDFDSG SFGIOHSFKGHKSFGH \n \n \n");
                 String column = rule.substring(rule.indexOf(",") + 1);
                 String table = rule.substring(7,rule.indexOf(","));
                 String sql = String.format("SELECT COUNT(*) from %s WHERE %s=?", table, column);
@@ -45,8 +45,9 @@ public class Validator {
                         }
                     }
                     
-                } catch (Exception e) {
-
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    return new ValidationResult("Internal server error: Database", false);
                 }
             }
             else {
