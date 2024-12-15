@@ -99,12 +99,25 @@ public class ValidatorTest {
 
     @ParameterizedTest
     @CsvSource({
-        "'not_null', '', false",
-        "'not_null', '2024-10-10', true",
-        ""
+        "'not_null', '', false",           // Empty value, required field validation fails
+        "'not_null', '2024-10-10', true", // Non-empty value, passes not_null check
+        "'valid_date', '2024-10-10', true", // Valid date format, should pass
+        "'valid_date', 'invalid-date', false", // Invalid date format
+        "'before_today', '2025-01-01', false", // Date is not before today
+        "'before_today', '2023-12-01', true",  // Date is before today
+        "'after_today', '2023-12-01', false",  // Date is not after today
+        "'after_today', '2025-01-01', true"    // Date is after today
     })
-    void testValidateDate() {
-        ValidationResult validationResult = validator.validateDate("2024-12-20", "after_today");
-        assertTrue(validationResult.isSuccess());
+    void testValidateDate(String validationType, String value, boolean expectedValidity) {
+        // Pass the parameters dynamically to the validateDate method
+        ValidationResult validationResult = validator.validateDate(value, validationType);
+
+        if (expectedValidity) {
+            assertTrue(validationResult.isSuccess(), 
+                "Expected validation to pass but it failed for value: " + value + ", rule: " + validationType);
+        } else {
+            assertFalse(validationResult.isSuccess(),
+                "Expected validation to fail but it passed for value: " + value + ", rule: " + validationType);
+        }
     }
 }
