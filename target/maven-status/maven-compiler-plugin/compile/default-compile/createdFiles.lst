@@ -11,7 +11,6 @@ com\lms\controllers\ViewBorrowingController.class
 com\lms\utils\DatabaseInitializer.class
 com\lms\utils\Router.class
 com\lms\dao\AuthorDAO.class
-com\lms\PrimaryController.class
 com\lms\models\Borrowing.class
 com\lms\controllers\AddCategoryController.class
 com\lms\controllers\NavigationController.class
@@ -22,7 +21,6 @@ com\lms\controllers\AddReservationController.class
 com\lms\models\Book.class
 com\lms\config\DatabaseConfig.class
 com\lms\models\Reservation.class
-com\lms\SecondaryController.class
 com\lms\controllers\ReservationsController.class
 com\lms\controllers\SignUpController.class
 com\lms\dao\ReservationDAO.class

@@ -1,95 +1,93 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.lms.dao.BookDAOTest" time="1.37" tests="8" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.lms.dao.BookDAOTest" time="0.12" tests="8" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="21"/>
     <property name="sun.cpu.isalist" value="amd64"/>
     <property name="sun.jnu.encoding" value="Cp1252"/>
-    <property name="java.class.path" value="C:\Users\Mr. Baidoo\Documents\GitHub\lms\target\test-classes;C:\Users\Mr. Baidoo\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.11.3\junit-jupiter-params-5.11.3.jar;C:\Users\Mr. Baidoo\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\Mr. Baidoo\.m2\repository\org\mockito\mockito-junit-jupiter\5.14.2\mockito-junit-jupiter-5.14.2.jar;C:\Users\Mr. Baidoo\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.11.3\junit-jupiter-api-5.11.3.jar;C:\Users\Mr. Baidoo\.m2\repository\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar;C:\Users\Mr. Baidoo\.m2\repository\org\junit\platform\junit-platform-commons\1.11.3\junit-platform-commons-1.11.3.jar;C:\Users\Mr. Baidoo\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.11.3\junit-jupiter-engine-5.11.3.jar;C:\Users\Mr. Baidoo\.m2\repository\org\junit\platform\junit-platform-engine\1.11.3\junit-platform-engine-1.11.3.jar;C:\Users\Mr. Baidoo\.m2\repository\org\mockito\mockito-core\5.14.2\mockito-core-5.14.2.jar;C:\Users\Mr. Baidoo\.m2\repository\net\bytebuddy\byte-buddy\1.15.4\byte-buddy-1.15.4.jar;C:\Users\Mr. Baidoo\.m2\repository\net\bytebuddy\byte-buddy-agent\1.15.4\byte-buddy-agent-1.15.4.jar;C:\Users\Mr. Baidoo\.m2\repository\org\objenesis\objenesis\3.3\objenesis-3.3.jar;C:\Users\Mr. Baidoo\.m2\repository\com\mysql\mysql-connector-j\9.1.0\mysql-connector-j-9.1.0.jar;C:\Users\Mr. Baidoo\.m2\repository\com\google\protobuf\protobuf-java\4.26.1\protobuf-java-4.26.1.jar;C:\Users\Mr. Baidoo\.m2\repository\org\openjfx\javafx-controls\13\javafx-controls-13.jar;C:\Users\Mr. Baidoo\.m2\repository\org\openjfx\javafx-graphics\13\javafx-graphics-13.jar;C:\Users\Mr. Baidoo\.m2\repository\org\openjfx\javafx-base\13\javafx-base-13.jar;C:\Users\Mr. Baidoo\.m2\repository\org\openjfx\javafx-fxml\13\javafx-fxml-13.jar;"/>
-    <property name="java.vm.vendor" value="Microsoft"/>
+    <property name="java.class.path" value="C:\Users\KwasiSakyiBaidoo\Desktop\test\lms\target\test-classes;C:\Users\KwasiSakyiBaidoo\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.11.3\junit-jupiter-params-5.11.3.jar;C:\Users\KwasiSakyiBaidoo\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\KwasiSakyiBaidoo\.m2\repository\org\mockito\mockito-junit-jupiter\5.14.2\mockito-junit-jupiter-5.14.2.jar;C:\Users\KwasiSakyiBaidoo\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.11.3\junit-jupiter-api-5.11.3.jar;C:\Users\KwasiSakyiBaidoo\.m2\repository\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar;C:\Users\KwasiSakyiBaidoo\.m2\repository\org\junit\platform\junit-platform-commons\1.11.3\junit-platform-commons-1.11.3.jar;C:\Users\KwasiSakyiBaidoo\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.11.3\junit-jupiter-engine-5.11.3.jar;C:\Users\KwasiSakyiBaidoo\.m2\repository\org\junit\platform\junit-platform-engine\1.11.3\junit-platform-engine-1.11.3.jar;C:\Users\KwasiSakyiBaidoo\.m2\repository\org\mockito\mockito-core\5.14.2\mockito-core-5.14.2.jar;C:\Users\KwasiSakyiBaidoo\.m2\repository\net\bytebuddy\byte-buddy\1.15.4\byte-buddy-1.15.4.jar;C:\Users\KwasiSakyiBaidoo\.m2\repository\net\bytebuddy\byte-buddy-agent\1.15.4\byte-buddy-agent-1.15.4.jar;C:\Users\KwasiSakyiBaidoo\.m2\repository\org\objenesis\objenesis\3.3\objenesis-3.3.jar;C:\Users\KwasiSakyiBaidoo\.m2\repository\com\mysql\mysql-connector-j\9.1.0\mysql-connector-j-9.1.0.jar;C:\Users\KwasiSakyiBaidoo\.m2\repository\com\google\protobuf\protobuf-java\4.26.1\protobuf-java-4.26.1.jar;C:\Users\KwasiSakyiBaidoo\.m2\repository\org\openjfx\javafx-controls\13\javafx-controls-13.jar;C:\Users\KwasiSakyiBaidoo\.m2\repository\org\openjfx\javafx-graphics\13\javafx-graphics-13.jar;C:\Users\KwasiSakyiBaidoo\.m2\repository\org\openjfx\javafx-base\13\javafx-base-13.jar;C:\Users\KwasiSakyiBaidoo\.m2\repository\org\openjfx\javafx-fxml\13\javafx-fxml-13.jar;"/>
+    <property name="java.vm.vendor" value="Oracle Corporation"/>
     <property name="sun.arch.data.model" value="64"/>
     <property name="user.variant" value=""/>
-    <property name="java.vendor.url" value="https://www.microsoft.com"/>
+    <property name="java.vendor.url" value="https://java.oracle.com/"/>
     <property name="user.timezone" value="Etc/UTC"/>
-    <property name="user.country.format" value="GH"/>
-    <property name="os.name" value="Windows 11"/>
+    <property name="os.name" value="Windows 10"/>
     <property name="java.vm.specification.version" value="21"/>
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="US"/>
-    <property name="sun.boot.library.path" value="C:\Program Files\Microsoft\jdk-21.0.4.7-hotspot\bin"/>
-    <property name="sun.java.command" value="org.apache.maven.surefire.booter.ForkedBooter C:\Users\Mr. Baidoo\AppData\Local\Temp\surefire8967667469688437067 2024-12-15T19-38-57_673-jvmRun1 surefire-20241215193902304_1tmp surefire_0-20241215193902304_2tmp"/>
+    <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-21\bin"/>
+    <property name="sun.java.command" value="org.apache.maven.surefire.booter.ForkedBooter C:\Users\KwasiSakyiBaidoo\AppData\Local\Temp\surefire8804611123601484487 2024-12-16T10-38-05_382-jvmRun1 surefire-20241216103805917_1tmp surefire_0-20241216103805917_2tmp"/>
     <property name="jdk.debug" value="release"/>
-    <property name="surefire.test.class.path" value="C:\Users\Mr. Baidoo\Documents\GitHub\lms\target\test-classes;C:\Users\Mr. Baidoo\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.11.3\junit-jupiter-params-5.11.3.jar;C:\Users\Mr. Baidoo\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\Mr. Baidoo\.m2\repository\org\mockito\mockito-junit-jupiter\5.14.2\mockito-junit-jupiter-5.14.2.jar;C:\Users\Mr. Baidoo\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.11.3\junit-jupiter-api-5.11.3.jar;C:\Users\Mr. Baidoo\.m2\repository\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar;C:\Users\Mr. Baidoo\.m2\repository\org\junit\platform\junit-platform-commons\1.11.3\junit-platform-commons-1.11.3.jar;C:\Users\Mr. Baidoo\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.11.3\junit-jupiter-engine-5.11.3.jar;C:\Users\Mr. Baidoo\.m2\repository\org\junit\platform\junit-platform-engine\1.11.3\junit-platform-engine-1.11.3.jar;C:\Users\Mr. Baidoo\.m2\repository\org\mockito\mockito-core\5.14.2\mockito-core-5.14.2.jar;C:\Users\Mr. Baidoo\.m2\repository\net\bytebuddy\byte-buddy\1.15.4\byte-buddy-1.15.4.jar;C:\Users\Mr. Baidoo\.m2\repository\net\bytebuddy\byte-buddy-agent\1.15.4\byte-buddy-agent-1.15.4.jar;C:\Users\Mr. Baidoo\.m2\repository\org\objenesis\objenesis\3.3\objenesis-3.3.jar;C:\Users\Mr. Baidoo\.m2\repository\com\mysql\mysql-connector-j\9.1.0\mysql-connector-j-9.1.0.jar;C:\Users\Mr. Baidoo\.m2\repository\com\google\protobuf\protobuf-java\4.26.1\protobuf-java-4.26.1.jar;C:\Users\Mr. Baidoo\.m2\repository\org\openjfx\javafx-controls\13\javafx-controls-13.jar;C:\Users\Mr. Baidoo\.m2\repository\org\openjfx\javafx-graphics\13\javafx-graphics-13.jar;C:\Users\Mr. Baidoo\.m2\repository\org\openjfx\javafx-base\13\javafx-base-13.jar;C:\Users\Mr. Baidoo\.m2\repository\org\openjfx\javafx-fxml\13\javafx-fxml-13.jar;"/>
+    <property name="surefire.test.class.path" value="C:\Users\KwasiSakyiBaidoo\Desktop\test\lms\target\test-classes;C:\Users\KwasiSakyiBaidoo\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.11.3\junit-jupiter-params-5.11.3.jar;C:\Users\KwasiSakyiBaidoo\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\KwasiSakyiBaidoo\.m2\repository\org\mockito\mockito-junit-jupiter\5.14.2\mockito-junit-jupiter-5.14.2.jar;C:\Users\KwasiSakyiBaidoo\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.11.3\junit-jupiter-api-5.11.3.jar;C:\Users\KwasiSakyiBaidoo\.m2\repository\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar;C:\Users\KwasiSakyiBaidoo\.m2\repository\org\junit\platform\junit-platform-commons\1.11.3\junit-platform-commons-1.11.3.jar;C:\Users\KwasiSakyiBaidoo\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.11.3\junit-jupiter-engine-5.11.3.jar;C:\Users\KwasiSakyiBaidoo\.m2\repository\org\junit\platform\junit-platform-engine\1.11.3\junit-platform-engine-1.11.3.jar;C:\Users\KwasiSakyiBaidoo\.m2\repository\org\mockito\mockito-core\5.14.2\mockito-core-5.14.2.jar;C:\Users\KwasiSakyiBaidoo\.m2\repository\net\bytebuddy\byte-buddy\1.15.4\byte-buddy-1.15.4.jar;C:\Users\KwasiSakyiBaidoo\.m2\repository\net\bytebuddy\byte-buddy-agent\1.15.4\byte-buddy-agent-1.15.4.jar;C:\Users\KwasiSakyiBaidoo\.m2\repository\org\objenesis\objenesis\3.3\objenesis-3.3.jar;C:\Users\KwasiSakyiBaidoo\.m2\repository\com\mysql\mysql-connector-j\9.1.0\mysql-connector-j-9.1.0.jar;C:\Users\KwasiSakyiBaidoo\.m2\repository\com\google\protobuf\protobuf-java\4.26.1\protobuf-java-4.26.1.jar;C:\Users\KwasiSakyiBaidoo\.m2\repository\org\openjfx\javafx-controls\13\javafx-controls-13.jar;C:\Users\KwasiSakyiBaidoo\.m2\repository\org\openjfx\javafx-graphics\13\javafx-graphics-13.jar;C:\Users\KwasiSakyiBaidoo\.m2\repository\org\openjfx\javafx-base\13\javafx-base-13.jar;C:\Users\KwasiSakyiBaidoo\.m2\repository\org\openjfx\javafx-fxml\13\javafx-fxml-13.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
-    <property name="user.home" value="C:\Users\Mr. Baidoo"/>
+    <property name="user.home" value="C:\Users\KwasiSakyiBaidoo"/>
     <property name="user.language" value="en"/>
     <property name="java.specification.vendor" value="Oracle Corporation"/>
-    <property name="jdk.module.path" value="C:\Users\Mr. Baidoo\Documents\GitHub\lms\target\classes;C:\Users\Mr. Baidoo\.m2\repository\org\projectlombok\lombok\1.18.34\lombok-1.18.34.jar;C:\Users\Mr. Baidoo\.m2\repository\org\openjfx\javafx-controls\13\javafx-controls-13-win.jar;C:\Users\Mr. Baidoo\.m2\repository\org\openjfx\javafx-graphics\13\javafx-graphics-13-win.jar;C:\Users\Mr. Baidoo\.m2\repository\org\openjfx\javafx-base\13\javafx-base-13-win.jar;C:\Users\Mr. Baidoo\.m2\repository\org\openjfx\javafx-fxml\13\javafx-fxml-13-win.jar"/>
-    <property name="java.version.date" value="2024-07-16"/>
-    <property name="java.home" value="C:\Program Files\Microsoft\jdk-21.0.4.7-hotspot"/>
+    <property name="jdk.module.path" value="C:\Users\KwasiSakyiBaidoo\Desktop\test\lms\target\classes;C:\Users\KwasiSakyiBaidoo\.m2\repository\org\projectlombok\lombok\1.18.34\lombok-1.18.34.jar;C:\Users\KwasiSakyiBaidoo\.m2\repository\org\openjfx\javafx-controls\13\javafx-controls-13-win.jar;C:\Users\KwasiSakyiBaidoo\.m2\repository\org\openjfx\javafx-graphics\13\javafx-graphics-13-win.jar;C:\Users\KwasiSakyiBaidoo\.m2\repository\org\openjfx\javafx-base\13\javafx-base-13-win.jar;C:\Users\KwasiSakyiBaidoo\.m2\repository\org\openjfx\javafx-fxml\13\javafx-fxml-13-win.jar"/>
+    <property name="java.version.date" value="2024-10-15"/>
+    <property name="java.home" value="C:\Program Files\Java\jdk-21"/>
     <property name="file.separator" value="\"/>
-    <property name="basedir" value="C:\Users\Mr. Baidoo\Documents\GitHub\lms"/>
+    <property name="basedir" value="C:\Users\KwasiSakyiBaidoo\Desktop\test\lms"/>
     <property name="java.vm.compressedOopsMode" value="Zero based"/>
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
-    <property name="surefire.real.class.path" value="C:\Users\Mr. Baidoo\.m2\repository\org\apache\maven\surefire\surefire-booter\3.2.5\surefire-booter-3.2.5.jar;C:\Users\Mr. Baidoo\.m2\repository\org\apache\maven\surefire\surefire-api\3.2.5\surefire-api-3.2.5.jar;C:\Users\Mr. Baidoo\.m2\repository\org\apache\maven\surefire\surefire-logger-api\3.2.5\surefire-logger-api-3.2.5.jar;C:\Users\Mr. Baidoo\.m2\repository\org\apache\maven\surefire\surefire-shared-utils\3.2.5\surefire-shared-utils-3.2.5.jar;C:\Users\Mr. Baidoo\.m2\repository\org\apache\maven\surefire\surefire-extensions-spi\3.2.5\surefire-extensions-spi-3.2.5.jar;C:\Users\Mr. Baidoo\Documents\GitHub\lms\target\test-classes;C:\Users\Mr. Baidoo\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.11.3\junit-jupiter-params-5.11.3.jar;C:\Users\Mr. Baidoo\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\Mr. Baidoo\.m2\repository\org\mockito\mockito-junit-jupiter\5.14.2\mockito-junit-jupiter-5.14.2.jar;C:\Users\Mr. Baidoo\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.11.3\junit-jupiter-api-5.11.3.jar;C:\Users\Mr. Baidoo\.m2\repository\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar;C:\Users\Mr. Baidoo\.m2\repository\org\junit\platform\junit-platform-commons\1.11.3\junit-platform-commons-1.11.3.jar;C:\Users\Mr. Baidoo\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.11.3\junit-jupiter-engine-5.11.3.jar;C:\Users\Mr. Baidoo\.m2\repository\org\junit\platform\junit-platform-engine\1.11.3\junit-platform-engine-1.11.3.jar;C:\Users\Mr. Baidoo\.m2\repository\org\mockito\mockito-core\5.14.2\mockito-core-5.14.2.jar;C:\Users\Mr. Baidoo\.m2\repository\net\bytebuddy\byte-buddy\1.15.4\byte-buddy-1.15.4.jar;C:\Users\Mr. Baidoo\.m2\repository\net\bytebuddy\byte-buddy-agent\1.15.4\byte-buddy-agent-1.15.4.jar;C:\Users\Mr. Baidoo\.m2\repository\org\objenesis\objenesis\3.3\objenesis-3.3.jar;C:\Users\Mr. Baidoo\.m2\repository\com\mysql\mysql-connector-j\9.1.0\mysql-connector-j-9.1.0.jar;C:\Users\Mr. Baidoo\.m2\repository\com\google\protobuf\protobuf-java\4.26.1\protobuf-java-4.26.1.jar;C:\Users\Mr. Baidoo\.m2\repository\org\openjfx\javafx-controls\13\javafx-controls-13.jar;C:\Users\Mr. Baidoo\.m2\repository\org\openjfx\javafx-graphics\13\javafx-graphics-13.jar;C:\Users\Mr. Baidoo\.m2\repository\org\openjfx\javafx-base\13\javafx-base-13.jar;C:\Users\Mr. Baidoo\.m2\repository\org\openjfx\javafx-fxml\13\javafx-fxml-13.jar;C:\Users\Mr. Baidoo\.m2\repository\org\apache\maven\surefire\surefire-junit-platform\3.2.5\surefire-junit-platform-3.2.5.jar;C:\Users\Mr. Baidoo\.m2\repository\org\apache\maven\surefire\common-java5\3.2.5\common-java5-3.2.5.jar;C:\Users\Mr. Baidoo\.m2\repository\org\junit\platform\junit-platform-launcher\1.11.3\junit-platform-launcher-1.11.3.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\KwasiSakyiBaidoo\.m2\repository\org\apache\maven\surefire\surefire-booter\3.2.5\surefire-booter-3.2.5.jar;C:\Users\KwasiSakyiBaidoo\.m2\repository\org\apache\maven\surefire\surefire-api\3.2.5\surefire-api-3.2.5.jar;C:\Users\KwasiSakyiBaidoo\.m2\repository\org\apache\maven\surefire\surefire-logger-api\3.2.5\surefire-logger-api-3.2.5.jar;C:\Users\KwasiSakyiBaidoo\.m2\repository\org\apache\maven\surefire\surefire-shared-utils\3.2.5\surefire-shared-utils-3.2.5.jar;C:\Users\KwasiSakyiBaidoo\.m2\repository\org\apache\maven\surefire\surefire-extensions-spi\3.2.5\surefire-extensions-spi-3.2.5.jar;C:\Users\KwasiSakyiBaidoo\Desktop\test\lms\target\test-classes;C:\Users\KwasiSakyiBaidoo\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.11.3\junit-jupiter-params-5.11.3.jar;C:\Users\KwasiSakyiBaidoo\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\KwasiSakyiBaidoo\.m2\repository\org\mockito\mockito-junit-jupiter\5.14.2\mockito-junit-jupiter-5.14.2.jar;C:\Users\KwasiSakyiBaidoo\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.11.3\junit-jupiter-api-5.11.3.jar;C:\Users\KwasiSakyiBaidoo\.m2\repository\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar;C:\Users\KwasiSakyiBaidoo\.m2\repository\org\junit\platform\junit-platform-commons\1.11.3\junit-platform-commons-1.11.3.jar;C:\Users\KwasiSakyiBaidoo\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.11.3\junit-jupiter-engine-5.11.3.jar;C:\Users\KwasiSakyiBaidoo\.m2\repository\org\junit\platform\junit-platform-engine\1.11.3\junit-platform-engine-1.11.3.jar;C:\Users\KwasiSakyiBaidoo\.m2\repository\org\mockito\mockito-core\5.14.2\mockito-core-5.14.2.jar;C:\Users\KwasiSakyiBaidoo\.m2\repository\net\bytebuddy\byte-buddy\1.15.4\byte-buddy-1.15.4.jar;C:\Users\KwasiSakyiBaidoo\.m2\repository\net\bytebuddy\byte-buddy-agent\1.15.4\byte-buddy-agent-1.15.4.jar;C:\Users\KwasiSakyiBaidoo\.m2\repository\org\objenesis\objenesis\3.3\objenesis-3.3.jar;C:\Users\KwasiSakyiBaidoo\.m2\repository\com\mysql\mysql-connector-j\9.1.0\mysql-connector-j-9.1.0.jar;C:\Users\KwasiSakyiBaidoo\.m2\repository\com\google\protobuf\protobuf-java\4.26.1\protobuf-java-4.26.1.jar;C:\Users\KwasiSakyiBaidoo\.m2\repository\org\openjfx\javafx-controls\13\javafx-controls-13.jar;C:\Users\KwasiSakyiBaidoo\.m2\repository\org\openjfx\javafx-graphics\13\javafx-graphics-13.jar;C:\Users\KwasiSakyiBaidoo\.m2\repository\org\openjfx\javafx-base\13\javafx-base-13.jar;C:\Users\KwasiSakyiBaidoo\.m2\repository\org\openjfx\javafx-fxml\13\javafx-fxml-13.jar;C:\Users\KwasiSakyiBaidoo\.m2\repository\org\apache\maven\surefire\surefire-junit-platform\3.2.5\surefire-junit-platform-3.2.5.jar;C:\Users\KwasiSakyiBaidoo\.m2\repository\org\apache\maven\surefire\common-java5\3.2.5\common-java5-3.2.5.jar;C:\Users\KwasiSakyiBaidoo\.m2\repository\org\junit\platform\junit-platform-launcher\1.11.3\junit-platform-launcher-1.11.3.jar"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
-    <property name="java.runtime.version" value="21.0.4+7-LTS"/>
-    <property name="user.name" value="Mr. Baidoo"/>
+    <property name="java.runtime.version" value="21.0.5+9-LTS-239"/>
+    <property name="user.name" value="KwasiSakyiBaidoo"/>
     <property name="stdout.encoding" value="Cp1252"/>
     <property name="path.separator" value=";"/>
     <property name="os.version" value="10.0"/>
-    <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
+    <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="file.encoding" value="UTF-8"/>
-    <property name="java.vm.name" value="OpenJDK 64-Bit Server VM"/>
-    <property name="java.vendor.version" value="Microsoft-9889606"/>
-    <property name="localRepository" value="C:\Users\Mr. Baidoo\.m2\repository"/>
-    <property name="java.vendor.url.bug" value="https://github.com/microsoft/openjdk/issues"/>
-    <property name="java.io.tmpdir" value="C:\Users\MRDBF6~1.BAI\AppData\Local\Temp\"/>
-    <property name="java.version" value="21.0.4"/>
-    <property name="user.dir" value="C:\Users\Mr. Baidoo\Documents\GitHub\lms"/>
+    <property name="java.vm.name" value="Java HotSpot(TM) 64-Bit Server VM"/>
+    <property name="localRepository" value="C:\Users\KwasiSakyiBaidoo\.m2\repository"/>
+    <property name="java.vendor.url.bug" value="https://bugreport.java.com/bugreport/"/>
+    <property name="java.io.tmpdir" value="C:\Users\KWASIS~1\AppData\Local\Temp\"/>
+    <property name="java.version" value="21.0.5"/>
+    <property name="user.dir" value="C:\Users\KwasiSakyiBaidoo\Desktop\test\lms"/>
     <property name="os.arch" value="amd64"/>
     <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
     <property name="sun.os.patch.level" value=""/>
     <property name="native.encoding" value="Cp1252"/>
-    <property name="java.library.path" value="C:\Program Files\Microsoft\jdk-21.0.4.7-hotspot\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;C:\flutter\flutter\bin\cache\dart-sdk\bin\;C:\Program Files\Microsoft\jdk-21.0.4.7-hotspot\bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\Git\cmd;C:\Program Files\nodejs\;C:\xampp\php;C:\ProgramData\ComposerSetup\bin;C:\Program Files\PuTTY\;C:\Program Files\dotnet\;C:\Users\Mr. Baidoo\.config\herd\bin\nvm;C:\Program Files\nodejs;C:\Program Files\Docker\Docker\resources\bin;C:\Program Files\apache-maven-3.9.9\bin;C:\flutter\flutter\bin;C:\Users\Mr. Baidoo\.config\herd\bin;C:\Users\Mr. Baidoo\AppData\Local\Microsoft\WindowsApps;C:\Users\Mr. Baidoo\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\Mr. Baidoo\AppData\Roaming\npm;C:\Users\Mr. Baidoo\AppData\Roaming\Composer\vendor\bin;C:\Users\Mr. Baidoo\AppData\Local\Programs\mongosh\;C:\Users\Mr. Baidoo\AppData\Local\GitHubDesktop\bin;C:\Users\Mr. Baidoo\.dotnet\tools;;."/>
+    <property name="java.library.path" value="C:\Program Files\Java\jdk-21\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\apache-maven-3.9.9\bin;C:\Program Files\Git\cmd;C:\Program Files\HP\HP One Agent;C:\Program Files\Java\jdk-21\bin;C:\Users\KwasiSakyiBaidoo\AppData\Local\Microsoft\WindowsApps;C:\Users\KwasiSakyiBaidoo\AppData\Local\Programs\Microsoft VS Code\bin;C:\Program Files\apache-maven-3.9.9\bin;C:\Users\KwasiSakyiBaidoo\AppData\Local\GitHubDesktop\bin;;."/>
     <property name="java.vm.info" value="mixed mode"/>
     <property name="stderr.encoding" value="Cp1252"/>
-    <property name="java.vendor" value="Microsoft"/>
-    <property name="java.vm.version" value="21.0.4+7-LTS"/>
+    <property name="java.vendor" value="Oracle Corporation"/>
+    <property name="java.vm.version" value="21.0.5+9-LTS-239"/>
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="65.0"/>
   </properties>
-  <testcase name="testGetBooks" classname="com.lms.dao.BookDAOTest" time="0.239">
+  <testcase name="testGetBooks" classname="com.lms.dao.BookDAOTest" time="0.031">
     <system-err><![CDATA[java.sql.SQLException
 ]]></system-err>
   </testcase>
-  <testcase name="testUpdateBook" classname="com.lms.dao.BookDAOTest" time="0.077">
+  <testcase name="testUpdateBook" classname="com.lms.dao.BookDAOTest" time="0.01">
     <system-err><![CDATA[java.sql.SQLException
 ]]></system-err>
   </testcase>
-  <testcase name="testUpdateBookAvailableCopies" classname="com.lms.dao.BookDAOTest" time="0.228">
+  <testcase name="testUpdateBookAvailableCopies" classname="com.lms.dao.BookDAOTest" time="0.017">
     <system-err><![CDATA[java.sql.SQLException
 ]]></system-err>
   </testcase>
-  <testcase name="testGetBookById" classname="com.lms.dao.BookDAOTest" time="0.168">
+  <testcase name="testGetBookById" classname="com.lms.dao.BookDAOTest" time="0.016">
     <system-err><![CDATA[java.sql.SQLException
 ]]></system-err>
   </testcase>
-  <testcase name="testFindBook" classname="com.lms.dao.BookDAOTest" time="0.048">
+  <testcase name="testFindBook" classname="com.lms.dao.BookDAOTest" time="0.012">
     <system-err><![CDATA[java.sql.SQLException
 ]]></system-err>
   </testcase>
-  <testcase name="testCreateBook" classname="com.lms.dao.BookDAOTest" time="0.166">
+  <testcase name="testCreateBook" classname="com.lms.dao.BookDAOTest" time="0.008">
     <system-err><![CDATA[java.sql.SQLException
 ]]></system-err>
   </testcase>
-  <testcase name="testGetBookID" classname="com.lms.dao.BookDAOTest" time="0.219">
+  <testcase name="testGetBookID" classname="com.lms.dao.BookDAOTest" time="0.009">
     <system-err><![CDATA[java.sql.SQLException
 ]]></system-err>
   </testcase>
-  <testcase name="testDeleteBook" classname="com.lms.dao.BookDAOTest" time="0.011">
+  <testcase name="testDeleteBook" classname="com.lms.dao.BookDAOTest" time="0.008">
     <system-err><![CDATA[java.sql.SQLException
 ]]></system-err>
   </testcase>

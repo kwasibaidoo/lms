@@ -1,4 +1,0 @@
---patch-module
-com.lms=_
---add-reads
-com.lms=ALL-UNNAMED

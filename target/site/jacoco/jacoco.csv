@@ -1,0 +1,12 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+lms,com.lms.utils,DatabaseInitializer,0,56,0,0,0,20,0,2,0,2
+lms,com.lms.utils,AuthUtil,8,0,2,0,3,0,2,0,1,0
+lms,com.lms.utils,Validator,6,253,4,36,1,51,4,20,0,4
+lms,com.lms.utils,NotificationToast,15,3,0,0,5,1,1,1,1,1
+lms,com.lms.config,DatabaseConfig,0,10,0,0,0,3,0,2,0,2
+lms,com.lms.dao,AuthorDAO,3,341,7,17,0,95,7,14,0,9
+lms,com.lms.dao,ReservationDAO,0,271,2,12,0,80,2,11,0,6
+lms,com.lms.dao,AppUserDAO,3,402,11,21,0,113,11,14,0,9
+lms,com.lms.dao,BorrowDAO,3,324,5,11,0,94,5,10,0,7
+lms,com.lms.dao,BookDAO,4,444,8,16,0,129,8,13,0,9
+lms,com.lms.dao,CategoryDAO,3,337,7,17,0,90,7,14,0,9

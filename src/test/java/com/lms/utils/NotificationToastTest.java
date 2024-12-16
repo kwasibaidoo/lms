@@ -47,7 +47,7 @@ public class NotificationToastTest {
         verify(mockAlert).setContentText(expectedMessage);  // Check if setContentText was called
         verify(mockAlert).setTitle(expectedTitle);  // Check if setTitle was called
         verify(mockAlert).setAlertType(expectedType);
-        // verify(mockAlert.showAndWait());
+        verify(mockAlert).showAndWait();
         
     }
 }

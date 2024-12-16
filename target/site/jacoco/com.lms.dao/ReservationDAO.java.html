@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ReservationDAO.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">lms</a> &gt; <a href="index.source.html" class="el_package">com.lms.dao</a> &gt; <span class="el_source">ReservationDAO.java</span></div><h1>ReservationDAO.java</h1><pre class="source lang-java linenums">package com.lms.dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.LinkedList;
+
+import com.lms.config.DatabaseConfig;
+import com.lms.models.Reservation;
+
+<span class="fc" id="L12">public class ReservationDAO {</span>
+
+<span class="fc" id="L14">    private DatabaseConfig databaseConfig = new DatabaseConfig();</span>
+
+    public boolean createReservation(Reservation reservation) {
+<span class="fc" id="L17">        String sql = &quot;INSERT INTO reservations (user_id,book_id,status,reservation_date) VALUES (? , ? , ? , ?)&quot;;</span>
+<span class="fc" id="L18">        try (Connection connection = databaseConfig.getConnection();</span>
+<span class="fc" id="L19">             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {</span>
+<span class="fc" id="L20">            preparedStatement.setString(1,reservation.getUser_id());</span>
+<span class="fc" id="L21">            preparedStatement.setString(2,reservation.getBook_id());</span>
+<span class="fc" id="L22">            preparedStatement.setInt(3,reservation.getStatus());</span>
+<span class="fc" id="L23">            preparedStatement.setTimestamp(4,reservation.getReservation_date());</span>
+
+<span class="fc" id="L25">            int rowsAffected = preparedStatement.executeUpdate();</span>
+<span class="fc bfc" id="L26" title="All 2 branches covered.">            return rowsAffected &gt; 0;</span>
+<span class="fc" id="L27">        } catch (SQLException e) {</span>
+<span class="fc" id="L28">            e.printStackTrace();</span>
+<span class="fc" id="L29">            return false;</span>
+        }
+    }
+
+    public LinkedList&lt;Reservation&gt; getAllReservations() {
+<span class="fc" id="L34">        String sql = &quot;SELECT reservations.*,books.name AS book_name,users.name AS user_name FROM reservations &quot; +</span>
+                     &quot;INNER JOIN users ON users.id=reservations.user_id &quot; +
+                    &quot;INNER JOIN books ON books.id=reservations.book_id &quot; +
+                    &quot;WHERE reservations.deletedAt IS NULL&quot;;
+<span class="fc" id="L38">        LinkedList&lt;Reservation&gt; queryResult = new LinkedList&lt;Reservation&gt;();</span>
+<span class="fc" id="L39">        try (Connection connection = databaseConfig.getConnection();</span>
+<span class="fc" id="L40">             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {</span>
+            
+
+<span class="fc" id="L43">            ResultSet resultSet = preparedStatement.executeQuery();</span>
+<span class="fc bfc" id="L44" title="All 2 branches covered.">            while (resultSet.next()) {</span>
+<span class="fc" id="L45">                queryResult.add(new Reservation(</span>
+<span class="fc" id="L46">                    resultSet.getString(&quot;id&quot;),</span>
+<span class="fc" id="L47">                    resultSet.getString(&quot;user_name&quot;),</span>
+<span class="fc" id="L48">                    resultSet.getString(&quot;book_name&quot;),</span>
+<span class="fc" id="L49">                    resultSet.getInt(&quot;status&quot;),</span>
+<span class="fc" id="L50">                    resultSet.getTimestamp(&quot;reservation_date&quot;),</span>
+<span class="fc" id="L51">                    resultSet.getTimestamp(&quot;createdAt&quot;),</span>
+<span class="fc" id="L52">                    resultSet.getTimestamp(&quot;updatedAt&quot;)</span>
+                ));
+            }
+<span class="fc" id="L55">            return queryResult;</span>
+<span class="fc" id="L56">        } catch (SQLException e) {</span>
+<span class="fc" id="L57">            e.printStackTrace();</span>
+<span class="fc" id="L58">            return queryResult;</span>
+        }
+    }
+
+
+    public LinkedList&lt;Reservation&gt; getUserReservations(String user_id) {
+<span class="fc" id="L64">        String sql = &quot;SELECT reservations.*,books.name AS book_name,users.name AS user_name FROM reservations &quot; +</span>
+                      &quot;INNER JOIN users ON users.id=reservations.user_id &quot; +
+                      &quot;INNER JOIN books ON books.id=reservations.book_id &quot; +
+                      &quot;WHERE reservations.deletedAt IS NULL AND reservations.user_id=?&quot;;
+<span class="fc" id="L68">        LinkedList&lt;Reservation&gt; queryResult = new LinkedList&lt;Reservation&gt;();</span>
+<span class="fc" id="L69">        try (Connection connection = databaseConfig.getConnection();</span>
+<span class="fc" id="L70">             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {</span>
+<span class="fc" id="L71">            preparedStatement.setString(1, user_id);</span>
+
+<span class="fc" id="L73">            ResultSet resultSet = preparedStatement.executeQuery();</span>
+<span class="fc bfc" id="L74" title="All 2 branches covered.">            while (resultSet.next()) {</span>
+<span class="fc" id="L75">                queryResult.add(new Reservation(</span>
+<span class="fc" id="L76">                    resultSet.getString(&quot;id&quot;),</span>
+<span class="fc" id="L77">                    resultSet.getString(&quot;user_name&quot;),</span>
+<span class="fc" id="L78">                    resultSet.getString(&quot;book_name&quot;),</span>
+<span class="fc" id="L79">                    resultSet.getInt(&quot;status&quot;),</span>
+<span class="fc" id="L80">                    resultSet.getTimestamp(&quot;reservation_date&quot;),</span>
+<span class="fc" id="L81">                    resultSet.getTimestamp(&quot;createdAt&quot;),</span>
+<span class="fc" id="L82">                    resultSet.getTimestamp(&quot;updatedAt&quot;)</span>
+                ));
+            }
+<span class="fc" id="L85">            return queryResult;</span>
+<span class="fc" id="L86">        } catch (SQLException e) {</span>
+<span class="fc" id="L87">            e.printStackTrace();</span>
+<span class="fc" id="L88">            return queryResult;</span>
+        }
+    }
+
+    public Reservation getReservationById(String id) {
+<span class="fc" id="L93">        String sql = &quot;SELECT reservations.*,books.name AS book_name,users.name AS user_name FROM reservations &quot; +</span>
+                     &quot;INNER JOIN users ON users.id=reservations.user_id &quot; +
+                      &quot;INNER JOIN books ON books.id=reservations.book_id &quot; +
+                      &quot;WHERE reservations.deletedAt IS NULL AND reservations.id=?&quot;;
+<span class="fc" id="L97">        try (Connection connection = databaseConfig.getConnection();</span>
+<span class="fc" id="L98">             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {</span>
+<span class="fc" id="L99">            preparedStatement.setString(1, id);</span>
+<span class="fc" id="L100">            ResultSet resultSet = preparedStatement.executeQuery();</span>
+
+<span class="fc bfc" id="L102" title="All 2 branches covered.">            if(resultSet.next()) {</span>
+<span class="fc" id="L103">                return new Reservation(</span>
+<span class="fc" id="L104">                    resultSet.getString(&quot;id&quot;),</span>
+<span class="fc" id="L105">                    resultSet.getString(&quot;user_name&quot;),</span>
+<span class="fc" id="L106">                    resultSet.getString(&quot;book_name&quot;),</span>
+<span class="fc" id="L107">                    resultSet.getInt(&quot;status&quot;),</span>
+<span class="fc" id="L108">                    resultSet.getTimestamp(&quot;reservation_date&quot;),</span>
+<span class="fc" id="L109">                    resultSet.getTimestamp(&quot;createdAt&quot;),</span>
+<span class="fc" id="L110">                    resultSet.getTimestamp(&quot;updatedAt&quot;)</span>
+                );
+            }
+<span class="fc" id="L113">            connection.close();</span>
+<span class="pc bpc" id="L114" title="2 of 4 branches missed.">        } catch (SQLException e) {</span>
+<span class="fc" id="L115">            e.printStackTrace();</span>
+<span class="fc" id="L116">            return new Reservation();</span>
+<span class="fc" id="L117">        }</span>
+<span class="fc" id="L118">        return new Reservation();</span>
+    }
+
+    public boolean deleteReservation(String id) {
+<span class="fc" id="L122">        String sql = &quot;UPDATE reservations SET deletedAt = CURRENT_TIMESTAMP WHERE id=?&quot;;</span>
+<span class="fc" id="L123">        try (Connection connection = databaseConfig.getConnection();</span>
+<span class="fc" id="L124">             PreparedStatement statement = connection.prepareStatement(sql)) {</span>
+
+<span class="fc" id="L126">            statement.setString(1, id);</span>
+<span class="fc" id="L127">            int rowsUpdated = statement.executeUpdate();</span>
+<span class="fc bfc" id="L128" title="All 2 branches covered.">            return rowsUpdated &gt; 0;</span>
+<span class="fc" id="L129">        } catch (SQLException e) {</span>
+<span class="fc" id="L130">            e.printStackTrace();</span>
+<span class="fc" id="L131">            return false;</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

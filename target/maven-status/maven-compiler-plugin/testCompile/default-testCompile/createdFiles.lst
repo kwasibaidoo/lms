@@ -1,6 +1,7 @@
 com\lms\dao\CategoryDAOTest.class
 com\lms\utils\ValidatorTest.class
 com\lms\dao\AppUserDAOTest.class
+com\lms\utils\DatabaseInitializerTest.class
 com\lms\utils\NotificationToastTest.class
 com\lms\dao\BorrowDAOTest.class
 com\lms\dao\AuthorDAOTest.class
